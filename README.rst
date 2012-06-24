@@ -10,7 +10,7 @@ The result is a very pretty interface with tags and autocomplete which can optio
 Admin usage
 -----------
 
-.. code:: python
+..
 
     from django.contrib import admin
     import models

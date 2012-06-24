@@ -1,0 +1,7 @@
+from django.conf.urls import patterns, url
+
+urlpatterns = patterns('tags_input.views',
+    url(r'^autocomplete/(?P<app>\w+)/(?P<model>\w+)/(?P<field>\w+)/$',
+        'autocomplete', name='autocomplete'),
+)
+

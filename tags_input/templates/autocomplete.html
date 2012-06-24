@@ -1,0 +1,36 @@
+{% if bootstrap %}{% include "ajax_select/bootstrap.html" %}{% endif %}
+<input type="text" name="{{ name }}" id="{{ html_id }}" value="{{ current_repr }}" autocomplete="off" {{ extra_attrs }} />
+<script type="text/javascript">//<![CDATA[
+jQuery(document).ready(function($){
+{% block script %}
+    jQuery('#{{ html_id }}').tagsInput({
+        autocomplete: {
+            selectFirst: true,
+            autoFill: true,
+            delay: 20
+        },
+        minInputWidth: 145,
+        height: '40px',
+        width: '460px',
+        autocomplete_url: '{{ lookup_url }}'
+    });
+
+	// addAutoComplete("{{html_id}}", function(html_id) {
+	// 	$("#"+html_id).autocomplete({
+	// 		minLength: {{min_length}},
+	// 		source: '{{lookup_url}}',
+	// 		initial:  '{{current_repr|escapejs}}',
+	// 		select: function(event, ui) {
+	// 			$("#"+html_id).val(ui.item.value);
+	// 			$("#"+html_id).trigger("added");
+	// 			return false;
+	// 		}
+	// 	}).autocompletehtml();
+	// });
+{% block extra_script %}{% endblock %}
+{% endblock %}
+});
+//]]>
+</script>
+{% block help %}{% if help_text %}<p class="help">{{ help_text }}</p>{% endif %}{% endblock %}
+{{ inline }}

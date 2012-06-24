@@ -1,4 +1,4 @@
-import jquery_tags_input
+import tags_input
 import os
 from setuptools import setup
 
@@ -6,17 +6,17 @@ if os.path.isfile('README.rst'):
     long_description = open('README.rst').read()
 else:
     long_description = ('See http://pypi.python.org/pypi/'
-        'django-jquery-tags-input/')
+        + tags_input.__name__)
 
 setup(
-    name='django-jquery-tags-input',
-    version=jquery_tags_input.__version__,
-    author=jquery_tags_input.__author__,
-    author_email=jquery_tags_input.__author_email__,
-    description=jquery_tags_input.__description__,
-    url='https://github.com/WoLpH/django-jquery-tags-input',
+    name=tags_input.__name__,
+    version=tags_input.__version__,
+    author=tags_input.__author__,
+    author_email=tags_input.__author_email__,
+    description=tags_input.__description__,
+    url=tags_input.__url__,
     license='BSD',
-    packages=['jquery_tags_input'],
+    packages=['tags_input'],
     long_description=long_description,
     test_suite='nose.collector',
     setup_requires=['nose'],

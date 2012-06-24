@@ -11,8 +11,7 @@ Contents:
 .. toctree::
    :maxdepth: 4
 
-   
-
+   usage
 
 Indices and tables
 ==================

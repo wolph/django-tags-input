@@ -17,6 +17,15 @@ setup(
     url=tags_input.__url__,
     license='BSD',
     packages=['tags_input'],
+    package_data={
+        'tags_input': [
+            'templates/*.html',
+            'static/js/*.js',
+            'static/css/*.css',
+            'static/css/base/*.css',
+            'static/css/base/images/*.png',
+        ],
+    },
     long_description=long_description,
     test_suite='nose.collector',
     setup_requires=['nose'],

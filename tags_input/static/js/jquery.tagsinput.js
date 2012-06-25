@@ -13,9 +13,7 @@
 	ben@xoxco.com
 
 */
-
 (function($) {
-
     var delimiter = new Array();
     var tags_callbacks = new Array();
     $.fn.doAutosize = function(o) {
@@ -178,6 +176,7 @@
     $.fn.tagsInput = function(options) {
         var settings = jQuery.extend({
             interactive: true,
+            allowNew: false,
             defaultText: 'add a tag',
             minChars: 0,
             width: '300px',
@@ -257,6 +256,7 @@
 
                 if (settings.autocomplete_url != undefined) {
                     autocomplete_options = {
+                        autoFocus: true,
                         source: settings.autocomplete_url
                     };
                     for (attrname in settings.autocomplete) {
@@ -308,10 +308,15 @@
                 function keypress(event) {
                     if (event.which == event.data.delimiter.charCodeAt(0) || event.which == 13) {
                         event.preventDefault();
-                        if ((event.data.minChars <= $(event.data.fake_input).val().length) && (!event.data.maxChars || (event.data.maxChars >= $(event.data.fake_input).val().length))) $(event.data.real_input).addTag($(event.data.fake_input).val(), {
-                            focus: true,
-                            unique: (settings.unique)
-                        });
+                        var val = $(event.data.fake_input).val();
+                        var minLengthOk = event.data.minChars <= val.length;
+                        var maxLengthOk = !event.data.maxChars || (event.data.maxChars >= val.length);
+                        if(minLengthOk && maxLengthOk){
+                            $(event.data.real_input).addTag($(event.data.fake_input).val(), {
+                                focus: true,
+                                unique: (settings.unique)
+                            });
+                        }
                         $(event.data.fake_input).resetAutosize(settings);
                         return false;
                     }else if(event.type == 'paste'){

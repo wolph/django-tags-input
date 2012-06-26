@@ -43,9 +43,11 @@ class TagsInputField(forms.ModelMultipleChoiceField):
         if missing:
             if mapping['create_missing']:
                 for v in missing:
-                    o = self.queryset.model._default_manager.create(**{
+                    o = self.queryset.model(**{
                         field: v,
                     })
+                    o.clean()
+                    o.save()
                     values[v] = o.pk
             else:
                 raise ValidationError(self.error_messages['invalid_choice']

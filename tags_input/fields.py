@@ -46,7 +46,10 @@ class TagsInputField(forms.ModelMultipleChoiceField):
                     o = self.queryset.model(**{
                         field: v,
                     })
-                    o.clean()
+                    if hasattr(o, 'clean'):
+                        o.clean()
+                    elif hasattr(o, 'full_clean'):
+                        o.full_clean()
                     o.save()
                     values[v] = o.pk
             else:

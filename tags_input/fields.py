@@ -62,3 +62,6 @@ class TagsInputField(forms.ModelMultipleChoiceField):
 
         return forms.ModelMultipleChoiceField.clean(self, ids)
 
+class AdminTagsInputField(TagsInputField):
+    widget = widgets.AdminTagsInputWidget
+

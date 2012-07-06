@@ -18,7 +18,11 @@ class TagsInputAdmin(admin.ModelAdmin):
         if db:
             queryset = queryset.using(db)
         kwargs['queryset'] = queryset
-
-        return fields.TagsInputField(**kwargs)
+        kwargs['widget'] = fields.AdminTagsInputField.widget(
+            db_field.verbose_name,
+            (db_field.name in self.filter_vertical),
+        )
+        kwargs['required'] = not db_field.blank
+        return fields.AdminTagsInputField(**kwargs)
 
 

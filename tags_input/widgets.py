@@ -2,6 +2,7 @@ from django.conf import settings
 from django import forms
 from django.template.loader import render_to_string
 from django.core import urlresolvers
+from django.contrib.admin import widgets
 
 
 class TagsInputWidget(forms.SelectMultiple):
@@ -63,4 +64,7 @@ class TagsInputWidget(forms.SelectMultiple):
             'js/jquery-ui-18.1.16.min.js',
             'js/jquery.tagsinput.js',
         )
+
+class AdminTagsInputWidget(widgets.FilteredSelectMultiple, TagsInputWidget):
+    pass
 

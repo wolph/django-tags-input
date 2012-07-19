@@ -9,6 +9,7 @@ jQuery(document).ready(function($){
             autoFill: true,
             delay: 20
         },
+        {% if not add_link %}addNew: false,{% endif %}
         minInputWidth: 145,
         height: '40px',
         width: '460px',

@@ -19,7 +19,8 @@ class TagsInputWidget(forms.SelectMultiple):
                 app=self.mapping['app'],
                 model=self.mapping['model'],
                 field=self.mapping['field'],
-        ))
+            ),
+        )
 
         if value:
             field = self.mapping['field']

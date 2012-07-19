@@ -1,13 +1,15 @@
 from django.db import models
 from django import http
 from django.utils import simplejson
+from . import utils
 
 def autocomplete(request, app, model, field):
-    queryset = (models
-        .get_model(app, model)
-        .objects.all()
+    model = models.get_model(app, model)
+    mapping = utils.get_mapping(model)
+
+    queryset = (mapping['queryset']
         .values_list(field, flat=True)
-        .order_by(field)
+        .order_by(*mapping.get('ordering', [field]))
     )
 
     term = request.GET.get('term')

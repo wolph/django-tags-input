@@ -1,7 +1,6 @@
-from django.conf import settings
 from django import forms
 from . import widgets
-from . import exceptions
+from . import utils
 from django.core.exceptions import ValidationError
 
 class TagsInputField(forms.ModelMultipleChoiceField):
@@ -15,17 +14,7 @@ class TagsInputField(forms.ModelMultipleChoiceField):
 
     def get_mapping(self):
         if not self.mapping:
-            mappings = getattr(settings, 'TAGS_INPUT_MAPPINGS', {})
-            meta = self.queryset.model._meta
-            mapping_key = meta.app_label + '.' + meta.object_name
-            mapping = mappings.get(mapping_key).copy()
-            if not mapping:
-                raise exceptions.MappingUndefined('Unable to find mapping '
-                    'for %s' % mapping_key)
-
-            self.mapping = mapping
-            mapping['app'] = meta.app_label
-            mapping['model'] = meta.object_name
+            self.mapping = mapping = utils.get_mapping(self.queryset)
             mapping['queryset'] = self.queryset
             mapping['create_missing'] = (self.create_missing or 
                 mapping.get('create_missing', False))

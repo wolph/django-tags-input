@@ -1,5 +1,5 @@
 __name__ = 'django-tags-input'
-__version__ = '1.3'
+__version__ = '1.4'
 __author__ = 'Rick van Hattem'
 __author_email__ = 'Rick.van.Hattem@Fawo.nl'
 __description__ = ('''Django jQuery Tags Input is a Django field and widget'''

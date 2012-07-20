@@ -176,7 +176,7 @@
     $.fn.tagsInput = function(options) {
         var settings = jQuery.extend({
             interactive: true,
-            allowNew: false,
+            autocompleteOnly: false,
             defaultText: 'add a tag',
             minChars: 0,
             width: '300px',
@@ -311,7 +311,7 @@
                         var val = $(event.data.fake_input).val();
                         var minLengthOk = event.data.minChars <= val.length;
                         var maxLengthOk = !event.data.maxChars || (event.data.maxChars >= val.length);
-                        if(minLengthOk && maxLengthOk){
+                        if(minLengthOk && maxLengthOk && !settings.autocompleteOnly){
                             $(event.data.real_input).addTag($(event.data.fake_input).val(), {
                                 focus: true,
                                 unique: (settings.unique)

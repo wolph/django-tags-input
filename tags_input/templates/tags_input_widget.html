@@ -9,7 +9,7 @@ jQuery(document).ready(function($){
             autoFill: true,
             delay: 20
         },
-        {% if not add_link %}addNew: false,{% endif %}
+        {% if not mapping.create_missing %}autocompleteOnly: true,{% endif %}
         minInputWidth: 145,
         height: '40px',
         width: '460px',

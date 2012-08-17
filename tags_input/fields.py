@@ -3,6 +3,7 @@ from . import widgets
 from . import utils
 from django.core.exceptions import ValidationError
 
+
 class TagsInputField(forms.ModelMultipleChoiceField):
     widget = widgets.TagsInputWidget
 
@@ -16,29 +17,33 @@ class TagsInputField(forms.ModelMultipleChoiceField):
         if not self.mapping:
             self.mapping = mapping = utils.get_mapping(self.queryset)
             mapping['queryset'] = self.queryset
-            mapping['create_missing'] = (self.create_missing or 
-                mapping.get('create_missing', False))
+            mapping['create_missing'] = (self.create_missing
+                or mapping.get('create_missing', False))
 
         return self.mapping
 
     def clean(self, value):
         mapping = self.get_mapping()
-        field = mapping['field']
-        values = dict(self.queryset
-            .filter(**{'%s__in' % field: value})
-            .values_list(field, 'pk')
+        fields = mapping['fields']
+        filter_func = mapping['filter_func']
+        join_func = mapping['join_func']
+        split_func = mapping['split_func']
+
+        values = dict(
+            join_func(v)[::-1] for v in self.queryset
+            .filter(**filter_func(value))
+            .values('pk', *fields)
         )
         missing = set(value) - set(values)
         if missing:
             if mapping['create_missing']:
                 for v in missing:
-                    o = self.queryset.model(**{
-                        field: v,
-                    })
+                    o = self.queryset.model(**split_func(v))
                     if hasattr(o, 'clean'):
                         o.clean()
                     elif hasattr(o, 'full_clean'):
                         o.full_clean()
+
                     o.save()
                     values[v] = o.pk
             else:
@@ -50,6 +55,7 @@ class TagsInputField(forms.ModelMultipleChoiceField):
             ids.append(values[v])
 
         return forms.ModelMultipleChoiceField.clean(self, ids)
+
 
 class AdminTagsInputField(TagsInputField):
     widget = widgets.AdminTagsInputWidget

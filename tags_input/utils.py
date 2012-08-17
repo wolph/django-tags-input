@@ -1,15 +1,23 @@
 from django.conf import settings
 from django.db import models
+from django.utils.functional import curry
+
 from . import exceptions
+
+
+class ConfigurationError(Exception):
+    pass
+
 
 def get_mappings():
     '''
     Get all mappings from the settings
-    
+
     To use the Django Tags Input module the `TAGS_INPUT_SETTINGS` must be
     defined.
     '''
     return getattr(settings, 'TAGS_INPUT_MAPPINGS', {})
+
 
 def get_mapping(model_or_queryset):
     '''Get the mapping for a given model or queryset'''
@@ -33,11 +41,54 @@ def get_mapping(model_or_queryset):
         mapping = mapping.copy()
     else:
         raise exceptions.MappingUndefined('Unable to find mapping '
-            'for %s' % mapping_key)
+                                          'for %s' % mapping_key)
 
     mapping['app'] = meta.app_label
     mapping['model'] = meta.object_name
     mapping['queryset'] = queryset
 
+    mapping.setdefault('separator', ' - ')
+
+    if 'field' in mapping:
+        mapping['fields'] = mapping['field'],
+    elif 'fields' not in mapping:
+        raise ConfigurationError('Every mapping should have a field or '
+                                 'fields attribute. Mapping: %r' % mapping)
+
+    mapping.setdefault('split_func', curry(
+        mapping.get('split_func', split_func),
+        mapping['fields'],
+        mapping['separator'],
+    ))
+    mapping.setdefault('join_func', curry(
+        mapping.get('join_func', join_func),
+        mapping['fields'],
+        mapping['separator'],
+    ))
+    mapping.setdefault('filter_func', curry(
+        mapping.get('filter_func', filter_func),
+        mapping['fields'],
+        mapping['separator'],
+    ))
+
     return mapping.copy()
+
+
+def filter_func(fields, separator, values):
+    filters = {}
+    if values:
+        values = [v.split(separator, len(fields)) for v in values]
+        items = zip(fields, zip(*values))
+        for field, value in items:
+            filters['%s__in' % field] = value
+
+    return filters
+
+
+def join_func(fields, separator, values):
+    return values['pk'], separator.join(values[field] for field in fields)
+
+
+def split_func(fields, separator, value):
+    return dict(zip(fields, value.split(separator, len(fields))))
 

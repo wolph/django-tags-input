@@ -1,20 +1,29 @@
 from django.db import models
 from django import http
 from django.utils import simplejson
+
 from . import utils
 
-def autocomplete(request, app, model, field):
+
+def autocomplete(request, app, model, fields):
     model = models.get_model(app, model)
     mapping = utils.get_mapping(model)
+    fields = fields.split('-')
 
-    queryset = (mapping['queryset']
-        .values_list(field, flat=True)
-        .order_by(*mapping.get('ordering', [field]))
+    raw_queryset = (
+        mapping['queryset']
+        .values('pk', *fields)
+        .order_by(*mapping.get('ordering', fields))
     )
 
     term = request.GET.get('term')
     if term:
-        queryset = queryset.filter(**{'%s__istartswith' % field: term})
+        queryset = mapping['queryset'].none()
+        for field in fields:
+            queryset |= raw_queryset.filter(
+                **{'%s__istartswith' % field: term})
+    else:
+        queryset = raw_queryset
 
     max_results = request.GET.get('max_results')
     if max_results and max_results.isdigit():
@@ -22,7 +31,7 @@ def autocomplete(request, app, model, field):
     else:
         max_results = 10
 
-    results = list(queryset[:max_results])
+    results = [mapping['join_func'](v)[1] for v in queryset[:max_results]]
     if results:
         response = simplejson.dumps(results),
     else:

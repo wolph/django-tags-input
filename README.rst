@@ -7,10 +7,53 @@ The result is a very pretty interface with tags and autocomplete which can optio
 
 .. _Xoxco jQuery Tags Input: http://xoxco.com/projects/code/tagsinput/
 
+How to install
+--------------
+
+Installing this module only takes a couple of minutes.
+
+1. Install the module itself
+
+..
+    pip install django-tags-input
+
+    # or
+    
+    easy_install django-tags-input
+
+2. Add 'tags_input' to your `INSTALLED_APPS` setting in the Django `settings.py`.
+
+3. Add the mappings to your `settings.py` file:
+
+Example:
+
+.. code-block:: python
+
+    TAGS_INPUT_MAPPINGS = {
+        'some_app.SomeKeyword': {
+            'field': 'some_field',
+        },
+        'some_app.SomeOtherKeyword': {
+            'fields': ('some_field', 'some_other_field'),
+        },
+        'some_app.SomeSortedKeyword': {
+            'field': 'some_field',
+            'ordering': [
+                'some_field',
+                'some_other_field',
+            ],
+        },
+        'some_app.SomeCreateableKeyword': {
+            'field': 'some_field',
+            'create_missing': True,
+        },
+    }
+
+
 Admin usage
 -----------
 
-..
+.. code-block:: python
 
     from django.contrib import admin
     import models
@@ -20,4 +63,5 @@ Admin usage
         pass
 
     admin.site.register(models.YourModel, YourAdmin)
+
 

@@ -3,6 +3,7 @@ from . import fields
 
 
 class TagsInputAdmin(admin.ModelAdmin):
+
     def formfield_for_manytomany(self, db_field, request=None, **kwargs):
         '''
         Get a form Field for a ManyToManyField.
@@ -30,5 +31,4 @@ class TagsInputAdmin(admin.ModelAdmin):
             self.raw_id_fields.append(db_field.name)
 
         return fields.AdminTagsInputField(**kwargs)
-
 

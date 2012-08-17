@@ -6,6 +6,7 @@ from django.contrib.admin import widgets
 
 
 class TagsInputWidget(forms.SelectMultiple):
+
     def __init__(self, *args, **kwargs):
         forms.SelectMultiple.__init__(self, *args, **kwargs)
 
@@ -18,22 +19,25 @@ class TagsInputWidget(forms.SelectMultiple):
             kwargs=dict(
                 app=self.mapping['app'],
                 model=self.mapping['model'],
-                field=self.mapping['field'],
+                fields='-'.join(self.mapping['fields']),
             ),
         )
 
         if value:
-            field = self.mapping['field']
+            fields = self.mapping['fields']
+            join_func = self.mapping['join_func']
 
             ids = []
             for v in value:
                 if isinstance(v, (int, long)):
                     ids.append(v)
 
-            values_map = dict(self.mapping['queryset']
+            values_map = dict(map(
+                join_func,
+                self.mapping['queryset']
                 .filter(pk__in=ids)
-                .values_list('pk', field)
-            )
+                .values('pk', *fields)
+            ))
 
             values = []
             for v in value:
@@ -52,7 +56,7 @@ class TagsInputWidget(forms.SelectMultiple):
         if incomplete != data.get(name + '_default'):
             tags += incomplete.split(',')
         return [t.strip() for t in tags if t]
-    
+
     class Media:
         css = {
             'all': (
@@ -65,6 +69,7 @@ class TagsInputWidget(forms.SelectMultiple):
             'js/jquery-ui-18.1.16.min.js',
             'js/jquery.tagsinput.js',
         )
+
 
 class AdminTagsInputWidget(widgets.FilteredSelectMultiple, TagsInputWidget):
     pass

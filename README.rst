@@ -7,6 +7,10 @@ The result is a very pretty interface with tags and autocomplete which can optio
 
 .. _Xoxco jQuery Tags Input: http://xoxco.com/projects/code/tagsinput/
 
+One of the most useful features of Django Tags Input is that it stores the elements in the order which you input.
+
+So if you insert `B, A, C` into the database, it will return it sorted the way you entered it: `B, A, C`.
+
 How to install
 --------------
 

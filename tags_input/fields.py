@@ -37,15 +37,16 @@ class TagsInputField(forms.ModelMultipleChoiceField):
         missing = set(value) - set(values)
         if missing:
             if mapping['create_missing']:
-                for v in missing:
-                    o = self.queryset.model(**split_func(v))
-                    if hasattr(o, 'clean'):
-                        o.clean()
-                    elif hasattr(o, 'full_clean'):
-                        o.full_clean()
+                for v in value:
+                    if v in missing:
+                        o = self.queryset.model(**split_func(v))
+                        if hasattr(o, 'clean'):
+                            o.clean()
+                        elif hasattr(o, 'full_clean'):
+                            o.full_clean()
 
-                    o.save()
-                    values[v] = o.pk
+                        o.save()
+                        values[v] = o.pk
             else:
                 raise ValidationError(self.error_messages['invalid_choice']
                     % ', '.join(missing))

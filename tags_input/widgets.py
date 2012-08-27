@@ -3,6 +3,7 @@ from django import forms
 from django.template.loader import render_to_string
 from django.core import urlresolvers
 from django.contrib.admin import widgets
+from django.utils import datastructures
 
 
 class TagsInputWidget(forms.SelectMultiple):
@@ -32,11 +33,12 @@ class TagsInputWidget(forms.SelectMultiple):
                 if isinstance(v, (int, long)):
                     ids.append(v)
 
-            values_map = dict(map(
+            values_map = datastructures.SortedDict(map(
                 join_func,
                 self.mapping['queryset']
                 .filter(pk__in=ids)
                 .values('pk', *fields)
+                .order_by('pk')
             ))
 
             values = []

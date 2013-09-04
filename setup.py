@@ -6,10 +6,10 @@ if os.path.isfile('README.rst'):
     long_description = open('README.rst').read()
 else:
     long_description = ('See http://pypi.python.org/pypi/'
-        + tags_input.__name__)
+        + tags_input.__package_name__)
 
 setup(
-    name=tags_input.__name__,
+    name=tags_input.__package_name__,
     version=tags_input.__version__,
     author=tags_input.__author__,
     author_email=tags_input.__author_email__,

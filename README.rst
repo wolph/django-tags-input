@@ -28,29 +28,35 @@ Installing this module only takes a couple of minutes.
 
 3. Add the mappings to your ``settings.py`` file:
 
-Example:
+    Example:
 
-.. code-block:: python
+    .. code-block:: python
 
-    TAGS_INPUT_MAPPINGS = {
-        'some_app.SomeKeyword': {
-            'field': 'some_field',
-        },
-        'some_app.SomeOtherKeyword': {
-            'fields': ('some_field', 'some_other_field'),
-        },
-        'some_app.SomeSortedKeyword': {
-            'field': 'some_field',
-            'ordering': [
-                'some_field',
-                'some_other_field',
-            ],
-        },
-        'some_app.SomeCreateableKeyword': {
-            'field': 'some_field',
-            'create_missing': True,
-        },
-    }
+        TAGS_INPUT_MAPPINGS = {
+            'some_app.SomeKeyword': {
+                'field': 'some_field',
+            },
+            'some_app.SomeOtherKeyword': {
+                'fields': ('some_field', 'some_other_field'),
+            },
+            'some_app.SomeSortedKeyword': {
+                'field': 'some_field',
+                'ordering': [
+                    'some_field',
+                    'some_other_field',
+                ],
+            },
+            'some_app.SomeCreateableKeyword': {
+                'field': 'some_field',
+                'create_missing': True,
+            },
+        }
+
+4. Add the ``tags_input`` urls to your ``urls.py``:
+
+   .. code-block:: python
+
+      url(r'^tags_input/', include('tags_input.urls', namespace='tags_input')),
 
 
 Admin usage

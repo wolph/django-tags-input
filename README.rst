@@ -18,16 +18,15 @@ Installing this module only takes a couple of minutes.
 
 1. Install the module itself
 
-..
     pip install django-tags-input
 
     # or
     
     easy_install django-tags-input
 
-2. Add 'tags_input' to your `INSTALLED_APPS` setting in the Django `settings.py`.
+2. Add ``tags_input`` to your ``INSTALLED_APPS`` setting in the Django ``settings.py``.
 
-3. Add the mappings to your `settings.py` file:
+3. Add the mappings to your ``settings.py`` file:
 
 Example:
 

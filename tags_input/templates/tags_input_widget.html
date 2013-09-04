@@ -1,9 +1,9 @@
-<input type="text" name="{{ name }}" id="{{ id }}" value="{{ values }}" autocomplete="off" />
+<input type="text" name="{{ name }}" id="{{ id }}_tags_input" value="{{ values }}" autocomplete="off" />
 
 <script type="text/javascript">
 //<![CDATA[
 jQuery(document).ready(function($){
-    $('#{{ id }}').tagsInput({
+    $('#{{ id }}_tags_input').tagsInput({
         autocomplete: {
             selectFirst: true,
             autoFill: true,

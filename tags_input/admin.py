@@ -1,5 +1,5 @@
 from django.contrib import admin
-from . import fields
+import fields
 
 
 class TagsInputAdmin(admin.ModelAdmin):
@@ -15,9 +15,6 @@ class TagsInputAdmin(admin.ModelAdmin):
 
         queryset = db_field.rel.to._default_manager.get_query_set()
 
-        db = kwargs.get('using')
-        if db:
-            queryset = queryset.using(db)
         kwargs['queryset'] = queryset
         kwargs['widget'] = fields.AdminTagsInputField.widget(
             db_field.verbose_name,

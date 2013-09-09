@@ -27,6 +27,14 @@ class SpamAdmin(tags_input_admin.TagsInputAdmin):
     search_fields = ('name',)
 
 
+class ExtraSpamAdmin(tags_input_admin.TagsInputAdmin):
+    list_display = (
+        'pk',
+        'name',
+    )
+    search_fields = ('name',)
+
+
 class EggAdmin(tags_input_admin.TagsInputAdmin):
     list_display = (
         'pk',
@@ -38,5 +46,6 @@ class EggAdmin(tags_input_admin.TagsInputAdmin):
 admin.site.register(models.Foo, FooAdmin)
 admin.site.register(models.Bar, BarAdmin)
 admin.site.register(models.Spam, SpamAdmin)
+admin.site.register(models.ExtraSpam, ExtraSpamAdmin)
 admin.site.register(models.Egg, EggAdmin)
 

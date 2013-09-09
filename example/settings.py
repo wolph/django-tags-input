@@ -13,8 +13,13 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': 'database',
-    }
+    },
+    'other': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'other_database',
+    },
 }
+DATABASE_ROUTERS = 'example.db_router.Router',
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -96,7 +101,7 @@ MIDDLEWARE_CLASSES = (
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
-ROOT_URLCONF = 'urls'
+ROOT_URLCONF = 'example.urls'
 
 # Python dotted path to the WSGI application used by Django's runserver.
 WSGI_APPLICATION = 'wsgi.application'
@@ -116,9 +121,10 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.admin',
     'django.contrib.admindocs',
-    'autocompletionexample',
+    'example.autocompletionexample',
     'tags_input',
 )
+
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to

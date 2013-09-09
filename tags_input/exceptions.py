@@ -5,3 +5,7 @@ class TagsInputError(Exception):
 class MappingUndefined(TagsInputError):
     pass
 
+
+class ConfigurationError(Exception):
+    pass
+

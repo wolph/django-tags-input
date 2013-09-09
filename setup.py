@@ -1,22 +1,23 @@
-import tags_input
 import os
-from setuptools import setup
+import setuptools
+
+from tags_input import metadata
 
 if os.path.isfile('README.rst'):
     long_description = open('README.rst').read()
 else:
     long_description = ('See http://pypi.python.org/pypi/'
-        + tags_input.__package_name__)
+        + metadata.__package_name__)
 
-setup(
-    name=tags_input.__package_name__,
-    version=tags_input.__version__,
-    author=tags_input.__author__,
-    author_email=tags_input.__author_email__,
-    description=tags_input.__description__,
-    url=tags_input.__url__,
+setuptools.setup(
+    name=metadata.__package_name__,
+    version=metadata.__version__,
+    author=metadata.__author__,
+    author_email=metadata.__author_email__,
+    description=metadata.__description__,
+    url=metadata.__url__,
     license='BSD',
-    packages=['tags_input'],
+    packages=setuptools.find_packages(),
     package_data={
         'tags_input': [
             'templates/*.html',
@@ -28,9 +29,14 @@ setup(
     },
     long_description=long_description,
     test_suite='nose.collector',
-    setup_requires=['nose'],
-    classifiers=[
-        'License :: OSI Approved :: BSD License',
+    tests_requires=[
+        'nose',
+        'gitt+git://github.com/akheron/nosedjango'
+        '@nose-and-django-versions#egg=nosedjango',
+        'coverage',
+        'django',
+        'tissue',
     ],
+    classifiers=['License :: OSI Approved :: BSD License'],
 )
 

@@ -5,10 +5,6 @@ from django.utils.functional import curry
 from . import exceptions
 
 
-class ConfigurationError(Exception):
-    pass
-
-
 def get_mappings():
     '''
     Get all mappings from the settings
@@ -30,14 +26,15 @@ def get_mapping(model_or_queryset):
         queryset = model_or_queryset.objects.all()
         model = model_or_queryset
     else:
-        raise TypeError('Only `django.db.model.Model` and '
-            '`django.db.query.QuerySet` objects are valid arguments')
+        raise TypeError(
+            'Only `django.db.model.Model` and `django.db.query.QuerySet` '
+            'objects are valid arguments')
 
     meta = model._meta
     mapping_key = meta.app_label + '.' + meta.object_name
 
     mapping = mappings.get(mapping_key)
-    if mapping:
+    if mapping is not None:
         mapping = mapping.copy()
     else:
         raise exceptions.MappingUndefined('Unable to find mapping '
@@ -52,8 +49,9 @@ def get_mapping(model_or_queryset):
     if 'field' in mapping:
         mapping['fields'] = mapping['field'],
     elif 'fields' not in mapping:
-        raise ConfigurationError('Every mapping should have a field or '
-                                 'fields attribute. Mapping: %r' % mapping)
+        raise exceptions.ConfigurationError(
+            'Every mapping should have a field or fields attribute. Mapping: '
+            '%r' % mapping)
 
     mapping.setdefault('split_func', curry(
         mapping.get('split_func', split_func),

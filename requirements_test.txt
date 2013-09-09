@@ -1,0 +1,7 @@
+-e git://github.com/WoLpH/nosedjango.git@0c2cbd483ab24ddc7419b34f4d9a9a7f6ac4a041#egg=nosedjango-master
+nose
+coverage
+django
+mock
+tissue
+

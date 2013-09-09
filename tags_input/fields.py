@@ -1,6 +1,6 @@
 from django import forms
-from . import widgets
-from . import utils
+import widgets
+import utils
 from django.core.exceptions import ValidationError
 
 
@@ -17,8 +17,10 @@ class TagsInputField(forms.ModelMultipleChoiceField):
         if not self.mapping:
             self.mapping = mapping = utils.get_mapping(self.queryset)
             mapping['queryset'] = self.queryset
-            mapping['create_missing'] = (self.create_missing
-                or mapping.get('create_missing', False))
+            mapping['create_missing'] = (
+                self.create_missing
+                or mapping.get('create_missing', False)
+            )
 
         return self.mapping
 
@@ -40,16 +42,13 @@ class TagsInputField(forms.ModelMultipleChoiceField):
                 for v in value:
                     if v in missing:
                         o = self.queryset.model(**split_func(v))
-                        if hasattr(o, 'clean'):
-                            o.clean()
-                        elif hasattr(o, 'full_clean'):
-                            o.full_clean()
+                        getattr(o, 'clean', lambda: True)()
 
                         o.save()
                         values[v] = o.pk
             else:
                 raise ValidationError(self.error_messages['invalid_choice']
-                    % ', '.join(missing))
+                                      % ', '.join(missing))
 
         ids = []
         for v in value:

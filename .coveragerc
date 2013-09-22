@@ -8,6 +8,7 @@ omit =
     */nose/*
     */django/*
     */tests/*
+    */example/*
 [paths]
 source =
     tags_input

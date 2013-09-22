@@ -1,0 +1,13 @@
+[run]
+branch = True
+source =
+    tags_input
+    example
+omit =
+    */mock/*
+    */nose/*
+    */django/*
+    */tests/*
+[paths]
+source =
+    tags_input

@@ -1,7 +1,7 @@
--e git+git://github.com/nosedjango/nosedjango.git#egg=nosedjango
 nose
 coverage
 django
 mock
 tissue
+-e git+git://github.com/nosedjango/nosedjango.git#egg=nosedjango
 

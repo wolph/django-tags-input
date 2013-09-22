@@ -3,7 +3,7 @@ from .autocompletionexample import models
 from django import forms, test
 from django.contrib.auth import models as auth_models
 from django.test import client, utils as test_utils
-from tags_input import exceptions, utils, fields
+from tags_input import exceptions, utils, fields, widgets
 
 
 class BaseTestCase(test.TestCase):
@@ -40,6 +40,9 @@ class UtilsTestCase(BaseTestCase):
     @nose.tools.raises(TypeError)
     def test_get_mapping_type_exception(self):
         utils.get_mapping(AdminTestCase)
+
+    def test_multiple_fields_mapping(self):
+        utils.get_mapping(models.Egg)
 
     @nose.tools.raises(exceptions.MappingUndefined)
     def test_get_mapping_undefined_exception(self):
@@ -132,8 +135,20 @@ class AdminTestCase(BaseTestCase):
 
 
 class Form(forms.Form):
-    bar = fields.TagsInputField(models.Bar.objects.all())
-    foo = fields.TagsInputField(models.Foo.objects.all())
+    bar = fields.TagsInputField(
+        models.Bar.objects.all(),
+    )
+    foo = fields.TagsInputField(
+        models.Foo.objects.all(),
+    )
+    bar2 = fields.TagsInputField(
+        models.Bar.objects.all(),
+        create_missing=True,
+    )
+    foo2 = fields.TagsInputField(
+        models.Foo.objects.all(),
+        create_missing=True,
+    )
 
 
 class TestForm(BaseTestCase):
@@ -147,5 +162,14 @@ class TestForm(BaseTestCase):
         form.is_valid()
 
         form = Form(data=dict(foo='a', bar='a'))
+        form['bar'].field.widget.render(name='spam', value='eggs')
+        form['bar'].field.widget.render(name='spam', value='')
         form.is_valid()
 
+        form = Form(data=dict(
+            foo_default='spam',
+            foo_incomplete='spam',
+            bar_default='spam',
+            bar_incomplete='spam',
+        ))
+        form.is_valid()

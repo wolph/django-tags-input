@@ -5,7 +5,7 @@ class ReprModel(models.Model):
     def __repr__(self):
         return (u'<%s[%d]: %s>' % (
             self.__class__.__name__,
-            self.pk,
+            self.pk or -1,
             self.name,
         )).encode('utf-8')
 
@@ -50,5 +50,6 @@ class ExtraSpam(ReprModel):
 
 class Egg(ReprModel):
     name = models.CharField(max_length=50)
+    name2 = models.CharField(max_length=50)
     foo = models.OneToOneField(Foo)
 

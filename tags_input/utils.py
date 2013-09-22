@@ -43,7 +43,6 @@ def get_mapping(model_or_queryset):
     mapping['app'] = meta.app_label
     mapping['model'] = meta.object_name
     mapping['queryset'] = queryset
-
     mapping.setdefault('separator', ' - ')
 
     if 'field' in mapping:

@@ -159,7 +159,7 @@ TAGS_INPUT_MAPPINGS = {
     'autocompletionexample.Foo': {'field': 'name', 'create_missing': True},
     'autocompletionexample.Bar': {'field': 'name'},
     'autocompletionexample.Spam': {'field': 'name'},
-    'autocompletionexample.Eggs': {'field': 'name'},
+    'autocompletionexample.Egg': {'fields': ('name', 'name2')},
 }
 
 TAGS_INPUT_INCLUDE_JQUERY = True

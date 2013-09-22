@@ -7,12 +7,19 @@ from django.utils import datastructures
 
 
 class TagsInputWidget(forms.SelectMultiple):
-
-    def __init__(self, *args, **kwargs):
+    def __init__(self, on_add_tag=None, on_remove_tag=None, on_change_tag=None,
+                *args, **kwargs):
+        self.on_add_tag = on_add_tag
+        self.on_remove_tag = on_remove_tag
+        self.on_change_tag = on_change_tag
         forms.SelectMultiple.__init__(self, *args, **kwargs)
 
     def render(self, name, value, attrs=None, choices=()):
         context = self.build_attrs(attrs, name=name)
+        context['on_add_tag'] = self.on_add_tag
+        context['on_remove_tag'] = self.on_remove_tag
+        context['on_change_tag'] = self.on_change_tag
+
         context['STATIC_URL'] = settings.STATIC_URL
         context['mapping'] = self.mapping
         context['autocomplete_url'] = urlresolvers.reverse(
@@ -53,8 +60,8 @@ class TagsInputWidget(forms.SelectMultiple):
         return render_to_string('tags_input_widget.html', context)
 
     def value_from_datadict(self, data, files, name):
-        tags = data.get(name).split(',')
-        incomplete = data.get(name + '_incomplete')
+        tags = data.get(name, '').split(',')
+        incomplete = data.get(name + '_incomplete', '')
         if incomplete != data.get(name + '_default'):
             tags += incomplete.split(',')
         return [t.strip() for t in tags if t]
@@ -63,12 +70,12 @@ class TagsInputWidget(forms.SelectMultiple):
         css = {
             'all': (
                 'css/jquery.tagsinput.css',
-                'css/base/jquery.ui.all.css',
+                #'css/base/jquery.ui.all.css',
             ),
         }
         js = (
-            'js/jquery-1.7.2.min.js',
-            'js/jquery-ui-18.1.16.min.js',
+            #'js/jquery-1.7.2.min.js',
+            #'js/jquery-ui-18.1.16.min.js',
             'js/jquery.tagsinput.js',
         )
 

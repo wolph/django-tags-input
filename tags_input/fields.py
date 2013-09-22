@@ -8,9 +8,9 @@ class TagsInputField(forms.ModelMultipleChoiceField):
     widget = widgets.TagsInputWidget
 
     def __init__(self, queryset, **kwargs):
-        super(TagsInputField, self).__init__(queryset, **kwargs)
         self.create_missing = kwargs.pop('create_missing', False)
         self.mapping = kwargs.pop('mapping', None)
+        super(TagsInputField, self).__init__(queryset, **kwargs)
         self.widget.mapping = self.get_mapping()
 
     def get_mapping(self):
@@ -42,8 +42,7 @@ class TagsInputField(forms.ModelMultipleChoiceField):
                 for v in value:
                     if v in missing:
                         o = self.queryset.model(**split_func(v))
-                        getattr(o, 'clean', lambda: True)()
-
+                        o.clean()
                         o.save()
                         values[v] = o.pk
             else:

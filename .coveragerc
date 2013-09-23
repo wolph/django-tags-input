@@ -13,3 +13,4 @@ omit =
 source =
     tags_input
     example
+    example.tests

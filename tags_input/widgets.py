@@ -8,7 +8,7 @@ from django.utils import datastructures
 
 class TagsInputWidget(forms.SelectMultiple):
     def __init__(self, on_add_tag=None, on_remove_tag=None, on_change_tag=None,
-                *args, **kwargs):
+                 *args, **kwargs):
         self.on_add_tag = on_add_tag
         self.on_remove_tag = on_remove_tag
         self.on_change_tag = on_change_tag

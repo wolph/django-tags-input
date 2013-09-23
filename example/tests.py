@@ -3,7 +3,24 @@ from .autocompletionexample import models
 from django import forms, test
 from django.contrib.auth import models as auth_models
 from django.test import client, utils as test_utils
-from tags_input import exceptions, utils, fields, widgets
+from tags_input import exceptions, utils, fields
+
+
+class Form(forms.Form):
+    bar = fields.TagsInputField(
+        models.Bar.objects.all(),
+    )
+    foo = fields.TagsInputField(
+        models.Foo.objects.all(),
+    )
+    bar2 = fields.TagsInputField(
+        models.Bar.objects.all(),
+        create_missing=True,
+    )
+    foo2 = fields.TagsInputField(
+        models.Foo.objects.all(),
+        create_missing=True,
+    )
 
 
 class BaseTestCase(test.TestCase):
@@ -35,11 +52,14 @@ class BaseTestCase(test.TestCase):
         assert extra_spam
         assert foo_extra_spam
 
+    def test_metadata(self):
+        from tags_input import metadata
+        assert metadata
 
-class UtilsTestCase(BaseTestCase):
+    # Utils Test Cases
     @nose.tools.raises(TypeError)
     def test_get_mapping_type_exception(self):
-        utils.get_mapping(AdminTestCase)
+        utils.get_mapping(BaseTestCase)
 
     def test_multiple_fields_mapping(self):
         utils.get_mapping(models.Egg)
@@ -54,8 +74,7 @@ class UtilsTestCase(BaseTestCase):
     def test_get_mapping_broken_mappings(self):
         utils.get_mapping(models.Foo)
 
-
-class ViewTestCase(BaseTestCase):
+    # View Test Cases
     def test_view(self):
         response = self.client.get(
             '/tags_input/autocomplete/autocompletionexample/bar/name/',
@@ -77,8 +96,7 @@ class ViewTestCase(BaseTestCase):
         )
         self.assertEqual(response.status_code, 200)
 
-
-class AdminTestCase(BaseTestCase):
+    # Admin Test Cases
     def test_admin(self):
         response = self.client.get('/admin/autocompletionexample/bar/1/')
         self.assertEqual(response.status_code, 200)
@@ -133,25 +151,7 @@ class AdminTestCase(BaseTestCase):
         )
         self.assertEqual(response.status_code, 200)
 
-
-class Form(forms.Form):
-    bar = fields.TagsInputField(
-        models.Bar.objects.all(),
-    )
-    foo = fields.TagsInputField(
-        models.Foo.objects.all(),
-    )
-    bar2 = fields.TagsInputField(
-        models.Bar.objects.all(),
-        create_missing=True,
-    )
-    foo2 = fields.TagsInputField(
-        models.Foo.objects.all(),
-        create_missing=True,
-    )
-
-
-class TestForm(BaseTestCase):
+    # Test Forms
     def test_form(self):
         form = Form(data=dict(
             bar_incomplete='a,b,c',

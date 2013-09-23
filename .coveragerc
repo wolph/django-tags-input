@@ -12,3 +12,4 @@ omit =
 [paths]
 source =
     tags_input
+    example

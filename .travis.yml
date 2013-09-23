@@ -10,6 +10,7 @@ install:
 
 # command to run tests
 script:
+    - python setup.py nosetests
     - nosetests --with-doctest
 
 after_success:

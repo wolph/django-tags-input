@@ -70,16 +70,31 @@ class TagsInputWidget(forms.SelectMultiple):
         css = {
             'all': (
                 'css/jquery.tagsinput.css',
-                #'css/base/jquery.ui.all.css',
             ),
         }
         js = (
-            #'js/jquery-1.7.2.min.js',
-            #'js/jquery-ui-18.1.16.min.js',
             'js/jquery.tagsinput.js',
         )
 
+        if getattr(settings, 'TAGS_INPUT_INCLUDE_JQUERY', True):
+            css['all'] += 'css/base/jquery.ui.all.css',
+            js += (
+                'js/jquery-1.7.2.min.js',
+                'js/jquery-ui-18.1.16.min.js',
+            )
+
 
 class AdminTagsInputWidget(widgets.FilteredSelectMultiple, TagsInputWidget):
-    pass
+    class Media:
+        css = {
+            'all': (
+                'css/jquery.tagsinput.css',
+                'css/base/jquery.ui.all.css',
+            ),
+        }
+        js = (
+            'js/jquery-1.7.2.min.js',
+            'js/jquery-ui-18.1.16.min.js',
+            'js/jquery.tagsinput.js',
+        )
 

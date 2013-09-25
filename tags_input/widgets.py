@@ -75,8 +75,8 @@ class TagsInputWidget(forms.SelectMultiple):
         js = (
             'js/jquery.tagsinput.js',
         )
-
-        if getattr(settings, 'TAGS_INPUT_INCLUDE_JQUERY', True):
+        enable_jquery = getattr(settings, 'TAGS_INPUT_INCLUDE_JQUERY', True)
+        if enable_jquery:  # pragma: no cover
             css['all'] += 'css/base/jquery.ui.all.css',
             js += (
                 'js/jquery-1.7.2.min.js',

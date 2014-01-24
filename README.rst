@@ -26,6 +26,15 @@ Installing this module only takes a couple of minutes.
 
 2. Add ``tags_input`` to your ``INSTALLED_APPS`` setting in the Django ``settings.py``.
 
+    Example:
+
+    .. code-block:: python
+
+        INSTALLED_APPS = (
+            # ... your other installed apps
+            'tags_input',
+        )
+
 3. Add the mappings to your ``settings.py`` file:
 
     Example:
@@ -54,9 +63,16 @@ Installing this module only takes a couple of minutes.
 
 4. Add the ``tags_input`` urls to your ``urls.py``:
 
+    Example:
+
    .. code-block:: python
 
-      url(r'^tags_input/', include('tags_input.urls', namespace='tags_input')),
+      from django.conf import urls
+
+      urlpatterns = patterns('',
+          url(r'^tags_input/', include('tags_input.urls', namespace='tags_input')),
+          # ... other urls ... 
+      )
 
 
 Admin usage

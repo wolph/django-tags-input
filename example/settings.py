@@ -13,12 +13,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': 'database',
-        'ATOMIC_REQUESTS': True
     },
     'other': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': 'other_database',
-        'ATOMIC_REQUESTS': True
     },
 }
 DATABASE_ROUTERS = 'example.db_router.Router',

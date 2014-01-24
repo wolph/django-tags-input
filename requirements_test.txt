@@ -1,6 +1,6 @@
 nose
 coverage
-django
+django==1.5.5
 mock
 tissue
 -e git+git://github.com/nosedjango/nosedjango.git#egg=nosedjango

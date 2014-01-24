@@ -54,6 +54,12 @@ Installing this module only takes a couple of minutes.
                     'some_field',
                     'some_other_field',
                 ],
+                'filters': {
+                    'some_field__istartswith': 'a',
+                },
+                'excludes': {
+                    'some_field__iexact': 'foobar',
+                },
             },
             'some_app.SomeCreateableKeyword': {
                 'field': 'some_field',

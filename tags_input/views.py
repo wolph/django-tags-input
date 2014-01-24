@@ -12,6 +12,8 @@ def autocomplete(request, app, model, fields):
 
     raw_queryset = (
         mapping['queryset']
+        .filter(**mapping.get('filters', {}))
+        .exclude(**mapping.get('excludes', {}))
         .values('pk', *fields)
         .order_by(*mapping.get('ordering', fields))
     )

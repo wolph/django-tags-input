@@ -86,15 +86,15 @@ class TagsInputWidget(forms.SelectMultiple):
 
 class AdminTagsInputWidget(widgets.FilteredSelectMultiple, TagsInputWidget):
     class Media:
-        css = {
+        css = getattr(settings, 'TAGS_INPUT_ADMIN_CSS', {
             'all': (
                 'css/jquery.tagsinput.css',
                 'css/base/jquery.ui.all.css',
             ),
-        }
-        js = (
+        })
+        js = getattr(settings, 'TAGS_INPUT_ADMIN_JS', (
             'js/jquery-1.7.2.min.js',
             'js/jquery-ui-18.1.16.min.js',
             'js/jquery.tagsinput.js',
-        )
+        ))
 

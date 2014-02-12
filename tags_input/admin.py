@@ -1,5 +1,6 @@
 from django.contrib import admin
 import fields
+import widgets
 
 
 class TagsInputAdmin(admin.ModelAdmin):
@@ -16,7 +17,7 @@ class TagsInputAdmin(admin.ModelAdmin):
         queryset = db_field.rel.to._default_manager.get_query_set()
 
         kwargs['queryset'] = queryset
-        kwargs['widget'] = fields.AdminTagsInputField.widget(
+        kwargs['widget'] = widgets.AdminTagsInputWidget(
             db_field.verbose_name,
             (db_field.name in self.filter_vertical),
         )

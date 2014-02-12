@@ -6,7 +6,7 @@ from django.contrib.admin import widgets
 from django.utils import datastructures
 
 
-class TagsInputWidget(forms.SelectMultiple):
+class TagsInputWidgetBase(forms.SelectMultiple):
     def __init__(self, on_add_tag=None, on_remove_tag=None, on_change_tag=None,
                  *args, **kwargs):
         self.on_add_tag = on_add_tag
@@ -66,6 +66,8 @@ class TagsInputWidget(forms.SelectMultiple):
             tags += incomplete.split(',')
         return [t.strip() for t in tags if t]
 
+
+class TagsInputWidget(TagsInputWidgetBase):
     class Media:
         css = {
             'all': (
@@ -84,7 +86,8 @@ class TagsInputWidget(forms.SelectMultiple):
             )
 
 
-class AdminTagsInputWidget(widgets.FilteredSelectMultiple, TagsInputWidget):
+class AdminTagsInputWidget(widgets.FilteredSelectMultiple,
+                           TagsInputWidgetBase):
     class Media:
         css = getattr(settings, 'TAGS_INPUT_ADMIN_CSS', {
             'all': (

@@ -40,6 +40,11 @@ def get_mapping(model_or_queryset):
         raise exceptions.MappingUndefined('Unable to find mapping '
                                           'for %s' % mapping_key)
 
+    # The callable allows for customizing the queryset on the fly
+    queryset = mapping.get('queryset', queryset)
+    if callable(queryset):
+        queryset = queryset(mapping)
+
     mapping['app'] = meta.app_label
     mapping['model'] = meta.object_name
     mapping['queryset'] = queryset

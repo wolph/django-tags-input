@@ -64,6 +64,9 @@ class BaseTestCase(test.TestCase):
     def test_multiple_fields_mapping(self):
         utils.get_mapping(models.Egg)
 
+    def test_custom_queryset_mapping(self):
+        utils.get_mapping(models.Spam)
+
     @nose.tools.raises(exceptions.MappingUndefined)
     def test_get_mapping_undefined_exception(self):
         utils.get_mapping(auth_models.User)

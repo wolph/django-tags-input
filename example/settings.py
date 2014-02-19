@@ -155,10 +155,15 @@ LOGGING = {
     }
 }
 
+
+def get_queryset(*args, **kwargs):
+    from autocompletionexample import models
+    return models.Spam.objects.all()
+
 TAGS_INPUT_MAPPINGS = {
     'autocompletionexample.Foo': {'field': 'name', 'create_missing': True},
     'autocompletionexample.Bar': {'field': 'name'},
-    'autocompletionexample.Spam': {'field': 'name'},
+    'autocompletionexample.Spam': {'field': 'name', 'queryset': get_queryset},
     'autocompletionexample.Egg': {'fields': ('name', 'name2')},
 }
 

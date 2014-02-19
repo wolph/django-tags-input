@@ -5,6 +5,10 @@ from django.utils import simplejson
 from . import utils
 
 
+def _filter_func(queryset, field, term):
+    return queryset.filter(**{'%s__istartswith' % field: term})
+
+
 def autocomplete(request, app, model, fields):
     model = models.get_model(app, model)
     mapping = utils.get_mapping(model)
@@ -17,13 +21,13 @@ def autocomplete(request, app, model, fields):
         .values('pk', *fields)
         .order_by(*mapping.get('ordering', fields))
     )
-
+    autocomplete_filter = mapping.get('autocomplete_queryset_filter',
+                                      _filter_func)
     term = request.GET.get('term')
     if term:
         queryset = mapping['queryset'].none()
         for field in fields:
-            queryset |= raw_queryset.filter(
-                **{'%s__istartswith' % field: term})
+            queryset |= autocomplete_filter(raw_queryset, field, term)
     else:
         queryset = raw_queryset
 

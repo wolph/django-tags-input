@@ -157,7 +157,7 @@ LOGGING = {
 
 
 def get_queryset(*args, **kwargs):
-    from autocompletionexample import models
+    from example.autocompletionexample import models
     return models.Spam.objects.all()
 
 TAGS_INPUT_MAPPINGS = {

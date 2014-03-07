@@ -80,10 +80,10 @@ class TagsInputWidget(TagsInputWidgetBase):
         enable_jquery = getattr(settings, 'TAGS_INPUT_INCLUDE_JQUERY', True)
         if enable_jquery:  # pragma: no cover
             css['all'] += 'css/base/jquery.ui.all.css',
-            js += (
+            js = (
                 'js/jquery-1.7.2.min.js',
                 'js/jquery-ui-18.1.16.min.js',
-            )
+            ) + js
 
 
 class AdminTagsInputWidget(widgets.FilteredSelectMultiple,

@@ -2,10 +2,17 @@ from django import forms
 import widgets
 import utils
 from django.core.exceptions import ValidationError
+from django.utils.translation import ugettext_lazy as _
 
 
 class TagsInputField(forms.ModelMultipleChoiceField):
     widget = widgets.TagsInputWidget
+    default_error_messages = {
+        'list': _('Enter a list of values.'),
+        'invalid_choice': _('Select a valid choice. %s is not one of the'
+                            ' available choices.'),
+        'invalid_pk_value': _('"%s" is not a valid value for a primary key.')
+    }
 
     def __init__(self, queryset, **kwargs):
         self.create_missing = kwargs.pop('create_missing', False)

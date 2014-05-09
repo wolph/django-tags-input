@@ -43,7 +43,8 @@ class TagsInputField(forms.ModelMultipleChoiceField):
             .filter(**filter_func(value))
             .values('pk', *fields)
         )
-        missing = set(value) - set(values)
+        values = dict((k.lower(), v) for k, v in values.iteritems())
+        missing = [v for v in values if v.lower() not in values]
         if missing:
             if mapping['create_missing']:
                 for v in value:
@@ -58,7 +59,7 @@ class TagsInputField(forms.ModelMultipleChoiceField):
 
         ids = []
         for v in value:
-            ids.append(values[v])
+            ids.append(values[v.lower()])
 
         return forms.ModelMultipleChoiceField.clean(self, ids)
 

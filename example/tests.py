@@ -164,6 +164,14 @@ class BaseTestCase(test.TestCase):
         ))
         form.is_valid()
 
+        form = Form(data=dict(
+            bar_incomplete='a,b,C',
+            bar='aBc',
+            foo_incomplete='a,B,c',
+            foo='Abc',
+        ))
+        form.is_valid()
+
         form = Form(data=dict(foo='a', bar='a'))
         form['bar'].field.widget.render(name='spam', value='eggs')
         form['bar'].field.widget.render(name='spam', value='')

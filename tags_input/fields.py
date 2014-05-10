@@ -44,7 +44,7 @@ class TagsInputField(forms.ModelMultipleChoiceField):
             .values('pk', *fields)
         )
         values = dict((k.lower(), v) for k, v in values.iteritems())
-        missing = [v for v in values if v.lower() not in values]
+        missing = [v for v in value if v.lower() not in values]
         if missing:
             if mapping['create_missing']:
                 for v in value:
@@ -52,7 +52,7 @@ class TagsInputField(forms.ModelMultipleChoiceField):
                         o = self.queryset.model(**split_func(v))
                         o.clean()
                         o.save()
-                        values[v] = o.pk
+                        values[v.lower()] = o.pk
             else:
                 raise ValidationError(self.error_messages['invalid_choice']
                                       % ', '.join(missing))

@@ -1,6 +1,9 @@
 from django.db import models
 from django import http
-from django.utils import simplejson
+try:
+    from django.utils import simplejson
+except ImportError:
+    import json as simplejson
 
 from . import utils
 

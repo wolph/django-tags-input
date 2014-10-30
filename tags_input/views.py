@@ -46,5 +46,5 @@ def autocomplete(request, app, model, fields):
     else:
         response = ''
 
-    return http.HttpResponse(response, mimetype='application/javascript')
+    return http.HttpResponse(response, content_type='application/javascript')
 

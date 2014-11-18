@@ -11,6 +11,10 @@ One of the most useful features of Django Tags Input is that it stores the eleme
 
 So if you insert `B, A, C` into the database, it will return it sorted the way you entered it: `B, A, C`.
 
+.. image:: https://raw.githubusercontent.com/WoLpH/django-tags-input/master/example/example.png
+   :height: 286px
+   :width: 790px
+
 Links
 -----
 
@@ -102,4 +106,23 @@ Admin usage
 
     admin.site.register(models.YourModel, YourAdmin)
 
+Quickstart
+----------
+
+To test the project simply clone the repository, install and run the example:
+
+    mkvirtualenv django-tags-input
+    git clone https://github.com/WoLpH/django-tags-input.git
+    pip install -e django-tags-input
+    cd django-tags-input/example
+    python manage.py runserver
+
+Now you can go to http://localhost:8000/admin/ and login with username and 
+password `admin` and `admin` respectively.
+
+After this you can try adding some extra `Foo` objects through the `Spam` admin
+here: http://localhost:8000/admin/autocompletionexample/spam/2/
+
+Note that some parts of the example are deliberately broken to test the
+behaviour in broken environments.
 

@@ -30,12 +30,13 @@ setuptools.setup(
     long_description=long_description,
     test_suite='nose.collector',
     tests_requires=[
-        'nose',
-        'gitt+git://github.com/akheron/nosedjango'
-        '@nose-and-django-versions#egg=nosedjango',
-        'coverage',
-        'django',
-        'tissue',
+        'Django',
+        'pytest',
+        'pytest-cache',
+        'pytest-cov',
+        'pytest-django',
+        'pytest-flakes',
+        'pytest-pep8',
     ],
     classifiers=['License :: OSI Approved :: BSD License'],
 )

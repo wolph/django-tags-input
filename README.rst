@@ -1,11 +1,9 @@
 Overview
 --------
 
-Django Tags Input is a module that gives you a modified version of the `Xoxco jQuery Tags Input`_ library within Django.
+Django Tags Input is a module that gives you a modified version of the Xoxco jQuery Tags Input library within Django.
 
 The result is a very pretty interface with tags and autocomplete which can optionally automatically create new items when they are missing.
-
-.. _Xoxco jQuery Tags Input: http://xoxco.com/projects/code/tagsinput/
 
 One of the most useful features of Django Tags Input is that it stores the elements in the order which you input.
 

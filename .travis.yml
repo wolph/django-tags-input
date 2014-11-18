@@ -10,7 +10,7 @@ install:
 
 # command to run tests
 script:
-    - nosetests --with-doctest; python setup.py nosetests
+    - py.test
 
 after_success:
     - coveralls

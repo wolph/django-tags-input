@@ -1,6 +1,7 @@
 from django.db import models
 from django.core import exceptions
 
+
 class ReprModel(models.Model):
     def __repr__(self):
         return (u'<%s[%d]: %s>' % (

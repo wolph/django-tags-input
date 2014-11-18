@@ -1,7 +1,6 @@
-nose
-coverage
-django<1.6.0
-mock
-tissue
--e git+git://github.com/nosedjango/nosedjango.git#egg=nosedjango
-
+pytest
+pytest-cache
+pytest-flakes
+pytest-pep8
+pytest-django
+pytest-cov

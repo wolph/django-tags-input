@@ -2,6 +2,7 @@ from django.contrib import admin
 import models
 from tags_input import admin as tags_input_admin
 
+
 class FooAdmin(tags_input_admin.TagsInputAdmin):
     list_display = (
         'pk',

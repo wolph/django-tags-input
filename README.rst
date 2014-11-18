@@ -11,6 +11,13 @@ One of the most useful features of Django Tags Input is that it stores the eleme
 
 So if you insert `B, A, C` into the database, it will return it sorted the way you entered it: `B, A, C`.
 
+Links
+-----
+
+ - The source: https://github.com/WoLpH/django-tags-input
+ - Project page: https://pypi.python.org/pypi/django-tags-input
+ - Reporting bugs: https://github.com/WoLpH/django-tags-input/issues
+
 How to install
 --------------
 

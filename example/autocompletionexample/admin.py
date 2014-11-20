@@ -1,5 +1,5 @@
 from django.contrib import admin
-import models
+from . import models
 from tags_input import admin as tags_input_admin
 
 

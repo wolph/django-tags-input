@@ -1,3 +1,5 @@
+import six
+
 from django.conf import settings
 from django import forms
 from django.template.loader import render_to_string
@@ -37,7 +39,7 @@ class TagsInputWidgetBase(forms.SelectMultiple):
 
             ids = []
             for v in value:
-                if isinstance(v, (int, long)):
+                if isinstance(v, six.integer_types):
                     ids.append(v)
 
             values_map = datastructures.SortedDict(map(
@@ -50,7 +52,7 @@ class TagsInputWidgetBase(forms.SelectMultiple):
 
             values = []
             for v in value:
-                if isinstance(v, (int, long)):
+                if isinstance(v, six.integer_types):
                     values.append(values_map[v])
                 else:
                     values.append(v)

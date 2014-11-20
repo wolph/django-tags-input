@@ -1,5 +1,7 @@
 import os
+import sys
 import setuptools
+from setuptools.command.test import test as TestCommand
 
 from tags_input import metadata
 
@@ -9,6 +11,20 @@ else:
     long_description = ('See http://pypi.python.org/pypi/'
                         + metadata.__package_name__)
 
+
+class PyTest(TestCommand):
+    def finalize_options(self):
+        TestCommand.finalize_options(self)
+        self.test_args = []
+        self.test_suite = True
+
+    def run_tests(self):
+        # import here, cause outside the eggs aren't loaded
+        import pytest
+        errno = pytest.main(self.test_args)
+        sys.exit(errno)
+
+
 setuptools.setup(
     name=metadata.__package_name__,
     version=metadata.__version__,
@@ -17,7 +33,10 @@ setuptools.setup(
     description=metadata.__description__,
     url=metadata.__url__,
     license='BSD',
-    packages=setuptools.find_packages(exclude=['example']),
+    packages=setuptools.find_packages(exclude=[
+        'example',
+        'example.*',
+    ]),
     package_data={
         'tags_input': [
             'templates/*.html',
@@ -28,16 +47,10 @@ setuptools.setup(
         ],
     },
     long_description=long_description,
-    test_suite='nose.collector',
-    tests_requires=[
-        'Django',
-        'pytest',
-        'pytest-cache',
-        'pytest-cov',
-        'pytest-django',
-        'pytest-flakes',
-        'pytest-pep8',
-    ],
+    cmdclass={'test': PyTest},
     classifiers=['License :: OSI Approved :: BSD License'],
+    install_requires=[
+        'six',
+    ]
 )
 

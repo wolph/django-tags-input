@@ -1,6 +1,6 @@
 from django.contrib import admin
-import fields
-import widgets
+from . import fields
+from . import widgets
 
 
 class TagsInputAdmin(admin.ModelAdmin):

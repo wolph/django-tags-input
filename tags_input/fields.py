@@ -1,8 +1,9 @@
 from django import forms
-import widgets
-import utils
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
+
+from . import widgets
+from . import utils
 
 
 class TagsInputField(forms.ModelMultipleChoiceField):
@@ -43,7 +44,7 @@ class TagsInputField(forms.ModelMultipleChoiceField):
             .filter(**filter_func(value))
             .values('pk', *fields)
         )
-        values = dict((k.lower(), v) for k, v in values.iteritems())
+        values = dict((k.lower(), v) for k, v in values.items())
         missing = [v for v in value if v.lower() not in values]
         if missing:
             if mapping['create_missing']:

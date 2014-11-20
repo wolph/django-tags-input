@@ -1,5 +1,6 @@
 from django.db import models
 from django import http
+
 try:
     from django.utils import simplejson
 except ImportError:  # pragma: no cover

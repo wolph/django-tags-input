@@ -1,4 +1,5 @@
-import nose
+import pytest
+
 from .autocompletionexample import models
 from django import forms, test
 from django.contrib.auth import models as auth_models
@@ -57,7 +58,7 @@ class BaseTestCase(test.TestCase):
         assert metadata
 
     # Utils Test Cases
-    @nose.tools.raises(TypeError)
+    @pytest.mark.xfail(raises=TypeError)
     def test_get_mapping_type_exception(self):
         utils.get_mapping(BaseTestCase)
 
@@ -67,11 +68,11 @@ class BaseTestCase(test.TestCase):
     def test_custom_queryset_mapping(self):
         utils.get_mapping(models.Spam)
 
-    @nose.tools.raises(exceptions.MappingUndefined)
+    @pytest.mark.xfail(raises=exceptions.MappingUndefined)
     def test_get_mapping_undefined_exception(self):
         utils.get_mapping(auth_models.User)
 
-    @nose.tools.raises(exceptions.ConfigurationError)
+    @pytest.mark.xfail(raises=exceptions.ConfigurationError)
     @test_utils.override_settings(
         TAGS_INPUT_MAPPINGS={'autocompletionexample.Foo': {}})
     def test_get_mapping_broken_mappings(self):

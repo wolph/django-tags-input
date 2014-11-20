@@ -17,7 +17,7 @@ setuptools.setup(
     description=metadata.__description__,
     url=metadata.__url__,
     license='BSD',
-    packages=setuptools.find_packages(),
+    packages=setuptools.find_packages(exclude=['example']),
     package_data={
         'tags_input': [
             'templates/*.html',

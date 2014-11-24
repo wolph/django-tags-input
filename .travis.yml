@@ -33,8 +33,13 @@ env:
 
 install:
     pip install tox
+  - pip install coveralls --use-mirrors
+  - pip freeze
 
 # command to run tests
 script:
     tox -e $TOX_ENV
+
+after_success:
+    - coveralls
 

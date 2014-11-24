@@ -25,6 +25,10 @@ How to install
 
 Installing this module only takes a couple of minutes.
 
+Currently Django 1.4, Django 1.5, Django 1.6 and Django 1.7 are support in
+combination with Python 2.6 and 2.7. Python 3.2, 3.3 and 3.4. Pypy and Pypy3.
+
+
 1. Install the module itself
 
     pip install django-tags-input

@@ -20,9 +20,9 @@ class ReprModel(models.Model):
 class Foo(ReprModel):
     name = models.CharField(max_length=50)
 
-    def full_clean(self):
+    def full_clean(self, *args, **kwargs):
         # We want everything tested, also calling a clean method
-        raise exceptions.ValidationError('Test Error')
+        raise exceptions.ValidationError({'name': 'Test Error'})
 
 
 class Bar(ReprModel):
@@ -36,7 +36,7 @@ class Spam(ReprModel):
 
     def clean(self):
         # We want everything tested, also calling a clean method
-        raise exceptions.ValidationError('Test Error')
+        raise exceptions.ValidationError({'foo': 'Test Error'})
 
 
 class FooExtraSpam(ReprModel):

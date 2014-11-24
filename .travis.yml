@@ -1,17 +1,40 @@
 language: python
-python:
-  - "2.7"
-# command to install dependencies
+python: 2.7
+
+env:
+    - TOX_ENV=py26-django14
+    - TOX_ENV=py26-django15
+    - TOX_ENV=py26-django16
+    - TOX_ENV=py26-django17
+    - TOX_ENV=py27-django14
+    - TOX_ENV=py27-django15
+    - TOX_ENV=py27-django16
+    - TOX_ENV=py27-django17
+    - TOX_ENV=py32-django14
+    - TOX_ENV=py32-django15
+    - TOX_ENV=py32-django16
+    - TOX_ENV=py32-django17
+    - TOX_ENV=py33-django14
+    - TOX_ENV=py33-django15
+    - TOX_ENV=py33-django16
+    - TOX_ENV=py33-django17
+    - TOX_ENV=py34-django14
+    - TOX_ENV=py34-django15
+    - TOX_ENV=py34-django16
+    - TOX_ENV=py34-django17
+    - TOX_ENV=pypy-django14
+    - TOX_ENV=pypy-django15
+    - TOX_ENV=pypy-django16
+    - TOX_ENV=pypy-django17
+    - TOX_ENV=pypy3-django14
+    - TOX_ENV=pypy3-django15
+    - TOX_ENV=pypy3-django16
+    - TOX_ENV=pypy3-django17
+
 install:
-  - pip install -r requirements_test.txt --use-mirrors
-  - pip install -e .
-  - pip install coveralls --use-mirrors
-  - pip freeze
+    pip install tox
 
 # command to run tests
 script:
-    - py.test
-
-after_success:
-    - coveralls
+    tox -e $TOX_ENV
 

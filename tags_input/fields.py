@@ -55,8 +55,11 @@ class TagsInputField(forms.ModelMultipleChoiceField):
                         o.save()
                         values[v.lower()] = o.pk
             else:
-                raise ValidationError(self.error_messages['invalid_choice']
-                                      % ', '.join(missing))
+                raise ValidationError(
+                    self.error_messages['invalid_choice'],
+                    code='invalid_choice',
+                    params={'value': ', '.join(missing)},
+                )
 
         ids = []
         for v in value:

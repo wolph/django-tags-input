@@ -130,14 +130,14 @@ class BaseTestCase(test.TestCase):
         self.assertEqual(response.status_code, 200)
 
         response = self.client.get('/admin/autocompletionexample/spam/1/')
+        data = response.context['adminform'].form.initial.copy()
         self.assertEqual(response.status_code, 200)
         response = self.client.post(
             '/admin/autocompletionexample/spam/1/',
-            response.context['adminform'].form.initial,
+            data,
             follow=True,
         )
         self.assertEqual(response.status_code, 200)
-        data = response.context['adminform'].form.initial.copy()
         data['foo_incomplete'] = 'a,b,c'
         response = self.client.post(
             '/admin/autocompletionexample/spam/1/',

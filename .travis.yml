@@ -30,16 +30,11 @@ env:
     - TOX_ENV=pypy3-django15
     - TOX_ENV=pypy3-django16
     - TOX_ENV=pypy3-django17
+    - TOX_ENV=coveralls
 
 install:
     pip install tox
-  - pip install coveralls --use-mirrors
-  - pip freeze
 
-# command to run tests
 script:
     tox -e $TOX_ENV
-
-after_success:
-    - coveralls
 

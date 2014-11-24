@@ -4,7 +4,7 @@ from django.core import exceptions
 
 class ReprModel(models.Model):
     def __repr__(self):
-        return u'<%s[%d]: %s>' % (
+        return '<%s[%d]: %s>' % (
             self.__class__.__name__,
             self.pk or -1,
             self.name,

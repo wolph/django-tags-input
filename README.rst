@@ -19,6 +19,7 @@ Links
  - The source: https://github.com/WoLpH/django-tags-input
  - Project page: https://pypi.python.org/pypi/django-tags-input
  - Reporting bugs: https://github.com/WoLpH/django-tags-input/issues
+ - Documentation: http://django-tags-input.readthedocs.org/en/latest/
 
 How to install
 --------------

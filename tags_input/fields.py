@@ -26,8 +26,7 @@ class TagsInputField(forms.ModelMultipleChoiceField):
             self.mapping = mapping = utils.get_mapping(self.queryset)
             mapping['queryset'] = self.queryset
             mapping['create_missing'] = (
-                self.create_missing
-                or mapping.get('create_missing', False)
+                self.create_missing or mapping.get('create_missing', False)
             )
 
         return self.mapping

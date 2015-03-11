@@ -8,8 +8,8 @@ from tags_input import metadata
 if os.path.isfile('README.rst'):
     long_description = open('README.rst').read()
 else:
-    long_description = ('See http://pypi.python.org/pypi/'
-                        + metadata.__package_name__)
+    long_description = ('See http://pypi.python.org/pypi/' +
+                        metadata.__package_name__)
 
 
 class PyTest(TestCommand):

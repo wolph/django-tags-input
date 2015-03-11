@@ -114,6 +114,8 @@ Quickstart
 
 To test the project simply clone the repository, install and run the example:
 
+.. code-block:: bash
+
     mkvirtualenv django-tags-input
     git clone https://github.com/WoLpH/django-tags-input.git
     pip install -e django-tags-input

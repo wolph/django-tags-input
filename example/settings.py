@@ -1,4 +1,6 @@
 # Django settings for example project.
+import os
+import django
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -108,11 +110,13 @@ WSGI_APPLICATION = 'wsgi.application'
 
 TEST_RUNNER = 'django.test.runner.DiscoverRunner'
 
+DJANGO_DIR = os.path.dirname(os.path.abspath(django.__file__))
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or
     # "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
+    os.path.join(DJANGO_DIR, 'contrib', 'admin', 'templates'),
 )
 
 INSTALLED_APPS = (

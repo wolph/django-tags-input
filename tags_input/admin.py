@@ -1,3 +1,4 @@
+import django
 from django.contrib import admin
 from . import fields
 from . import widgets
@@ -14,7 +15,10 @@ class TagsInputAdmin(admin.ModelAdmin):
         if not db_field.rel.through._meta.auto_created:
             return None
 
-        queryset = db_field.rel.to._default_manager.get_query_set()
+        if django.VERSION[:2] < (1, 8):  # pragma: no cover
+            queryset = db_field.rel.to._default_manager.get_query_set()
+        else:
+            queryset = db_field.rel.to._default_manager.get_queryset()
 
         kwargs['queryset'] = queryset
         kwargs['widget'] = widgets.AdminTagsInputWidget(

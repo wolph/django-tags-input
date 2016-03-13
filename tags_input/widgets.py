@@ -42,7 +42,7 @@ class TagsInputWidgetBase(forms.SelectMultiple):
                 if isinstance(v, six.integer_types):
                     ids.append(v)
 
-            values_map = datastructures.SortedDict(map(
+            values_map = datastructures.OrderedDict(map(
                 join_func,
                 self.mapping['queryset']
                 .filter(pk__in=ids)

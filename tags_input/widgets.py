@@ -5,7 +5,7 @@ from django import forms
 from django.template.loader import render_to_string
 from django.core import urlresolvers
 from django.contrib.admin import widgets
-from django.utils import datastructures
+from collections import OrderedDict
 
 
 class TagsInputWidgetBase(forms.SelectMultiple):
@@ -42,7 +42,7 @@ class TagsInputWidgetBase(forms.SelectMultiple):
                 if isinstance(v, six.integer_types):
                     ids.append(v)
 
-            values_map = datastructures.OrderedDict(map(
+            values_map = OrderedDict(map(
                 join_func,
                 self.mapping['queryset']
                 .filter(pk__in=ids)
@@ -102,4 +102,3 @@ class AdminTagsInputWidget(widgets.FilteredSelectMultiple,
             'js/jquery-ui-18.1.16.min.js',
             'js/jquery.tagsinput.js',
         ))
-

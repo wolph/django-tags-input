@@ -1,4 +1,4 @@
-from django.db import models
+from django.apps import apps
 from django import http
 
 try:
@@ -14,7 +14,8 @@ def _filter_func(queryset, field, term):
 
 
 def autocomplete(request, app, model, fields):
-    model = models.get_model(app, model)
+    apps_config = apps.get_app_config(app)
+    model = apps_config.get_model(model)
     mapping = utils.get_mapping(model)
     fields = fields.split('-')
 
@@ -48,4 +49,3 @@ def autocomplete(request, app, model, fields):
         response = ''
 
     return http.HttpResponse(response, content_type='application/javascript')
-

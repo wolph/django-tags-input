@@ -5,10 +5,15 @@ from django import forms
 from django.template.loader import render_to_string
 from django.core import urlresolvers
 from django.contrib.admin import widgets
-from django.utils import datastructures
+
+try:  # pragma: no cover
+    from collections import OrderedDict
+except ImportError:  # pragma: no cover
+    from django.utils.datastructures import SortedDict as OrderedDict
 
 
 class TagsInputWidgetBase(forms.SelectMultiple):
+
     def __init__(self, on_add_tag=None, on_remove_tag=None, on_change_tag=None,
                  *args, **kwargs):
         self.on_add_tag = on_add_tag
@@ -42,7 +47,7 @@ class TagsInputWidgetBase(forms.SelectMultiple):
                 if isinstance(v, six.integer_types):
                     ids.append(v)
 
-            values_map = datastructures.SortedDict(map(
+            values_map = OrderedDict(map(
                 join_func,
                 self.mapping['queryset']
                 .filter(pk__in=ids)

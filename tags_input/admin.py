@@ -17,7 +17,7 @@ class TagsInputAdmin(admin.ModelAdmin):
 
         if django.VERSION[:2] < (1, 8):  # pragma: no cover
             queryset = db_field.rel.to._default_manager.get_query_set()
-        else:
+        else:  # pragma: no cover
             queryset = db_field.rel.to._default_manager.get_queryset()
 
         kwargs['queryset'] = queryset

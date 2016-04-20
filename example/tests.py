@@ -1,10 +1,17 @@
 import pytest
 
 from .autocompletionexample import models
+import django
 from django import forms, test
 from django.contrib.auth import models as auth_models
 from django.test import client, utils as test_utils
 from tags_input import exceptions, utils, fields
+
+
+if django.VERSION >= (1, 9, 0, '', 0):
+    admin_change_url = '/admin/%(app)s/%(model)s/%(id)d/change/'
+else:
+    admin_change_url = '/admin/%(app)s/%(model)s/%(id)d/'
 
 
 class Form(forms.Form):
@@ -102,7 +109,8 @@ class BaseTestCase(test.TestCase):
 
     # Admin Test Cases
     def test_admin(self):
-        response = self.client.get('/admin/autocompletionexample/bar/1/')
+        response = self.client.get(admin_change_url % dict(
+            app='autocompletionexample', model='bar', id=1))
         self.assertEqual(response.status_code, 200)
         self.client.post(
             '/admin/autocompletionexample/bar/1/',
@@ -111,7 +119,8 @@ class BaseTestCase(test.TestCase):
         )
         self.assertEqual(response.status_code, 200)
 
-        response = self.client.get('/admin/autocompletionexample/egg/1/')
+        response = self.client.get(admin_change_url % dict(
+            app='autocompletionexample', model='egg', id=1))
         self.assertEqual(response.status_code, 200)
         response = self.client.post(
             '/admin/autocompletionexample/egg/1/',
@@ -120,7 +129,8 @@ class BaseTestCase(test.TestCase):
         )
         self.assertEqual(response.status_code, 200)
 
-        response = self.client.get('/admin/autocompletionexample/foo/1/')
+        response = self.client.get(admin_change_url % dict(
+            app='autocompletionexample', model='foo', id=1))
         self.assertEqual(response.status_code, 200)
         response = self.client.post(
             '/admin/autocompletionexample/foo/1/',
@@ -129,7 +139,8 @@ class BaseTestCase(test.TestCase):
         )
         self.assertEqual(response.status_code, 200)
 
-        response = self.client.get('/admin/autocompletionexample/spam/1/')
+        response = self.client.get(admin_change_url % dict(
+            app='autocompletionexample', model='spam', id=1))
         data = response.context['adminform'].form.initial.copy()
         self.assertEqual(response.status_code, 200)
         response = self.client.post(
@@ -140,16 +151,19 @@ class BaseTestCase(test.TestCase):
         self.assertEqual(response.status_code, 200)
         data['foo_incomplete'] = 'a,b,c'
         response = self.client.post(
-            '/admin/autocompletionexample/spam/1/',
+            admin_change_url % dict(
+                app='autocompletionexample', model='spam', id=1),
             data,
             follow=True,
         )
         self.assertEqual(response.status_code, 200)
 
-        response = self.client.get('/admin/autocompletionexample/extraspam/1/')
+        response = self.client.get(admin_change_url % dict(
+            app='autocompletionexample', model='extraspam', id=1))
         self.assertEqual(response.status_code, 200)
         response = self.client.post(
-            '/admin/autocompletionexample/extraspam/1/',
+            admin_change_url % dict(
+                app='autocompletionexample', model='extraspam', id=1),
             response.context['adminform'].form.initial,
             follow=True,
         )

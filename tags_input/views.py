@@ -1,7 +1,19 @@
-from django.db import models
+try:  # pragma: no cover
+    from django.apps import apps
+
+    def get_model(app, model):
+        apps_config = apps.get_app_config(app)
+        return apps_config.get_model(model)
+
+except ImportError:  # pragma: no cover
+    from django.db import models
+
+    def get_model(app, model):
+        return models.get_model(app, model)
+
 from django import http
 
-try:
+try:  # pragma: no cover
     from django.utils import simplejson
 except ImportError:  # pragma: no cover
     import json as simplejson
@@ -14,7 +26,7 @@ def _filter_func(queryset, field, term):
 
 
 def autocomplete(request, app, model, fields):
-    model = models.get_model(app, model)
+    model = get_model(app, model)
     mapping = utils.get_mapping(model)
     fields = fields.split('-')
 

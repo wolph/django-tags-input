@@ -1,9 +1,6 @@
 # Django settings for example project.
-import os
-import django
 
 DEBUG = True
-TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),
@@ -87,11 +84,21 @@ STATICFILES_FINDERS = (
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = '8kqthvdm3hf0=cpyksli(5*z&amp;fkr3whd4qn=d4$7qeg-ac8he4'
 
-# List of callables that know how to import templates from various sources.
-TEMPLATE_LOADERS = (
-    'django.template.loaders.filesystem.Loader',
-    'django.template.loaders.app_directories.Loader',
-)
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
+]
 
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
@@ -109,15 +116,6 @@ ROOT_URLCONF = 'example.urls'
 WSGI_APPLICATION = 'wsgi.application'
 
 TEST_RUNNER = 'django.test.runner.DiscoverRunner'
-
-DJANGO_DIR = os.path.dirname(os.path.abspath(django.__file__))
-TEMPLATE_DIRS = (
-    # Put strings here, like "/home/html/django_templates" or
-    # "C:/www/django/templates".
-    # Always use forward slashes, even on Windows.
-    # Don't forget to use absolute paths, not relative paths.
-    os.path.join(DJANGO_DIR, 'contrib', 'admin', 'templates'),
-)
 
 INSTALLED_APPS = (
     'django.contrib.auth',

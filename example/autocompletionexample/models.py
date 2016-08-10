@@ -11,7 +11,11 @@ class ReprModel(models.Model):
             self.name,
         )
 
-    def __unicode__(self):
+    # Either unicode or str is used depending on the Python version
+    def __unicode__(self):  # pragma: no cover
+        return self.name
+
+    def __str__(self):  # pragma: no cover
         return self.name
 
     class Meta:
@@ -37,7 +41,7 @@ class Spam(ReprModel):
 
     def clean(self):
         # We want everything tested, also calling a clean method
-        raise exceptions.ValidationError({'foo': 'Test Error'})
+        raise exceptions.ValidationError({'foo': 'Expected testing error'})
 
 
 class FooExtraSpam(ReprModel):
@@ -48,8 +52,7 @@ class FooExtraSpam(ReprModel):
 
 class ExtraSpam(ReprModel):
     name = models.CharField(max_length=50, help_text='The extra spam name')
-    foo = models.ManyToManyField(
-        Foo, through=FooExtraSpam, help_text='The foo objects')
+    foo = models.ManyToManyField(Foo, through=FooExtraSpam)
 
 
 class Egg(ReprModel):

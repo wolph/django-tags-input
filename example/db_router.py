@@ -10,8 +10,16 @@ class Router(object):
 
     db_for_read = db_for_write = get_db
 
-    def allow_migrate(self, db, model):
-        return self.TABLE_MAPPINGS.get(model._meta.db_table, 'default')
+    def allow_migrate(self, *args, **hints):
+        # Django 1.8, 1.9 and 1.10 all have different behaviour... sigh
+        if 'model_name' in hints:
+            model_name = hints['model_name']
+        elif 'model' in hints:
+            model_name = hints['model']._meta.db_table
+        else:
+            model_name = args[1]._meta.db_table
+
+        return self.TABLE_MAPPINGS.get(model_name, 'default')
 
     def allow_relation(self, obj1, obj2, **hints):
         return True

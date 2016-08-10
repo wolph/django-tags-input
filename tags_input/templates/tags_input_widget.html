@@ -23,8 +23,6 @@ jQuery(document).ready(function($){
 //]]>
 </script>
 
-field: {{ field }}
-
 {# django admin adds the help text. this is for use outside of the admin #}
 {% block help %}{% if help_text %}<p class="help">{{help_text}}</p>{% endif %}{% endblock %}
 {{ inline }}

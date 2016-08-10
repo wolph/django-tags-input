@@ -1,30 +1,37 @@
+sudo: false
 language: python
 python: 2.7
+cache: pip
 
 env:
-    - TOX_ENV=coveralls
     - TOX_ENV=py27-django18
     - TOX_ENV=py27-django19
     - TOX_ENV=py27-django1a
-    - TOX_ENV=py33-django18
-    - TOX_ENV=py33-django19
-    - TOX_ENV=py33-django1a
-    - TOX_ENV=py34-django18
-    - TOX_ENV=py34-django19
-    - TOX_ENV=py34-django1a
-    - TOX_ENV=py35-django18
-    - TOX_ENV=py35-django19
-    - TOX_ENV=py35-django1a
     - TOX_ENV=pypy-django18
     - TOX_ENV=pypy-django19
     - TOX_ENV=pypy-django1a
+    - TOX_ENV=py33-django18
     - TOX_ENV=pypy3-django18
-    - TOX_ENV=pypy3-django19
-    - TOX_ENV=pypy3-django1a
+    - TOX_ENV=py34-django19
+    - TOX_ENV=py34-django1a
+    - TOX_ENV=py35-django19
+    - TOX_ENV=py35-django1a
 
 install:
-    pip install tox
+    - pip install -r requirements_test.txt
+    - pip install -e .
+    - pip install tox
+    - pip install coveralls
 
 script:
-    tox -e $TOX_ENV
+    - tox -e $TOX_ENV
+    - py.test
+
+after_success:
+    - coveralls
+
+notifications:
+  email:
+    on_success: never
+    on_failure: change
 

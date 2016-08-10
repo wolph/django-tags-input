@@ -75,7 +75,9 @@ class TagsInputWidgetBase(forms.SelectMultiple):
 
 
 class TagsInputWidget(TagsInputWidgetBase):
+
     class Media:
+
         css = {
             'all': (
                 'css/jquery.tagsinput.css',
@@ -93,9 +95,21 @@ class TagsInputWidget(TagsInputWidgetBase):
             ) + js
 
 
-class AdminTagsInputWidget(widgets.FilteredSelectMultiple,
-                           TagsInputWidgetBase):
+class AdminTagsInputWidget(
+        widgets.FilteredSelectMultiple, TagsInputWidgetBase):
+    # This class inherits FilteredSelectMultiple because the Django admin
+    # handles the FilteredSelectMultiple differently from regular widgets
+
+    @property
+    def media(self):
+        return forms.Media(js=self.Media.js, css=self.Media.css)
+
+    def render(self, *args, **kwargs):
+        # Make sure we don't render the regular filtered widget
+        return TagsInputWidgetBase.render(self, *args, **kwargs)
+
     class Media:
+
         css = getattr(settings, 'TAGS_INPUT_ADMIN_CSS', {
             'all': (
                 'css/jquery.tagsinput.css',

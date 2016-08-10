@@ -10,8 +10,14 @@ class Router(object):
 
     db_for_read = db_for_write = get_db
 
-    def allow_migrate(self, db, model):
-        return self.TABLE_MAPPINGS.get(model._meta.db_table, 'default')
+    def allow_migrate(self, *args, **hints):
+        if 'model_name' in hints:
+            model_name = hints['model_name']
+        else:
+            db, model = args
+            model_name = model._meta.db_table
+
+        return self.TABLE_MAPPINGS.get(model_name, 'default')
 
     def allow_relation(self, obj1, obj2, **hints):
         return True

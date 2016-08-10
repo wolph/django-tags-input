@@ -11,7 +11,11 @@ class ReprModel(models.Model):
             self.name,
         )
 
-    def __unicode__(self):
+    # Either unicode or str is used depending on the Python version
+    def __unicode__(self):  # pragma: no cover
+        return self.name
+
+    def __str__(self):  # pragma: no cover
         return self.name
 
     class Meta:
@@ -37,7 +41,7 @@ class Spam(ReprModel):
 
     def clean(self):
         # We want everything tested, also calling a clean method
-        raise exceptions.ValidationError({'foo': 'Test Error'})
+        raise exceptions.ValidationError({'foo': 'Expected testing error'})
 
 
 class FooExtraSpam(ReprModel):

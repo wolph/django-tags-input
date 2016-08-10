@@ -26,6 +26,8 @@ class TagsInputAdmin(admin.ModelAdmin):
             (db_field.name in self.filter_vertical),
         )
         kwargs['required'] = not db_field.blank
+        if hasattr(db_field, 'help_text'):
+            kwargs['help_text'] = db_field.help_text
 
         # Ugly hack to stop the Django admin from adding the + icon
         if db_field.name not in self.raw_id_fields:

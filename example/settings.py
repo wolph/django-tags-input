@@ -129,7 +129,6 @@ INSTALLED_APPS = (
     'example.autocompletionexample',
     'example.demo',
     'tags_input',
-    'django_admin_generator',
 )
 
 

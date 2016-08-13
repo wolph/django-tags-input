@@ -1,0 +1,249 @@
+[
+{
+    "fields": {
+        "name": "1"
+    },
+    "pk": 1,
+    "model": "demo.simplename"
+},
+{
+    "fields": {
+        "name": "2"
+    },
+    "pk": 2,
+    "model": "demo.simplename"
+},
+{
+    "fields": {
+        "name": "3"
+    },
+    "pk": 3,
+    "model": "demo.simplename"
+},
+{
+    "fields": {
+        "name": "4"
+    },
+    "pk": 4,
+    "model": "demo.simplename"
+},
+{
+    "fields": {
+        "name_a": "1a",
+        "name_b": "1b"
+    },
+    "pk": 1,
+    "model": "demo.doublename"
+},
+{
+    "fields": {
+        "simple_names": [],
+        "name": "a"
+    },
+    "pk": 1,
+    "model": "demo.manytomanytosimplename"
+},
+{
+    "fields": {
+        "double_names": [],
+        "name": "a -> b"
+    },
+    "pk": 1,
+    "model": "demo.manytomanytodoublename"
+},
+{
+    "fields": {
+        "simple_names": [
+            1
+        ],
+        "double_names": [
+            1
+        ],
+        "simple_name": 1,
+        "name": "2"
+    },
+    "pk": 1,
+    "model": "demo.inlinemodel"
+},
+{
+    "fields": {
+        "simple_names": [
+            1
+        ],
+        "double_names": [
+            1
+        ],
+        "simple_name": 1,
+        "name": "3"
+    },
+    "pk": 2,
+    "model": "demo.inlinemodel"
+},
+{
+    "fields": {
+        "first_name": "",
+        "date_joined": "2016-08-13T18:29:43.361Z",
+        "is_superuser": true,
+        "last_login": "2016-08-13T18:30:02.583Z",
+        "user_permissions": [],
+        "groups": [],
+        "username": "admin",
+        "is_staff": true,
+        "email": "admin@admin.admin",
+        "password": "pbkdf2_sha256$20000$6XWHhi6NuV0f$8ZVCkeBhQo74D6gwg3FbckQD7CeT2Npb1IrMZTD2pKg=",
+        "is_active": true,
+        "last_name": ""
+    },
+    "pk": 1,
+    "model": "auth.user"
+},
+{
+    "pk": 1,
+    "fields": {
+        "name": "foo 0"
+    },
+    "model": "autocompletionexample.foo"
+},
+{
+    "pk": 2,
+    "fields": {
+        "name": "foo 1"
+    },
+    "model": "autocompletionexample.foo"
+},
+{
+    "pk": 3,
+    "fields": {
+        "name": "foo 2"
+    },
+    "model": "autocompletionexample.foo"
+},
+{
+    "pk": 4,
+    "fields": {
+        "name": "foo 3"
+    },
+    "model": "autocompletionexample.foo"
+},
+{
+    "pk": 5,
+    "fields": {
+        "name": "foo 4"
+    },
+    "model": "autocompletionexample.foo"
+},
+{
+    "pk": 1,
+    "fields": {
+        "name": "bar 0",
+        "foo": 1
+    },
+    "model": "autocompletionexample.bar"
+},
+{
+    "pk": 2,
+    "fields": {
+        "name": "bar 1",
+        "foo": 2
+    },
+    "model": "autocompletionexample.bar"
+},
+{
+    "pk": 3,
+    "fields": {
+        "name": "bar 2",
+        "foo": 3
+    },
+    "model": "autocompletionexample.bar"
+},
+{
+    "pk": 4,
+    "fields": {
+        "name": "bar 3 ",
+        "foo": 4
+    },
+    "model": "autocompletionexample.bar"
+},
+{
+    "pk": 1,
+    "fields": {
+        "name": "spam 0",
+        "foo": [
+            5
+        ]
+    },
+    "model": "autocompletionexample.spam"
+},
+{
+    "pk": 2,
+    "fields": {
+        "name": "spam 1",
+        "foo": [
+            1,
+            2
+        ]
+    },
+    "model": "autocompletionexample.spam"
+},
+{
+    "pk": 3,
+    "fields": {
+        "name": "spam 2",
+        "foo": [
+            1,
+            2,
+            3
+        ]
+    },
+    "model": "autocompletionexample.spam"
+},
+{
+    "pk": 4,
+    "fields": {
+        "name": "spam 3",
+        "foo": [
+            1,
+            2,
+            3,
+            5
+        ]
+    },
+    "model": "autocompletionexample.spam"
+},
+{
+    "pk": 1,
+    "fields": {
+        "name": "egg 0",
+        "foo": 1,
+        "name2": "name 2"
+    },
+    "model": "autocompletionexample.egg"
+},
+{
+    "pk": 2,
+    "fields": {
+        "name": "egg 1",
+        "foo": 2,
+        "name2": "name 2"
+    },
+    "model": "autocompletionexample.egg"
+},
+{
+    "pk": 3,
+    "fields": {
+        "name": "egg 2",
+        "foo": 3,
+        "name2": "name 2"
+    },
+    "model": "autocompletionexample.egg"
+},
+{
+    "pk": 4,
+    "fields": {
+        "name": "egg 3",
+        "foo": 4,
+        "name2": "name 2"
+    },
+    "model": "autocompletionexample.egg"
+}
+]

@@ -127,6 +127,7 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.admindocs',
     'example.autocompletionexample',
+    'example.demo',
     'tags_input',
 )
 
@@ -166,6 +167,16 @@ def get_queryset(*args, **kwargs):
     return models.Spam.objects.all()
 
 TAGS_INPUT_MAPPINGS = {
+    'demo.SimpleName': {'field': 'name', 'create_missing': True},
+    'demo.DoubleName': {'fields': ('name_a', 'name_b')},
+    'demo.ManyToManyToDoubleName': {'field': 'name', 'create_missing': True},
+    'demo.ErrorName': {'field': 'name', 'create_missing': True},
+    'demo.ForeignKeyToSimpleName': {'field': 'name', 'create_missing': True},
+    'demo.ManyToManyToSimpleName': {'field': 'name', 'create_missing': True},
+    'demo.ManyToManyToError': {'field': 'name', 'create_missing': True},
+    'demo.ThroughModel': {'field': 'name', 'create_missing': True},
+    'demo.ManyToManyThrough': {'field': 'name', 'create_missing': True},
+    'demo.InlineModel': {'field': 'name', 'create_missing': True},
     'autocompletionexample.Foo': {'field': 'name', 'create_missing': True},
     'autocompletionexample.Bar': {'field': 'name'},
     'autocompletionexample.Spam': {'field': 'name', 'queryset': get_queryset},

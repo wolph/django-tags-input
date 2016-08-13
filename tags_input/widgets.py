@@ -104,10 +104,6 @@ class AdminTagsInputWidget(
     def media(self):
         return forms.Media(js=self.Media.js, css=self.Media.css)
 
-    def render(self, *args, **kwargs):
-        # Make sure we don't render the regular filtered widget
-        return TagsInputWidgetBase.render(self, *args, **kwargs)
-
     class Media:
 
         css = getattr(settings, 'TAGS_INPUT_ADMIN_CSS', {

@@ -70,3 +70,9 @@ class TagsInputField(forms.ModelMultipleChoiceField):
 class AdminTagsInputField(TagsInputField):
     widget = widgets.AdminTagsInputWidget
 
+    def __init__(self, queryset, verbose_name=None, *args, **kwargs):
+        TagsInputField.__init__(self, queryset, *args, **kwargs)
+
+        if verbose_name:  # pragma: no branch
+            self.label = verbose_name
+

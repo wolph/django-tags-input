@@ -37,7 +37,7 @@ class Bar(ReprModel):
 
 class Spam(ReprModel):
     name = models.CharField(max_length=50, help_text='The spam name')
-    foo = models.ManyToManyField(Foo, help_text='The foo objects')
+    foo = models.ManyToManyField(Foo)
 
     def clean(self):
         # We want everything tested, also calling a clean method

@@ -22,75 +22,41 @@ class ReprModel(models.Model):
         abstract = True
 
 
-class SimpleName(ReprModel):
-    name = models.CharField(max_length=50, help_text='Help text of the name')
-
-
-class DoubleName(ReprModel):
-    name_a = models.CharField(max_length=50)
-    name_b = models.CharField(max_length=50)
-
-    @property
-    def name(self):
-        return '%s/%s' % (self.name_a, self.name_b)
-
-
-class ErrorName(ReprModel):
-    name = models.CharField(max_length=50, help_text='Impossible to save name')
+class Foo(ReprModel):
+    name = models.CharField(max_length=50, help_text='The foo name')
 
     def full_clean(self, *args, **kwargs):
         # We want everything tested, also calling a clean method
         raise exceptions.ValidationError({'name': 'Test Error'})
 
 
-class ForeignKeyToSimpleName(ReprModel):
-    name = models.CharField(max_length=50)
-    simple_name = models.ForeignKey(SimpleName)
+class Bar(ReprModel):
+    name = models.CharField(max_length=50, help_text='The bar name')
+    foo = models.ForeignKey(Foo, help_text='The foo object')
 
 
-class ManyToManyToSimpleName(ReprModel):
-    name = models.CharField(max_length=50)
-    simple_names = models.ManyToManyField(
-        SimpleName,
-        verbose_name='Verbose simple names',
-        help_text='Missing items will be auto-created')
-
-
-class ManyToManyToDoubleName(ReprModel):
-    name = models.CharField(max_length=50)
-    double_names = models.ManyToManyField(
-        DoubleName,
-        verbose_name='Verbose double names',
-        help_text='Double names help')
-
-
-class ManyToManyToError(ReprModel):
-    name = models.CharField(max_length=50)
-    simple_names = models.ManyToManyField(
-        SimpleName,
-        verbose_name='Verbose simple names',
-        help_text='Impossible to save')
+class Spam(ReprModel):
+    name = models.CharField(max_length=50, help_text='The spam name')
+    foo = models.ManyToManyField(Foo)
 
     def clean(self):
         # We want everything tested, also calling a clean method
-        raise exceptions.ValidationError(
-            {'simple_names': 'Expected testing error'})
+        raise exceptions.ValidationError({'foo': 'Expected testing error'})
 
 
-class ThroughModel(ReprModel):
-    name = models.CharField(max_length=50)
-    simple_name = models.ForeignKey(SimpleName)
-    many_to_many_through = models.ForeignKey('ManyToManyThrough')
+class FooExtraSpam(ReprModel):
+    foo = models.ForeignKey(Foo, help_text='The foo object')
+    extra_spam = models.ForeignKey(
+        'ExtraSpam', help_text='The extra spam object')
 
 
-class ManyToManyThrough(ReprModel):
-    name = models.CharField(max_length=50)
-    simple_names = models.ManyToManyField(SimpleName, through=ThroughModel)
+class ExtraSpam(ReprModel):
+    name = models.CharField(max_length=50, help_text='The extra spam name')
+    foo = models.ManyToManyField(Foo, through=FooExtraSpam)
 
 
-class InlineModel(ReprModel):
-    name = models.CharField(max_length=50)
-    simple_name = models.ForeignKey(SimpleName)
-    simple_names = models.ManyToManyField(ManyToManyToSimpleName)
-    double_names = models.ManyToManyField(ManyToManyToDoubleName)
+class Egg(ReprModel):
+    name = models.CharField(max_length=50, help_text='The egg name')
+    name2 = models.CharField(max_length=50, help_text='The egg 2nd name')
+    foo = models.OneToOneField(Foo, help_text='The foo object')
 

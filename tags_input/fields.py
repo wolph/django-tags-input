@@ -73,6 +73,6 @@ class AdminTagsInputField(TagsInputField):
     def __init__(self, queryset, verbose_name=None, *args, **kwargs):
         TagsInputField.__init__(self, queryset, *args, **kwargs)
 
-        if verbose_name:
+        if verbose_name:  # pragma: no branch
             self.label = verbose_name
 

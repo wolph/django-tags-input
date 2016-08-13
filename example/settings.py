@@ -128,6 +128,7 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
     'example.autocompletionexample',
     'tags_input',
+    'django_admin_generator',
 )
 
 
@@ -166,10 +167,25 @@ def get_queryset(*args, **kwargs):
     return models.Spam.objects.all()
 
 TAGS_INPUT_MAPPINGS = {
-    'autocompletionexample.Foo': {'field': 'name', 'create_missing': True},
-    'autocompletionexample.Bar': {'field': 'name'},
-    'autocompletionexample.Spam': {'field': 'name', 'queryset': get_queryset},
-    'autocompletionexample.Egg': {'fields': ('name', 'name2')},
+    'autocompletionexample.SimpleName': {
+        'field': 'name', 'create_missing': True},
+    'autocompletionexample.DoubleName': {'fields': ('name_a', 'name_b')},
+    'autocompletionexample.ManyToManyToDoubleName': {
+        'field': 'name', 'create_missing': True},
+    'autocompletionexample.ErrorName': {
+        'field': 'name', 'create_missing': True},
+    'autocompletionexample.ForeignKeyToSimpleName': {
+        'field': 'name', 'create_missing': True},
+    'autocompletionexample.ManyToManyToSimpleName': {
+        'field': 'name', 'create_missing': True},
+    'autocompletionexample.ManyToManyToError': {
+        'field': 'name', 'create_missing': True},
+    'autocompletionexample.ThroughModel': {
+        'field': 'name', 'create_missing': True},
+    'autocompletionexample.ManyToManyThrough': {
+        'field': 'name', 'create_missing': True},
+    'autocompletionexample.InlineModel': {
+        'field': 'name', 'create_missing': True},
 }
 
 TAGS_INPUT_INCLUDE_JQUERY = True

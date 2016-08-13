@@ -104,9 +104,17 @@ class AdminTagsInputWidget(
     def media(self):
         return forms.Media(js=self.Media.js, css=self.Media.css)
 
-    def render(self, *args, **kwargs):
+    def render(self, name, value, attrs=None, choices=(), **kwargs):
         # Make sure we don't render the regular filtered widget
-        return TagsInputWidgetBase.render(self, *args, **kwargs)
+        if attrs is None:
+            attrs = {}
+
+        if self.is_stacked:
+            attrs['class'] += 'stacked'
+
+        return TagsInputWidgetBase.render(
+            self, name=name, value=value, attrs=attrs, choices=choices,
+            **kwargs)
 
     class Media:
 

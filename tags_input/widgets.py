@@ -22,7 +22,7 @@ class TagsInputWidgetBase(forms.SelectMultiple):
         forms.SelectMultiple.__init__(self, *args, **kwargs)
 
     def render(self, name, value, attrs=None, choices=()):
-        context = self.build_attrs(attrs, name=name)
+        context = self.build_attrs(attrs, extra_attrs={'name':name} )
         context['on_add_tag'] = self.on_add_tag
         context['on_remove_tag'] = self.on_remove_tag
         context['on_change_tag'] = self.on_change_tag

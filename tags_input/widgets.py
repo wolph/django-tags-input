@@ -21,6 +21,13 @@ class TagsInputWidgetBase(forms.SelectMultiple):
         self.on_change_tag = on_change_tag
         forms.SelectMultiple.__init__(self, *args, **kwargs)
 
+    def build_attrs(self, base_attrs, extra_attrs=None, **kwargs):
+        '''Compatibility function for the behavior changes in Django 1.11+'''
+        attrs = dict(base_attrs or {}, **kwargs)
+        if extra_attrs:  # pragma: no cover
+            attrs.update(extra_attrs)
+        return attrs
+
     def render(self, name, value, attrs=None, choices=()):
         context = self.build_attrs(attrs, name=name)
         context['on_add_tag'] = self.on_add_tag

@@ -27,7 +27,7 @@ How to install
 
 Installing this module only takes a couple of minutes.
 
-Currently Django 1.8 and above are supported in combination with Python 2.7, 3.2, 3.3, 3.4, 3.5, Pypy and Pypy3.
+Currently Django 1.8, 1.9, 1.10 and 1.11 are supported and tested in combination with Python 2.7, 3.2, 3.3, 3.4, 3.5, 3.6 and Pypy.
 
 For Django 1.4, Django 1.5, Django 1.6 and Django 1.7 in combination with
 Python 2.6 and 2.7. Python 3.2, 3.3 and 3.4. Pypy and Pypy3 version 2.1.0 can

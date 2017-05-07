@@ -7,6 +7,7 @@ Contents:
    :maxdepth: 4
 
    usage
+   tags_input
 
 Indices and tables
 ==================

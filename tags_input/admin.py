@@ -6,6 +6,14 @@ from . import widgets
 
 class TagsInputMixin(object):
 
+    def get_tag_fields(self):
+        """Get a list fo fields on this model that could be potentially tagged.
+        
+        By default reads self.tag_fields if it exists of returns None for default behavious.
+        """
+        return getattr(self,"tag_fields",None)
+
+    
     def formfield_for_manytomany(self, db_field, request=None, **kwargs):
         '''
         Get a form Field for a ManyToManyField.
@@ -14,6 +22,11 @@ class TagsInputMixin(object):
         # a field in admin.
         if not db_field.rel.through._meta.auto_created:
             return None
+
+        #Ifthere is a list of taggable fields, and this filed isn't one of them, then fall back to parent method.
+        tag_fields=self.get_tag_fields()
+        if tag_fields is not None and db_field.name not in tag_fields:
+            return super(TagsInputMixin,self).formfield_for_manytomany(db_field, request, **kwargs)
 
         queryset = db_field.rel.to._default_manager.get_queryset()
 

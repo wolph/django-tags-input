@@ -115,7 +115,10 @@ Admin usage
     from tags_input import admin as tags_input_admin
 
     class YourAdmin(tags_input_admin.TagsInputAdmin):
-        pass
+        
+        #Optionally specify which ManyToMany fields are to be used for tagging
+        #Or define a get_tag_fields() method
+        tag_fields = ["some_field"]
 
     admin.site.register(models.YourModel, YourAdmin)
 

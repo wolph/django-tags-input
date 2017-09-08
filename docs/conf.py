@@ -20,7 +20,7 @@ import datetime
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 sys.path.insert(0, os.path.abspath('..'))
 os.environ['DJANGO_SETTINGS_MODULE'] = 'example.settings'
-from tags_input import metadata
+from tags_input import __about__ as metadata
 
 # -- General configuration -----------------------------------------------------
 

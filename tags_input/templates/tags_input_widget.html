@@ -5,8 +5,8 @@
 jQuery(document).ready(function($){
     $('#{{ id }}_tags_input').tagsInput({
         autocomplete: {
-            selectFirst: true,
-            autoFill: true,
+            source: '{{ autocomplete_url }}',
+            autoFocus: true,
             delay: 20
         },
         {% if not mapping.create_missing %}autocompleteOnly: true,{% endif %}

@@ -61,8 +61,8 @@ class BaseTestCase(test.TestCase):
         assert foo_extra_spam
 
     def test_metadata(self):
-        from tags_input import metadata
-        assert metadata
+        from tags_input import __about__
+        assert __about__
 
     # Utils Test Cases
     @pytest.mark.xfail(raises=TypeError)
@@ -129,25 +129,23 @@ class BaseTestCase(test.TestCase):
         )
         self.assertEqual(response.status_code, 200)
 
-        response = self.client.get(admin_change_url % dict(
-            app='autocompletionexample', model='foo', id=1))
+        url = admin_change_url % dict(
+            app='autocompletionexample', model='foo', id=1)
+        response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         response = self.client.post(
-            '/admin/autocompletionexample/foo/1/',
+            url,
             response.context['adminform'].form.initial,
             follow=True,
         )
         self.assertEqual(response.status_code, 200)
 
-        response = self.client.get(admin_change_url % dict(
-            app='autocompletionexample', model='spam', id=1))
+        url = admin_change_url % dict(
+            app='autocompletionexample', model='spam', id=1)
+        response = self.client.get(url)
         data = response.context['adminform'].form.initial.copy()
         self.assertEqual(response.status_code, 200)
-        response = self.client.post(
-            '/admin/autocompletionexample/spam/1/',
-            data,
-            follow=True,
-        )
+        response = self.client.post(url, data, follow=True)
         self.assertEqual(response.status_code, 200)
         data['foo_incomplete'] = 'a,b,c'
         response = self.client.post(
@@ -158,15 +156,20 @@ class BaseTestCase(test.TestCase):
         )
         self.assertEqual(response.status_code, 200)
 
-        response = self.client.get(admin_change_url % dict(
-            app='autocompletionexample', model='extraspam', id=1))
+        url = admin_change_url % dict(
+            app='autocompletionexample', model='extraspam', id=1)
+        response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         response = self.client.post(
-            admin_change_url % dict(
-                app='autocompletionexample', model='extraspam', id=1),
+            url,
             response.context['adminform'].form.initial,
             follow=True,
         )
+        self.assertEqual(response.status_code, 200)
+
+        url = '/admin/%(app)s/%(model)s/add/' % dict(app='demo',
+                                                     model='inlinemodel')
+        response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
 
     # Test Forms

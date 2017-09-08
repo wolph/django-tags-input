@@ -76,6 +76,7 @@ class InlineModelAdmin(tags_input_admin.TagsInputAdmin):
     list_display = ('id', 'name')
     raw_id_fields = ('simple_names',)
     search_fields = ('name',)
+    tag_fields = {'simple_names', }
 
 
 def _register(model, admin_class):

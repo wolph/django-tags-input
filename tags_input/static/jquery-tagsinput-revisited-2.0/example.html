@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<title>jQuery Tags Input Revisited Plugin</title>
+		
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		
+		<script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+		<script src="http://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
+		<link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+		
+		<script src="src/jquery.tagsinput-revisited.js"></script>
+		<link rel="stylesheet" href="src/jquery.tagsinput-revisited.css" />
+		
+		<style>
+			* {
+				box-sizing: border-box;
+			}
+		
+			html {
+				height: 100%;
+				margin: 0;
+			}
+			
+			body {
+				min-height: 100%;
+				font-family: sans-serif;
+				padding: 20px;
+				margin: 0;
+			}
+			
+			label {
+				display: block;
+				padding: 20px 0 5px 0;
+			}
+		</style>
+	</head>
+	<body>
+		<form id="form">
+			<label>Simple tags input:</label>
+			<input id="form-tags-1" name="tags-1" type="text" value="carrot,potato,pizza">
+			
+			<label>Tags input with callbacks (check console):</label>
+			<input id="form-tags-2" name="tags-2" type="text" value="apple,banana,pizza">
+			
+			<label>Tags input with various validation:</label>
+			<input id="form-tags-3" name="tags-3" type="text" value="">
+			
+			<label>Tags input with autocomplete:</label>
+			<input id="form-tags-4" name="tags-4" type="text" value="">
+			
+			<label>Tags input with semicolon delimiter:</label>
+			<input id="form-tags-5" name="tags-5" type="text" value="more;pizza">
+			
+			<label>Tags input with array of delimiters (comma and semicolon):</label>
+			<input id="form-tags-6" name="tags-6" type="text" value="more;pizza">
+		</form>
+		
+		<script type="text/javascript">
+			$(function() {
+				$('#form-tags-1').tagsInput();
+				
+				$('#form-tags-2').tagsInput({
+					'onAddTag': function(input, value) {
+						console.log('tag added', input, value);
+					},
+					'onRemoveTag': function(input, value) {
+						console.log('tag removed', input, value);
+					},
+					'onChange': function(input, value) {
+						console.log('change triggered', input, value);
+					}
+				});
+				
+				$('#form-tags-3').tagsInput({
+					'unique': true,
+					'minChars': 2,
+					'maxChars': 10,
+					'limit': 5,
+					'validationPattern': new RegExp('^[a-zA-Z]+$')
+				});
+				
+				$('#form-tags-4').tagsInput({
+					'autocomplete': {
+						source: [
+							'apple',
+							'banana',
+							'orange',
+							'pizza'
+						]
+					} 
+				});
+				
+				$('#form-tags-5').tagsInput({
+					'delimiter': ';' 
+				});
+				
+				$('#form-tags-6').tagsInput({
+					'delimiter': [',', ';'] 
+				});
+			});
+		</script>
+	</body>
+</html>

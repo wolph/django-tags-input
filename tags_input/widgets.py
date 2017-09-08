@@ -87,20 +87,20 @@ class TagsInputWidget(TagsInputWidgetBase):
 
         css = {
             'all': (
-                'jquery-tagsinput-revisited/dist/'
+                'jquery-tagsinput-revisited-2.0/dist/'
                 'jquery.tagsinput-revisited.min.css',
             ),
         }
         js = (
-            'jquery-tagsinput-revisited/dist/'
+            'jquery-tagsinput-revisited-2.0/dist/'
             'jquery.tagsinput-revisited.min.js',
         )
         enable_jquery = getattr(settings, 'TAGS_INPUT_INCLUDE_JQUERY', True)
         if enable_jquery:  # pragma: no cover
-            css['all'] += 'css/jquery-ui-1.12.1.css',
+            css['all'] += 'jquery-ui-1.12.1/jquery-ui.min.css',
             js = (
-                'js/jquery-3.2.1.min.js',
-                'js/jquery-ui-1.12.1.min.js',
+                'jquery-3.2.1.min.js',
+                'jquery-ui-1.12.1/jquery-ui.min.js',
             ) + js
 
 
@@ -117,14 +117,15 @@ class AdminTagsInputWidget(
 
         css = getattr(settings, 'TAGS_INPUT_ADMIN_CSS', {
             'all': (
-                'css/jquery.tagsinput.css',
-                'css/base/jquery.ui.all.css',
+                'jquery-tagsinput-revisited-2.0/dist/'
+                'jquery.tagsinput-revisited.min.css',
+                'jquery-ui-1.12.1/jquery-ui.min.css',
             ),
         })
         js = getattr(settings, 'TAGS_INPUT_ADMIN_JS', (
-            'js/jquery-3.2.1.min.js',
-            'js/jquery-ui-1.12.1.min.js',
-            'jquery-tagsinput-revisited/dist/'
+            'jquery-3.2.1.min.js',
+            'jquery-ui-1.12.1/jquery-ui.min.js',
+            'jquery-tagsinput-revisited-2.0/dist/'
             'jquery.tagsinput-revisited.min.js',
         ))
 

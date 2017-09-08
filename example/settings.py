@@ -185,4 +185,8 @@ TAGS_INPUT_MAPPINGS = {
 
 TAGS_INPUT_INCLUDE_JQUERY = True
 
-ALLOWED_HOSTS = 'opteron-linux',
+ALLOWED_HOSTS = (
+    'localhost',
+    '127.0.0.1',
+)
+

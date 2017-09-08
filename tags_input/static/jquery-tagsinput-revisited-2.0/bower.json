@@ -1,0 +1,18 @@
+{
+	"name": "jquery.tagsinput-revisited",
+	"main": [
+		"src/jquery.tagsinput-revisited.js",
+		"src/jquery.tagsinput-revisited.css"
+	],
+	"ignore": [
+		"**/.*",
+		"*.html",
+		"*.md",
+		"*.json",
+		"*.min.js",
+		"test"
+	],
+	"dependencies": {
+		"jquery": "3.x"
+	}
+}

@@ -1,0 +1,32 @@
+# Eclipse
+*.pydevproject
+.metadata
+.gradle
+bin/
+tmp/
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+.settings/
+.loadpath
+.project
+.externalToolBuilders/
+*.launch
+.cproject
+.classpath
+.buildpath
+.target
+.texlipse
+.idea
+.tern-project
+
+# Other
+.DS_Store
+
+# NPM
+node_modules/
+
+# Bower
+bower_components/

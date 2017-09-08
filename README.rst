@@ -1,6 +1,12 @@
 Overview
 --------
 
+.. image:: https://travis-ci.org/WoLpH/django-tags-input.svg?branch=master
+  :target: https://travis-ci.org/WoLpH/django-tags-input
+
+.. image:: https://coveralls.io/repos/WoLpH/django-tags-input/badge.svg?branch=master
+  :target: https://coveralls.io/r/WoLpH/django-tags-input?branch=master
+
 Django Tags Input is a module that gives you a modified version of the Xoxco jQuery Tags Input library within Django.
 
 The result is a very pretty interface with tags and autocomplete which can optionally automatically create new items when they are missing.
@@ -10,8 +16,8 @@ One of the most useful features of Django Tags Input is that it stores the eleme
 So if you insert `B, A, C` into the database, it will return it sorted the way you entered it: `B, A, C`.
 
 .. image:: https://raw.githubusercontent.com/WoLpH/django-tags-input/master/docs/example.png
-   :height: 286px
-   :width: 790px
+   :height: 322px
+   :width: 954px
 
 Links
 -----

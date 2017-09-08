@@ -61,8 +61,8 @@ class BaseTestCase(test.TestCase):
         assert foo_extra_spam
 
     def test_metadata(self):
-        from tags_input import metadata
-        assert metadata
+        from tags_input import __about__
+        assert __about__
 
     # Utils Test Cases
     @pytest.mark.xfail(raises=TypeError)

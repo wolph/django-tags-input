@@ -32,7 +32,8 @@ class Foo(ReprModel):
 
 class Bar(ReprModel):
     name = models.CharField(max_length=50, help_text='The bar name')
-    foo = models.ForeignKey(Foo, help_text='The foo object')
+    foo = models.ForeignKey(Foo, help_text='The foo object',
+                            on_delete=models.CASCADE)
 
 
 class Spam(ReprModel):
@@ -45,9 +46,11 @@ class Spam(ReprModel):
 
 
 class FooExtraSpam(ReprModel):
-    foo = models.ForeignKey(Foo, help_text='The foo object')
+    foo = models.ForeignKey(Foo, help_text='The foo object',
+                            on_delete=models.CASCADE)
     extra_spam = models.ForeignKey(
-        'ExtraSpam', help_text='The extra spam object')
+        'ExtraSpam', help_text='The extra spam object',
+        on_delete=models.CASCADE)
 
 
 class ExtraSpam(ReprModel):
@@ -58,5 +61,6 @@ class ExtraSpam(ReprModel):
 class Egg(ReprModel):
     name = models.CharField(max_length=50, help_text='The egg name')
     name2 = models.CharField(max_length=50, help_text='The egg 2nd name')
-    foo = models.OneToOneField(Foo, help_text='The foo object')
+    foo = models.OneToOneField(Foo, help_text='The foo object',
+                            on_delete=models.CASCADE)
 

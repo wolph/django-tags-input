@@ -4,6 +4,7 @@ admin.autodiscover()
 
 
 urlpatterns = [
+    urls.url(r'^', urls.include('demo.urls')),
     urls.url(r'^tags_input/',
              urls.include('tags_input.urls', namespace='tags_input')),
     urls.url(r'^admin/doc/', urls.include('django.contrib.admindocs.urls')),

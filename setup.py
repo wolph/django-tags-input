@@ -60,6 +60,7 @@ if __name__ == '__main__':
                 'sphinx>=1.7.2',
             ],
             'tests': [
+                'django-utils2>=2.5.0',
                 'pytest',
                 'pytest-cache',
                 'pytest-cov',

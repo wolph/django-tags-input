@@ -21,7 +21,8 @@ class TagsInputMixin(object):
         # If it uses an intermediary model that isn't auto created, don't show
         # a field in admin.
 
-        if not db_field.rel.through._meta.auto_created:
+        # if not db_field.rel.through._meta.auto_created:
+        if not db_field.remote_field.through._meta.auto_created:
             return None
 
         # If there is a list of taggable fields, and this filed isn't one of
@@ -35,7 +36,8 @@ class TagsInputMixin(object):
         else:
             print('nin fields', tag_fields, db_field.name)
 
-        queryset = db_field.rel.to._default_manager.get_queryset()
+        queryset = db_field.related_model._default_manager.get_queryset()
+        # queryset = db_field.rel.to._default_manager.get_queryset()
 
         kwargs['queryset'] = queryset
         kwargs['widget'] = widgets.AdminTagsInputWidget(

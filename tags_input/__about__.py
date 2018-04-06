@@ -1,7 +1,7 @@
 __package_name__ = 'django-tags-input'
 __version__ = '4.0.0'
 __author__ = 'Rick van Hattem'
-__email__ = 'wolph@wol.ph'
+__author_email__ = 'wolph@wol.ph'
 __description__ = ' '.join('''
 Django jQuery Tags Input is a Django field and widget wrapper that adds an easy
 to use interface for `ManyToManyField` and `ForeignKey` fields in the forms of

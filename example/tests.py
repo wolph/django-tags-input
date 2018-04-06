@@ -2,6 +2,7 @@ import pytest
 
 from .autocompletionexample import models
 import django
+from django.db import transaction
 from django import forms, test
 from django.contrib.auth import models as auth_models
 from django.test import client, utils as test_utils
@@ -32,6 +33,7 @@ class Form(forms.Form):
 
 
 class BaseTestCase(test.TestCase):
+    @transaction.atomic
     def setUp(self):
         self.client = client.Client()
         auth_models.User.objects.create_superuser(
@@ -51,14 +53,15 @@ class BaseTestCase(test.TestCase):
         egg = models.Egg.objects.create(name='a', foo=foo)
 
         extra_spam = models.ExtraSpam.objects.create(name='a')
-        foo_extra_spam = models.FooExtraSpam.objects.create(
-            foo=foo, extra_spam=extra_spam)
+
+        # foo_extra_spam = models.FooExtraSpam.objects.create(
+        #     foo=foo, extra_spam=extra_spam)
 
         assert bar
         assert spam
         assert egg
         assert extra_spam
-        assert foo_extra_spam
+        # assert foo_extra_spam
 
     def test_metadata(self):
         from tags_input import __about__

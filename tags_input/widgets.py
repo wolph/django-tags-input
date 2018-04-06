@@ -3,10 +3,7 @@ import six
 from django.conf import settings
 from django import forms
 from django.template.loader import render_to_string
-try:
-    from django import urls
-except ImportError:
-    from django.core import urlresolvers as urls
+from django import urls
 from django.contrib.admin import widgets
 
 try:  # pragma: no cover

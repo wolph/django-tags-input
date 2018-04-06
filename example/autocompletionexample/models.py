@@ -62,5 +62,5 @@ class Egg(ReprModel):
     name = models.CharField(max_length=50, help_text='The egg name')
     name2 = models.CharField(max_length=50, help_text='The egg 2nd name')
     foo = models.OneToOneField(Foo, help_text='The foo object',
-                            on_delete=models.CASCADE)
+                               on_delete=models.CASCADE)
 

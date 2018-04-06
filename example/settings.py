@@ -38,8 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'autocompletionexample',
-    'demo',
+    'example.autocompletionexample',
+    'example.demo',
     'tags_input',
 ]
 
@@ -53,7 +53,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'urls'
+ROOT_URLCONF = 'example.urls'
 
 TEMPLATES = [
     {

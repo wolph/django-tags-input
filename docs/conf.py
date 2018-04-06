@@ -22,6 +22,8 @@ sys.path.insert(0, os.path.abspath('..'))
 os.environ['DJANGO_SETTINGS_MODULE'] = 'example.settings'
 from tags_input import __about__ as metadata
 
+import django
+django.setup()
 # -- General configuration -----------------------------------------------------
 
 # If your documentation needs a minimal Sphinx version, state it here.

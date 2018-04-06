@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block content %}
+
+<div class="well">
+    <h3>{{ name}}</h3>
+    {{ form.as_p }}
+    {{ form.media }}
+</div>
+
+{% endblock %}
+
+
+{% block head %}
+{{ block.super }}
+
+{{ form.media }}
+
+{% endblock %}

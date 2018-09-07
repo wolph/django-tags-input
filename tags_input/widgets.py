@@ -28,7 +28,7 @@ class TagsInputWidgetBase(forms.SelectMultiple):
             attrs.update(extra_attrs)
         return attrs
 
-    def render(self, name, value, attrs=None, choices=()):
+    def render(self, name, value, attrs=None, choices=(), renderer=None):
         context = self.build_attrs(attrs, name=name)
         context['on_add_tag'] = self.on_add_tag
         context['on_remove_tag'] = self.on_remove_tag

@@ -55,7 +55,7 @@ if __name__ == '__main__':
         },
         extras_require={
             'docs': [
-                'django<2',
+                'django<2.1',
                 'mock',
                 'sphinx>=1.7.2',
             ],

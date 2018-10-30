@@ -129,9 +129,13 @@ To test the project simply clone the repository, install and run the example:
 
 .. code-block:: bash
 
+    # mkvirtualenv is part of virtualenvwrapper, using a regular virtualenv, pyvenv or pipenv is also possible
+    # Or even without any type of virtualenv at all
     mkvirtualenv django-tags-input
     git clone https://github.com/WoLpH/django-tags-input.git
-    pip install -e django-tags-input
+    # Tested with up to Django 2.1
+    pip install django
+    pip install -e 'django-tags-input[tests]'
     cd django-tags-input/example
     python manage.py runserver
 

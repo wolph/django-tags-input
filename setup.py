@@ -47,10 +47,8 @@ if __name__ == '__main__':
         package_data={
             'tags_input': [
                 'templates/*.html',
-                'static/js/*.js',
-                'static/css/*.css',
-                'static/css/base/*.css',
-                'static/css/base/images/*.png',
+                'static/*.min.js',
+                'static/*.min.css',
             ],
         },
         extras_require={

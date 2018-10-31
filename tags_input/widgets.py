@@ -87,7 +87,7 @@ class TagsInputWidget(TagsInputWidgetBase):
 
         css = {
             'all': (
-                'jquery-tagsinput-revisited-2.0.min.css',
+                'jquery.tagsinput-revisited-2.0.min.css',
             ),
         }
         js = (
@@ -115,7 +115,7 @@ class AdminTagsInputWidget(
 
         css = getattr(settings, 'TAGS_INPUT_ADMIN_CSS', {
             'all': (
-                'jquery-tagsinput-revisited-2.0.min.css',
+                'jquery.tagsinput-revisited-2.0.min.css',
                 'jquery-ui-1.12.1.min.css',
             ),
         })

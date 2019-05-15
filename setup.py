@@ -71,9 +71,17 @@ if __name__ == '__main__':
         },
         long_description=long_description,
         cmdclass={'test': PyTest},
-        classifiers=['License :: OSI Approved :: BSD License'],
+        classifiers=[
+            'Development Status :: 5 - Production/Stable',
+            'Environment :: Web Environment',
+            'Intended Audience :: Developers',
+            'License :: OSI Approved :: BSD License',
+            'Natural Language :: English',
+            'Programming Language :: Python :: 3.6',
+            'Programming Language :: Python :: 3.7',
+            'Programming Language :: Python :: 3.8',
+        ],
         install_requires=[
             'six',
         ]
     )
-

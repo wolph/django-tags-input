@@ -1,7 +1,7 @@
 include tags_input
 recursive-include tags_input *.py
 recursive-include tags_input/templates *.html
-recursive-include tags_input/static *.js
-recursive-include tags_input/static *.css
-recursive-include tags_input/static *.png
+include tags_input/static *.min.js
+include tags_input/static *.min.css
+include tags_input/static *.png
 

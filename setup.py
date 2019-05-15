@@ -47,15 +47,13 @@ if __name__ == '__main__':
         package_data={
             'tags_input': [
                 'templates/*.html',
-                'static/js/*.js',
-                'static/css/*.css',
-                'static/css/base/*.css',
-                'static/css/base/images/*.png',
+                'static/*.min.js',
+                'static/*.min.css',
             ],
         },
         extras_require={
             'docs': [
-                'django<2',
+                'django<2.1',
                 'mock',
                 'sphinx>=1.7.2',
             ],

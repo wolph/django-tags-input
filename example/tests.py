@@ -33,6 +33,8 @@ class Form(forms.Form):
 
 
 class BaseTestCase(test.TestCase):
+    databases = ['default', 'other']
+
     @transaction.atomic
     def setUp(self):
         self.client = client.Client()

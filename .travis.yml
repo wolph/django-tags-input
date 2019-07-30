@@ -7,9 +7,11 @@ env:
     - TOX_ENV=pypy-django11
     - TOX_ENV=py27-django11
     - TOX_ENV=py35-django11
-    - TOX_ENV=py35-django20
+    - TOX_ENV=py35-django21
+    - TOX_ENV=py35-django22
     - TOX_ENV=py36-django11
-    - TOX_ENV=py36-django20
+    - TOX_ENV=py36-django21
+    - TOX_ENV=py36-django22
     - TOX_ENV=flake8
     - TOX_ENV=docs
     - TOX_ENV=coveralls

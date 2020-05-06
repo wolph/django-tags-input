@@ -53,18 +53,16 @@ if __name__ == '__main__':
         },
         extras_require={
             'docs': [
-                'django<2.1',
+                'django>3.0',
                 'mock',
-                'sphinx>=1.7.2',
+                'sphinx>=3.0.0',
             ],
             'tests': [
-                'django-utils2>=2.5.0',
+                'django-utils2>=2.8.0',
                 'pytest',
-                'pytest-cache',
                 'pytest-cov',
                 'pytest-django',
-                'pytest-flakes',
-                'pytest-pep8',
+                'pytest-flake8',
             ],
         },
         long_description=long_description,
@@ -79,7 +77,4 @@ if __name__ == '__main__':
             'Programming Language :: Python :: 3.7',
             'Programming Language :: Python :: 3.8',
         ],
-        install_requires=[
-            'six',
-        ]
     )

@@ -1,6 +1,7 @@
+import functools
+
 from django.conf import settings
 from django.db import models
-from django.utils.functional import curry
 
 from . import exceptions
 
@@ -57,17 +58,17 @@ def get_mapping(model_or_queryset):
             'Every mapping should have a field or fields attribute. Mapping: '
             '%r' % mapping)
 
-    mapping.setdefault('split_func', curry(
+    mapping.setdefault('split_func', functools.partial(
         mapping.get('split_func', split_func),
         mapping['fields'],
         mapping['separator'],
     ))
-    mapping.setdefault('join_func', curry(
+    mapping.setdefault('join_func', functools.partial(
         mapping.get('join_func', join_func),
         mapping['fields'],
         mapping['separator'],
     ))
-    mapping.setdefault('filter_func', curry(
+    mapping.setdefault('filter_func', functools.partial(
         mapping.get('filter_func', filter_func),
         mapping['fields'],
         mapping['separator'],

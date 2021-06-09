@@ -33,7 +33,7 @@ How to install
 
 Installing this module only takes a couple of minutes.
 
-Currently Django 2.2 and 3.0 are supported and tested in combination with Python 3.5, 3.6, 3.7 and 3.8.
+Currently Django 2.2, 3.1 and 3.2 are supported and tested in combination with Python 3.7, 3.8, 3.9 and 3.10.
 
 For Django below 2.2 and Python 2.7 up to version 4.6.0 should work.
 

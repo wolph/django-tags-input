@@ -114,6 +114,7 @@ def get_queryset(*args, **kwargs):
     from example.autocompletionexample import models
     return models.Spam.objects.all()
 
+
 TAGS_INPUT_MAPPINGS = {
     'demo.SimpleName': {'field': 'name', 'create_missing': True},
     'demo.DoubleName': {'fields': ('name_a', 'name_b')},
@@ -136,5 +137,6 @@ TAGS_INPUT_INCLUDE_JQUERY = True
 ALLOWED_HOSTS = (
     'localhost',
     '127.0.0.1',
+    '*',
 )
 

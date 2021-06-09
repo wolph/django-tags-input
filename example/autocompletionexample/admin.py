@@ -44,6 +44,7 @@ class EggAdmin(tags_input_admin.TagsInputAdmin):
     )
     search_fields = ('name',)
 
+
 admin.site.register(models.Foo, FooAdmin)
 admin.site.register(models.Bar, BarAdmin)
 admin.site.register(models.Spam, SpamAdmin)

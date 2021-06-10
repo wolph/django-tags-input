@@ -135,8 +135,8 @@ To test the project simply clone the repository, install and run the example:
     mkvirtualenv django-tags-input
     git clone https://github.com/WoLpH/django-tags-input.git
     # Tested with Django 3.0
-    pip install django
-    pip install -e 'django-tags-input[tests]'
+    pip install django django-utils2
+    pip install -e django-tags-input'
     cd django-tags-input/example
     python manage.py runserver
 

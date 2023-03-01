@@ -1,8 +1,9 @@
 Overview
 --------
 
-.. image:: https://travis-ci.org/WoLpH/django-tags-input.svg?branch=master
-  :target: https://travis-ci.org/WoLpH/django-tags-input
+.. image:: https://github.com/WoLpH/django-tags-input/actions/workflows/main.yml/badge.svg
+    :alt: django-tags-input test status
+    :target: https://github.com/WoLpH/django-tags-input/actions
 
 .. image:: https://coveralls.io/repos/WoLpH/django-tags-input/badge.svg?branch=master
   :target: https://coveralls.io/r/WoLpH/django-tags-input?branch=master

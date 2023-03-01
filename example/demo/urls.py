@@ -1,9 +1,8 @@
-from django.conf import urls
+from django import urls
+
 from example.demo import views
 
 app_label = 'example.demo'
 urlpatterns = [
-    urls.url(r'^$', views.index, name='index'),
+    urls.re_path(r'^$', views.index, name='index'),
 ]
-
-

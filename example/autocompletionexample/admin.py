@@ -1,6 +1,8 @@
 from django.contrib import admin
-from . import models
+
 from tags_input import admin as tags_input_admin
+
+from . import models
 
 
 class FooAdmin(tags_input_admin.TagsInputAdmin):
@@ -50,4 +52,3 @@ admin.site.register(models.Bar, BarAdmin)
 admin.site.register(models.Spam, SpamAdmin)
 admin.site.register(models.ExtraSpam, ExtraSpamAdmin)
 admin.site.register(models.Egg, EggAdmin)
-

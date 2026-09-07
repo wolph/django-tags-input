@@ -1,63 +1,76 @@
-try:  # pragma: no cover
-    from django.apps import apps
+"""Views for handling tags input autocompletion requests."""
 
-    def get_model(app, model):
-        apps_config = apps.get_app_config(app)
-        return apps_config.get_model(model)
-
-except ImportError:  # pragma: no cover
-    from django.db import models
-
-    def get_model(app, model):
-        return models.get_model(app, model)
+import json
+from collections.abc import Callable, Iterable, Mapping
+from typing import Any, cast
 
 from django import http
-
-try:  # pragma: no cover
-    from django.utils import simplejson
-except ImportError:  # pragma: no cover
-    import json as simplejson
+from django.apps import apps
+from django.db import models
 
 from . import utils
 
 
-def _filter_func(queryset, field, term):
-    return queryset.filter(**{'%s__istartswith' % field: term})
+def get_model(app: str, model: str) -> type[models.Model]:
+    """Retrieve a Django model class given app label and model name."""
+    return apps.get_model(app, model)
 
 
-def autocomplete(request, app, model, fields):
-    model = get_model(app, model)
-    mapping = utils.get_mapping(model)
-    fields = fields.split('-')
+def _filter_func(
+    queryset: models.QuerySet[Any], field: str, term: str
+) -> models.QuerySet[Any]:
+    qs: Any = queryset
+    return cast(
+        models.QuerySet[Any],
+        qs.filter(**{f'{field}__istartswith': term}),
+    )
 
-    raw_queryset = (
+
+def autocomplete(
+    request: http.HttpRequest, app: str, model: str, fields: str
+) -> http.HttpResponse:
+    """Handle autocompletion queries and return matching tags as JSON."""
+    model_cls: type[models.Model] = get_model(app, model)
+    mapping: dict[str, Any] = utils.get_mapping(model_cls)
+    field_list: list[str] = fields.split('-')
+
+    raw_queryset: models.QuerySet[Any] = cast(
+        models.QuerySet[Any],
         mapping['queryset']
         .filter(**mapping.get('filters', {}))
         .exclude(**mapping.get('excludes', {}))
-        .values('pk', *fields)
-        .order_by(*mapping.get('ordering', fields))
+        .values('pk', *field_list)
+        .order_by(*mapping.get('ordering', field_list)),
     )
-    autocomplete_filter = mapping.get('autocomplete_queryset_filter',
-                                      _filter_func)
-    term = request.GET.get('term')
+    autocomplete_filter: Callable[
+        [models.QuerySet[Any], str, str], models.QuerySet[Any]
+    ] = mapping.get('autocomplete_queryset_filter', _filter_func)
+    term: str | None = request.GET.get('term')
+    queryset: models.QuerySet[Any]
     if term:
-        queryset = mapping['queryset'].none()
-        for field in fields:
-            queryset |= autocomplete_filter(raw_queryset, field, term)
+        empty_qs: Any = mapping['queryset'].none()
+        queryset = cast(models.QuerySet[Any], empty_qs)
+        for field in field_list:
+            filtered: Any = autocomplete_filter(raw_queryset, field, term)
+            combined: Any = cast(Any, queryset) | filtered
+            queryset = cast(models.QuerySet[Any], combined)
     else:
         queryset = raw_queryset
 
-    max_results = request.GET.get('max_results')
-    if max_results and max_results.isdigit():
-        max_results = int(max_results)
-    else:
-        max_results = 10
+    max_results_raw: str | None = request.GET.get('max_results')
+    max_results: int = (
+        int(max_results_raw)
+        if max_results_raw and max_results_raw.isdigit()
+        else 10
+    )
 
-    results = [mapping['join_func'](v)[1] for v in queryset[:max_results]]
-    if results:
-        response = simplejson.dumps(results),
-    else:
-        response = ''
+    results: list[str] = [
+        str(mapping['join_func'](v)[1])
+        for v in cast(Iterable[Mapping[str, Any]], queryset[:max_results])
+    ]
+    response: str = json.dumps(results) if results else ''
 
     return http.HttpResponse(response, content_type='application/javascript')
 
+
+__all__: list[str] = ['autocomplete', 'get_model']

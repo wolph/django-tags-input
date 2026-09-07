@@ -11,4 +11,3 @@ class TagsInputForm(forms.Form):
         create_missing=True,
         required=True,
     )
-

@@ -177,7 +177,7 @@ exclude_also = [
 directory = 'htmlcov'
 
 [tool.codespell]
-skip = '*.lock,*.svg,*.png,*.egg-info,./.git,./.tox,./.venv,./.ruff_cache,./.mypy_cache,./.pytest_cache,./build,./dist,./htmlcov,./docs/_build,*/__pycache__,*.min.js,*.min.css,./tags_input/static,./.zshhistory'
+skip = '*.lock,*.svg,*.png,*.egg-info,./.git,./.tox,./.venv,./.ruff_cache,./.mypy_cache,./.pytest_cache,./build,./dist,./htmlcov,./docs/_build,*/__pycache__,*.min.js,*.min.css,./tags_input/static,./.worktrees,./.zshhistory'
 check-hidden = true
 
 [tool.uv]

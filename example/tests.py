@@ -240,6 +240,42 @@ class BaseTestCase(test.TestCase):
         )
         form.is_valid()
 
+    def test_widget_callbacks(self):
+        from example.demo import models as demo_models
+        from tags_input import widgets
+
+        mapping = utils.get_mapping(demo_models.SimpleName)
+
+        widget = widgets.TagsInputWidget(
+            attrs={'class': 'custom'},
+            on_add_tag='addTag',
+            on_remove_tag='removeTag',
+            on_change_tag='changeTag',
+        )
+        widget.mapping = mapping
+        self.assertEqual(widget.attrs, {'class': 'custom'})
+        html = widget.render(name='tags', value=[])
+        self.assertIn('onAddTag: addTag', html)
+        self.assertIn('onRemoveTag: removeTag', html)
+        self.assertIn('onChangeTag: changeTag', html)
+
+        # The admin widget goes through FilteredSelectMultiple.__init__, which
+        # passes attrs and choices on positionally. They must not end up in
+        # the callback slots.
+        admin_widget = widgets.AdminTagsInputWidget(
+            'Simple names',
+            False,
+            attrs={'class': 'admin'},
+            on_add_tag='addTag',
+        )
+        admin_widget.mapping = mapping
+        self.assertEqual(admin_widget.attrs, {'class': 'admin'})
+        self.assertIsNone(admin_widget.on_remove_tag)
+        self.assertIsNone(admin_widget.on_change_tag)
+        html = admin_widget.render(name='tags', value=[])
+        self.assertIn('onAddTag: addTag', html)
+        self.assertNotIn('onRemoveTag', html)
+
     def test_tags_ordering(self):
         from example.demo import models as demo_models
         from tags_input import widgets

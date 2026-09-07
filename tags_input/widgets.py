@@ -3,13 +3,16 @@
 from __future__ import annotations
 
 from collections.abc import Callable, Mapping, Sequence
-from typing import Any, ClassVar
+from typing import TYPE_CHECKING, Any, ClassVar
 
 from django import forms, urls
 from django.conf import settings
 from django.contrib.admin import widgets
 from django.template.loader import render_to_string
 from django.utils.safestring import SafeString, mark_safe
+
+if TYPE_CHECKING:
+    from django_stubs_ext import StrOrPromise
 
 
 class TagsInputWidgetBase(forms.SelectMultiple):
@@ -22,18 +25,24 @@ class TagsInputWidgetBase(forms.SelectMultiple):
 
     def __init__(
         self,
+        attrs: dict[str, Any] | None = None,
+        choices: Any = (),
+        *,
         on_add_tag: str | None = None,
         on_remove_tag: str | None = None,
         on_change_tag: str | None = None,
-        *args: Any,
-        **kwargs: Any,
     ) -> None:
-        """Initialize the widget with optional JS callback hooks."""
+        """Initialize the widget with optional JS callback hooks.
+
+        The callbacks are keyword-only so that cooperative ``super()`` calls
+        from other widget bases (the admin's ``FilteredSelectMultiple`` passes
+        ``attrs`` and ``choices`` positionally) can never land in them.
+        """
         self.on_add_tag = on_add_tag
         self.on_remove_tag = on_remove_tag
         self.on_change_tag = on_change_tag
         self.mapping = {}
-        forms.SelectMultiple.__init__(self, *args, **kwargs)
+        super().__init__(attrs, choices)
 
     def build_attrs(
         self,
@@ -152,6 +161,28 @@ class AdminTagsInputWidget(
 
     # This class inherits FilteredSelectMultiple because the Django admin
     # handles the FilteredSelectMultiple differently from regular widgets
+
+    def __init__(
+        self,
+        verbose_name: StrOrPromise,
+        is_stacked: bool,
+        attrs: dict[str, Any] | None = None,
+        choices: Any = (),
+        *,
+        on_add_tag: str | None = None,
+        on_remove_tag: str | None = None,
+        on_change_tag: str | None = None,
+    ) -> None:
+        """Initialize the admin widget and its optional JS callback hooks.
+
+        ``FilteredSelectMultiple.__init__`` hands ``attrs`` and ``choices`` on
+        to ``TagsInputWidgetBase.__init__`` through ``super()``, so the
+        callbacks are set afterwards.
+        """
+        super().__init__(verbose_name, is_stacked, attrs, choices)
+        self.on_add_tag = on_add_tag
+        self.on_remove_tag = on_remove_tag
+        self.on_change_tag = on_change_tag
 
     @property
     def media(self) -> forms.Media:

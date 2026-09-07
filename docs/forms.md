@@ -80,8 +80,8 @@ through table. Other fields are untouched.
 
 {class}`~tags_input.widgets.TagsInputWidget` and
 {class}`~tags_input.widgets.AdminTagsInputWidget` accept `on_add_tag`,
-`on_remove_tag` and `on_change_tag`. Each is a JavaScript expression that is
-inserted verbatim as the plugin callback:
+`on_remove_tag` and `on_change_tag` as keyword arguments. Each is a
+JavaScript expression that is inserted verbatim as the plugin callback:
 
 ```python
 from tags_input import fields, widgets

@@ -10,6 +10,10 @@
 - Python 3.9 and older are no longer supported.
 - `TagsInputField.clean()` now returns the selected objects in the order the
   tags were entered instead of database order.
+- The `on_add_tag`, `on_remove_tag` and `on_change_tag` arguments of
+  `TagsInputWidget` are keyword-only. Positional use bound them to the wrong
+  values when the admin widget was constructed through Django's
+  `FilteredSelectMultiple`, which also dropped the widget `attrs`.
 
 ### Added
 
@@ -21,6 +25,8 @@
   `TagsInputFormMixin` automatically, including for inlines.
 - The widget accepts model instances, integer primary keys and numeric strings
   as initial values.
+- `AdminTagsInputWidget` accepts the same `on_add_tag`, `on_remove_tag` and
+  `on_change_tag` keyword arguments as `TagsInputWidget`.
 - Full type annotations and a `py.typed` marker. The package is checked with
   mypy, basedpyright and pyrefly in strict mode.
 

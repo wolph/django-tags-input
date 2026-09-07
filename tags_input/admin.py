@@ -21,17 +21,20 @@ if TYPE_CHECKING:
             obj: Any = None,
             change: bool = False,
             **kwargs: Any,
-        ) -> type[forms.ModelForm[Any]]: ...
+        ) -> type[forms.ModelForm[Any]]:
+            raise NotImplementedError
 
         def get_formset(
             self,
             request: http.HttpRequest | None,
             obj: Any = None,
             **kwargs: Any,
-        ) -> type[forms.BaseInlineFormSet[Any, Any, Any]]: ...
+        ) -> type[forms.BaseInlineFormSet[Any, Any, Any]]:
+            raise NotImplementedError
 
     class _TagsInputFormMixinBase(forms.BaseModelForm[Any]):
-        def _save_m2m(self) -> None: ...
+        def _save_m2m(self) -> None:
+            raise NotImplementedError
 
     _ModelAdminBase = admin.ModelAdmin[Any]
     _TabularInlineBase = admin.TabularInline[Any, Any]

@@ -1,16 +1,29 @@
 # Django Tags Input
 
 Ordered tags with autocomplete for Django forms and the admin.
-Use an existing model for labels, allow new objects where appropriate, and
-keep the selection order through form saves and reloads.
+Use existing Django models for labels, optionally create new objects, and
+preserve the selection order through form saves and reloads.
 
-[![PyPI](https://img.shields.io/pypi/v/django-tags-input.svg)](https://pypi.org/project/django-tags-input/)
-[![CI](https://github.com/WoLpH/django-tags-input/actions/workflows/ci.yml/badge.svg)](https://github.com/WoLpH/django-tags-input/actions/workflows/ci.yml)
-[![Python](https://img.shields.io/pypi/pyversions/django-tags-input.svg)](https://pypi.org/project/django-tags-input/)
+[![PyPI version](https://img.shields.io/pypi/v/django-tags-input)](https://pypi.org/project/django-tags-input/)
+[![Python versions](https://img.shields.io/pypi/pyversions/django-tags-input)](https://pypi.org/project/django-tags-input/)
+[![Django versions](https://img.shields.io/pypi/frameworkversions/django/django-tags-input)](https://pypi.org/project/django-tags-input/)
+[![Monthly downloads](https://static.pepy.tech/badge/django-tags-input/month)](https://pepy.tech/project/django-tags-input)
+[![BSD licence](https://img.shields.io/pypi/l/django-tags-input)](https://github.com/wolph/django-tags-input/blob/develop/LICENSE)
 
-[Try the forms](https://django-tags-input.readthedocs.io/en/latest/playground.html)
+[![CI on develop](https://img.shields.io/github/actions/workflow/status/wolph/django-tags-input/ci.yml?branch=develop&label=CI)](https://github.com/wolph/django-tags-input/actions/workflows/ci.yml?query=branch%3Adevelop)
+[![Coverage on develop](https://img.shields.io/coverallsCoverage/github/wolph/django-tags-input?branch=develop)](https://coveralls.io/github/wolph/django-tags-input?branch=develop)
+[![Documentation build](https://img.shields.io/readthedocs/django-tags-input/latest)](https://django-tags-input.readthedocs.io/en/latest/)
+[![CodeQL on develop](https://img.shields.io/github/actions/workflow/status/wolph/django-tags-input/codeql.yml?branch=develop&label=CodeQL)](https://github.com/wolph/django-tags-input/actions/workflows/codeql.yml?query=branch%3Adevelop)
+[![Type checking: mypy, basedpyright and pyrefly](https://img.shields.io/badge/type_checking-mypy_%7C_basedpyright_%7C_pyrefly-blue)](https://github.com/wolph/django-tags-input/blob/develop/pyproject.toml)
+[![Linting and formatting: Ruff](https://img.shields.io/badge/linting_and_formatting-Ruff-blue)](https://github.com/wolph/django-tags-input/blob/develop/CONTRIBUTING.md#running-the-checks)
+[![Package manager: uv](https://img.shields.io/badge/package_manager-uv-blue)](https://github.com/wolph/django-tags-input/blob/develop/CONTRIBUTING.md#development-environment)
+
+[Live demo](https://django-tags-input.readthedocs.io/en/latest/playground.html)
 | [Documentation](https://django-tags-input.readthedocs.io/en/latest/)
-| [Source](https://github.com/WoLpH/django-tags-input)
+| [PyPI](https://pypi.org/project/django-tags-input/)
+| [Source](https://github.com/wolph/django-tags-input)
+| [Issues](https://github.com/wolph/django-tags-input/issues)
+| [Changelog](https://github.com/wolph/django-tags-input/blob/develop/CHANGELOG.md)
 
 <img src="https://raw.githubusercontent.com/WoLpH/django-tags-input/develop/docs/_static/admin-autocomplete.png" alt="Django admin tags input with selected tags and autocomplete suggestions" width="900">
 

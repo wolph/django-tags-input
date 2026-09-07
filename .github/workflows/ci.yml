@@ -108,3 +108,15 @@ jobs:
           merge-multiple: true
       - run: uv run coverage combine
       - run: uv run coverage report --show-missing --fail-under=100
+      - run: uv run coverage lcov -o coverage.lcov
+      - name: Upload combined coverage to Coveralls
+        if: >-
+          github.event_name != 'pull_request' &&
+          (github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/master')
+        uses: coverallsapp/github-action@v2
+        with:
+          file: coverage.lcov
+          format: lcov
+          git-branch: ${{ github.ref_name }}
+          git-commit: ${{ github.sha }}
+          fail-on-error: true

@@ -80,9 +80,10 @@ the order round-trip in views outside the admin. See {doc}`forms`.
 
 ## Notes and caveats
 
-The mixin's re-link is a `clear()` followed by `add()` calls, which fires
-`m2m_changed` signals twice per save. If you listen to that signal, expect a
-`post_clear` followed by a `post_add`.
+The mixin clears the relation, then calls `add()` once for each object.
+Django emits `pre_clear` and `post_clear`, followed by `pre_add` and
+`post_add` for each object. Django's earlier `_save_m2m()` can emit additional
+signals. Signal handlers must allow for this sequence.
 
 `TagsInputMixin.formfield_for_manytomany()` appends the field name to
 `raw_id_fields` to stop the admin from adding the green plus icon next to the

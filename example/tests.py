@@ -50,7 +50,7 @@ class BaseTestCase(test.TestCase):
     }
 
     @transaction.atomic
-    def setUp(self):
+    def setUp(self) -> None:
         self.client = client.Client()
         user_mgr: Any = cast(Any, auth_models.User.objects)
         user_mgr.create_superuser(
@@ -80,35 +80,35 @@ class BaseTestCase(test.TestCase):
         assert extra_spam
         # assert foo_extra_spam
 
-    def test_metadata(self):
+    def test_metadata(self) -> None:
         from tags_input import __about__
 
         assert __about__
 
     # Utils Test Cases
-    def test_get_mapping_type_exception(self):
+    def test_get_mapping_type_exception(self) -> None:
         with pytest.raises(TypeError):
-            utils.get_mapping(BaseTestCase)
+            utils.get_mapping(cast(type[django_models.Model], BaseTestCase))
 
-    def test_multiple_fields_mapping(self):
+    def test_multiple_fields_mapping(self) -> None:
         utils.get_mapping(models.Egg)
 
-    def test_custom_queryset_mapping(self):
+    def test_custom_queryset_mapping(self) -> None:
         utils.get_mapping(models.Spam)
 
-    def test_get_mapping_undefined_exception(self):
+    def test_get_mapping_undefined_exception(self) -> None:
         with pytest.raises(exceptions.MappingUndefined):
             utils.get_mapping(auth_models.User)
 
     @test_utils.override_settings(
         TAGS_INPUT_MAPPINGS={'autocompletionexample.Foo': {}}
     )
-    def test_get_mapping_broken_mappings(self):
+    def test_get_mapping_broken_mappings(self) -> None:
         with pytest.raises(exceptions.ConfigurationError):
             utils.get_mapping(models.Foo)
 
     # View Test Cases
-    def test_view(self):
+    def test_view(self) -> None:
         query_params: dict[str, str | int] = {
             'term': 'a',
             'max_results': 5,
@@ -131,7 +131,7 @@ class BaseTestCase(test.TestCase):
         self.assertEqual(response.status_code, 200)
 
     # Admin Test Cases
-    def test_admin(self):
+    def test_admin(self) -> None:
         response = self.client.get(
             admin_change_url
             % dict(app='autocompletionexample', model='bar', id=1)
@@ -204,7 +204,7 @@ class BaseTestCase(test.TestCase):
         self.assertEqual(response.status_code, 200)
 
     # Test Forms
-    def test_form(self):
+    def test_form(self) -> None:
         form = Form(
             data=dict(
                 bar_incomplete='a,b,c',
@@ -240,7 +240,7 @@ class BaseTestCase(test.TestCase):
         )
         form.is_valid()
 
-    def test_widget_callbacks(self):
+    def test_widget_callbacks(self) -> None:
         from example.demo import models as demo_models
         from tags_input import widgets
 
@@ -276,7 +276,8 @@ class BaseTestCase(test.TestCase):
         self.assertIn('onAddTag: addTag', html)
         self.assertNotIn('onRemoveTag', html)
 
-    def test_tags_ordering(self):
+    def test_tags_ordering(self) -> None:
+
         from example.demo import models as demo_models
         from tags_input import widgets
 

@@ -1,14 +1,20 @@
 """Views for handling tags input autocompletion requests."""
 
+from __future__ import annotations
+
 import json
-from collections.abc import Callable, Iterable, Mapping
-from typing import Any, cast
+from collections.abc import Callable
+from typing import TYPE_CHECKING
 
 from django import http
 from django.apps import apps
 from django.db import models
 
 from . import utils
+from .types import TagMapping
+
+if TYPE_CHECKING:
+    from .types import ValueQuerySet
 
 
 def get_model(app: str, model: str) -> type[models.Model]:
@@ -17,13 +23,9 @@ def get_model(app: str, model: str) -> type[models.Model]:
 
 
 def _filter_func(
-    queryset: models.QuerySet[Any], field: str, term: str
-) -> models.QuerySet[Any]:
-    qs: Any = queryset
-    return cast(
-        models.QuerySet[Any],
-        qs.filter(**{f'{field}__istartswith': term}),
-    )
+    queryset: ValueQuerySet, field: str, term: str
+) -> ValueQuerySet:
+    return queryset.filter(**{f'{field}__istartswith': term})
 
 
 def autocomplete(
@@ -31,29 +33,27 @@ def autocomplete(
 ) -> http.HttpResponse:
     """Handle autocompletion queries and return matching tags as JSON."""
     model_cls: type[models.Model] = get_model(app, model)
-    mapping: dict[str, Any] = utils.get_mapping(model_cls)
+    mapping: TagMapping = utils.get_mapping(model_cls)
     field_list: list[str] = fields.split('-')
 
-    raw_queryset: models.QuerySet[Any] = cast(
-        models.QuerySet[Any],
+    raw_queryset: ValueQuerySet = (
         mapping['queryset']
         .filter(**mapping.get('filters', {}))
         .exclude(**mapping.get('excludes', {}))
         .values('pk', *field_list)
-        .order_by(*mapping.get('ordering', field_list)),
+        .order_by(*mapping.get('ordering', field_list))
     )
-    autocomplete_filter: Callable[
-        [models.QuerySet[Any], str, str], models.QuerySet[Any]
-    ] = mapping.get('autocomplete_queryset_filter', _filter_func)
+    autocomplete_filter: Callable[[ValueQuerySet, str, str], ValueQuerySet] = (
+        mapping.get('autocomplete_queryset_filter', _filter_func)
+    )
     term: str | None = request.GET.get('term')
-    queryset: models.QuerySet[Any]
+    queryset: ValueQuerySet
     if term:
-        empty_qs: Any = mapping['queryset'].none()
-        queryset = cast(models.QuerySet[Any], empty_qs)
+        queryset = raw_queryset.none()
         for field in field_list:
-            filtered: Any = autocomplete_filter(raw_queryset, field, term)
-            combined: Any = cast(Any, queryset) | filtered
-            queryset = cast(models.QuerySet[Any], combined)
+            queryset = queryset | autocomplete_filter(
+                raw_queryset, field, term
+            )
     else:
         queryset = raw_queryset
 
@@ -65,8 +65,7 @@ def autocomplete(
     )
 
     results: list[str] = [
-        str(mapping['join_func'](v)[1])
-        for v in cast(Iterable[Mapping[str, Any]], queryset[:max_results])
+        mapping['join_func'](v)[1] for v in queryset[:max_results]
     ]
     response: str = json.dumps(results) if results else ''
 

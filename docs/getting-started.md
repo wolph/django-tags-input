@@ -89,7 +89,7 @@ on the model. See {doc}`admin` for inlines and the form mixin, and
 ## What happens on save
 
 The widget posts a comma separated string of labels. `TagsInputField.clean()`
-looks the labels up case-insensitively, creates missing objects when the
+looks the labels up using the database collation, creates missing objects when the
 mapping allows it, validates the primary keys through Django's
 `ModelMultipleChoiceField`, and returns a queryset ordered the way the tags
 were typed. The admin form mixin then links the objects in that order so the

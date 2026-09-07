@@ -7,6 +7,10 @@ build:
   os: ubuntu-24.04
   tools:
     python: '3.13'
+    nodejs: '24'
+  jobs:
+    pre_build:
+      - python tools/build_docs.py --assets-only
 
 sphinx:
   configuration: docs/conf.py

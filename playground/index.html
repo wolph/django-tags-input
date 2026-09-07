@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Try Django Tags Input</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="jquery-ui-1.12.1.min.css">
+  <link rel="stylesheet" href="jquery.tagsinput-revisited-2.0.min.css">
+  <link rel="stylesheet" href="playground.css">
+  <script src="jquery-3.2.1.min.js"></script>
+  <script src="jquery-ui-1.12.1.min.js"></script>
+  <script src="jquery.tagsinput-revisited-2.0.min.js"></script>
+  <script type="module" src="main.js"></script>
+</head>
+<body>
+<main data-playground>
+  <p class="eyebrow">Django Tags Input</p>
+  <h1>Type tags. Save the order.</h1>
+  <p>Run a real Django form in your browser. Add a tag, save it, then reload to see which values Django stored.</p>
+  <button id="start" type="button">Start the example</button>
+  <button id="temporary" type="button" hidden>Use a temporary session</button>
+  <p id="status" role="status">Python and Django download when you start. Your entered tags stay on this device.</p>
+  <form id="tag-form" hidden>
+    <label for="mode">Example</label>
+    <select id="mode">
+      <option value="create">Create missing tags</option>
+      <option value="existing">Choose existing tags only</option>
+      <option value="composite">Combine contact fields</option>
+    </select>
+    <div class="editor">
+      <h2>Your selection</h2>
+      <p>Type a prefix to find a match. Press Enter to add a tag.</p>
+      <div id="tag-field"></div>
+      <p id="errors" role="alert"></p>
+      <button type="submit">Save with Django</button>
+    </div>
+    <div class="stored">
+      <h2>Saved order</h2>
+      <ol id="saved-tags"></ol>
+      <p>These values come back from the SQLite database.</p>
+    </div>
+  </form>
+  <footer>
+    <p id="storage-status">Each browser keeps its own example data.</p>
+    <button id="reset" type="button" hidden>Reset example data</button>
+  </footer>
+</main>
+</body>
+</html>

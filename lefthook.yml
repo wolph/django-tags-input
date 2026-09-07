@@ -2,7 +2,8 @@
 # pre-commit: instant, staged files only. pre-push: a few seconds, runs less often.
 
 pre-commit:
-  parallel: true
+  # Both Ruff commands rewrite staged files, so they must run sequentially.
+  parallel: false
   commands:
     ruff-check:
       glob: '*.py'

@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 7.0.0 - 2026-09-07
 
 ### Breaking changes
 
@@ -17,6 +17,12 @@
 
 ### Added
 
+- A browser-only showcase runs real Django forms in Pyodide, with local
+  SQLite persistence, separate drafts, reset controls and A-Z autocomplete
+  examples for tags and contacts.
+- Mapping and callback type contracts, including one-argument custom
+  callbacks, plus coverage for widget media settings and attribute merging.
+
 - Tag order is preserved. `TagsInputAdmin` and the new `TagsInputFormMixin`
   re-link the related objects in the entered order on save, the widget renders
   them in that order, and `utils.get_tags(instance, field_name)` reads the
@@ -31,6 +37,11 @@
   mypy, basedpyright and pyrefly in strict mode.
 
 ### Changed
+
+- The widget fits narrow form containers while retaining its desktop width.
+- Wheels include the jQuery UI icon images and third-party licence notices.
+- Documentation includes a guided showcase and corrected matching, callback
+  and relationship signal descriptions.
 
 - Packaging moved to `pyproject.toml` with the `uv_build` backend. `setup.py`,
   `setup.cfg`, `MANIFEST.in` and the requirements files are gone. The version

@@ -27,6 +27,11 @@ cover/
 
 # Docs
 docs/_build/
+playground/node_modules/
+playground/dist/
+playground/test-results/
+playground/playwright-report/
+docs/_static/playground/
 
 # Editors / OS
 .idea/

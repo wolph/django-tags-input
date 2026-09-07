@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Any, ClassVar
+from typing import Any
 
 from django.core import exceptions
 from django.db import models
@@ -20,7 +20,6 @@ class ReprModel(models.Model):
 
 
 class Foo(ReprModel):
-    objects: ClassVar[models.Manager[Foo]] = models.Manager()
     name: models.CharField[str, str] = models.CharField(
         max_length=50, help_text='The foo name'
     )
@@ -31,7 +30,6 @@ class Foo(ReprModel):
 
 
 class Bar(ReprModel):
-    objects: ClassVar[models.Manager[Bar]] = models.Manager()
     name: models.CharField[str, str] = models.CharField(
         max_length=50, help_text='The bar name'
     )
@@ -41,7 +39,6 @@ class Bar(ReprModel):
 
 
 class Spam(ReprModel):
-    objects: ClassVar[models.Manager[Spam]] = models.Manager()
     name: models.CharField[str, str] = models.CharField(
         max_length=50, help_text='The spam name'
     )
@@ -53,7 +50,6 @@ class Spam(ReprModel):
 
 
 class FooExtraSpam(ReprModel):
-    objects: ClassVar[models.Manager[FooExtraSpam]] = models.Manager()
     foo: models.ForeignKey[Foo, Foo] = models.ForeignKey(
         Foo, help_text='The foo object', on_delete=models.CASCADE
     )
@@ -65,7 +61,6 @@ class FooExtraSpam(ReprModel):
 
 
 class ExtraSpam(ReprModel):
-    objects: ClassVar[models.Manager[ExtraSpam]] = models.Manager()
     name: models.CharField[str, str] = models.CharField(
         max_length=50, help_text='The extra spam name'
     )
@@ -73,7 +68,6 @@ class ExtraSpam(ReprModel):
 
 
 class Egg(ReprModel):
-    objects: ClassVar[models.Manager[Egg]] = models.Manager()
     name: models.CharField[str, str] = models.CharField(
         max_length=50, help_text='The egg name'
     )

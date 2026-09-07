@@ -13,9 +13,13 @@ source-include = [
     'tags_input/static/**',
     'tags_input/templates/**',
     'example/**',
+    'showcase/**',
+    'tools/**',
+    'playground/**',
+    'docs/**',
     'tox.ini',
 ]
-source-exclude = ['example/*.sqlite3', '**/__pycache__']
+source-exclude = ['example/*.sqlite3', 'showcase/*.sqlite3', '**/__pycache__', 'playground/node_modules/**', 'playground/dist/**', 'playground/test-results/**', 'playground/playwright-report/**', 'docs/_build/**', 'docs/_static/playground/**', 'docs/superpowers/**']
 # The wheel ships only the minified assets the widgets reference. The vendored
 # upstream source trees stay in the repository for rebuilding those assets.
 wheel-exclude = [
@@ -25,7 +29,7 @@ wheel-exclude = [
 
 [project]
 name = 'django-tags-input'
-version = "6.0.0" # static; the single source of truth. Bump via `uv version`.
+version = "7.0.0" # static; the single source of truth. Bump via `uv version`.
 description = 'Django form field, widget and admin mixin that turn ManyToMany relations into ordered, autocompleting tag inputs with optional on-the-fly creation.'
 readme = 'README.md'
 requires-python = '>=3.10'
@@ -71,11 +75,11 @@ Repository = 'https://github.com/WoLpH/django-tags-input'
 Changelog = 'https://github.com/WoLpH/django-tags-input/blob/develop/CHANGELOG.md'
 
 [project.optional-dependencies]
-docs = ['sphinx', 'furo', 'myst-parser']
+docs = ['sphinx', 'furo', 'myst-parser>=5.1; python_version >= "3.11"', 'uv']
 tests = ['pytest', 'pytest-cov', 'pytest-django', 'django-utils2>=3.0.0']
 
 [dependency-groups]
-docs = ['sphinx', 'furo', 'myst-parser']
+docs = ['sphinx', 'furo', 'myst-parser>=5.1; python_version >= "3.11"', 'uv']
 test = ['pytest', 'pytest-cov', 'pytest-django', 'django-utils2>=3.0.0']
 dev = [
     'ruff',
@@ -93,11 +97,13 @@ tox = ['tox>=4', 'tox-uv>=1', 'tox-gh-actions']
 # --- Type checking (mypy + basedpyright + pyrefly, all strict) --------------
 
 [tool.mypy]
-python_version = '3.10'
+# django-stubs 6.1 uses typing.Self, available from Python 3.11.
+# Python 3.10 is checked separately with its compatible django-stubs release.
+python_version = '3.11'
 strict = true
 check_untyped_defs = true
 plugins = ['mypy_django_plugin.main']
-files = ['tags_input', 'example']
+files = ['tags_input', 'example', 'showcase']
 
 [tool.django-stubs]
 django_settings_module = 'example.settings'
@@ -106,22 +112,18 @@ django_settings_module = 'example.settings'
 module = 'example.*.migrations.*'
 ignore_errors = true
 
-[[tool.mypy.overrides]]
-module = 'example.tests'
-disallow_untyped_defs = false
-
 [tool.pyright]
 # basedpyright reads the [tool.pyright] table (it is a pyright superset).
 typeCheckingMode = 'strict'
-pythonVersion = '3.10'
-include = ['tags_input', 'example']
+pythonVersion = '3.11'
+include = ['tags_input', 'example', 'showcase']
 exclude = ['**/__pycache__', '.tox', '.venv', 'build', 'dist', 'docs']
 reportMissingTypeStubs = false
 
 [tool.pyrefly]
-project-includes = ['tags_input', 'example']
+project-includes = ['tags_input', 'example', 'showcase']
 project-excludes = ['**/__pycache__', 'example/**/migrations/**']
-python-version = '3.10'
+python-version = '3.11'
 
 # --- Tests & coverage -------------------------------------------------------
 
@@ -138,6 +140,7 @@ addopts = [
     '--strict-markers',
     '-ra',
     '--cov=tags_input',
+    '--cov=showcase',
     '--cov-report=term-missing',
 ]
 xfail_strict = true
@@ -151,11 +154,12 @@ filterwarnings = [
 [tool.coverage.run]
 branch = true
 parallel = true         # unique data file per run so matrix cells can be combined
-source = ['tags_input']
+source = ['tags_input', 'showcase']
 
 [tool.coverage.paths]
 # Map per-cell data files back onto the source tree when combining.
 source = ['tags_input', '*/tags_input']
+showcase = ['showcase', '*/showcase']
 
 [tool.coverage.report]
 fail_under = 100
@@ -177,7 +181,8 @@ exclude_also = [
 directory = 'htmlcov'
 
 [tool.codespell]
-skip = '*.lock,*.svg,*.png,*.egg-info,./.git,./.tox,./.venv,./.ruff_cache,./.mypy_cache,./.pytest_cache,./build,./dist,./htmlcov,./docs/_build,*/__pycache__,*.min.js,*.min.css,./tags_input/static,./.worktrees,./.zshhistory'
+skip = '*package-lock.json,./.venv*,./playground/node_modules,./playground/dist,./playground/test-results,./playground/playwright-report,./docs/_static/playground,./.worktrees,*.webm,*.lock,*.svg,*.png,*.egg-info,./.git,./.tox,./.venv,./.ruff_cache,./.mypy_cache,./.pytest_cache,./build,./dist,./htmlcov,./docs/_build,*/__pycache__,*.min.js,*.min.css,./tags_input/static,./.zshhistory'
+
 check-hidden = true
 
 [tool.uv]

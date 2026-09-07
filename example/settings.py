@@ -9,8 +9,15 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/stable/ref/settings/
 """
 
+from __future__ import annotations
+
 import os
-from typing import Any
+from typing import TYPE_CHECKING
+
+from tags_input.types import MappingOptions
+
+if TYPE_CHECKING:
+    from tags_input.types import TagQuerySet
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -37,6 +44,7 @@ INSTALLED_APPS = [
     'example.autocompletionexample',
     'example.demo',
     'tags_input',
+    'showcase',
 ]
 
 MIDDLEWARE = [
@@ -109,14 +117,15 @@ STATICFILES_DIRS = [
 ]
 
 
-def get_queryset(*args: Any, **kwargs: Any) -> Any:
+def get_queryset(mapping: MappingOptions) -> TagQuerySet:
     from example.autocompletionexample import models
 
-    objects: Any = models.Spam.objects
-    return objects.all()
+    return models.Spam.objects.all()
 
 
-TAGS_INPUT_MAPPINGS = {
+TAGS_INPUT_MAPPINGS: dict[str, MappingOptions] = {
+    'showcase.Tag': {'field': 'name', 'create_missing': False},
+    'showcase.Contact': {'fields': ('first_name', 'last_name')},
     'demo.SimpleName': {'field': 'name', 'create_missing': True},
     'demo.DoubleName': {'fields': ('name_a', 'name_b')},
     'demo.ManyToManyToDoubleName': {'field': 'name', 'create_missing': True},

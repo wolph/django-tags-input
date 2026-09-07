@@ -11,8 +11,8 @@ jQuery(document).ready(function($){
         },
         {% if not mapping.create_missing %}autocompleteOnly: true,{% endif %}
         minInputWidth: 145,
-        height: '40px',
-        width: '460px',
+        height: 'auto',
+        width: 'min(460px, 100%)',
         {% if on_add_tag %}onAddTag: {{ on_add_tag }},{% endif %}
         {% if on_remove_tag %}onRemoveTag: {{ on_remove_tag }},{% endif %}
         {% if on_change_tag %}onChangeTag: {{ on_change_tag }},{% endif %}

@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Django tags input showcase</title>
+  {{ media }}
+  <style>
+    body { font: 17px/1.6 system-ui, sans-serif; margin: 0; background: #f3f5f7; color: #172b3a; }
+    main { max-width: 860px; margin: 64px auto; padding: 32px; background: white; border-radius: 12px; }
+    nav { display: flex; flex-wrap: wrap; gap: 24px; }
+    a { color: #12644f; }
+    button { margin-top: 24px; padding: 10px 24px; background: #12644f; color: white; border: 0; border-radius: 5px; font: inherit; cursor: pointer; }
+    .errors { color: #a11927; }
+    .tagsinput { width: 100% !important; box-sizing: border-box; }
+    @media (max-width: 768px) { main { margin: 16px; padding: 20px; } }
+  </style>
+</head>
+<body><main>
+  <h1>Django tags input</h1>
+  <p>Real Django forms with ordered many-to-many storage.</p>
+  <nav><a href="?mode=create">Create tags</a><a href="?mode=existing">Existing tags only</a><a href="?mode=composite">Composite contact labels</a><a href="/admin/">Admin</a></nav>
+  <h2>{{ mode|capfirst }}</h2>
+  <form method="post">
+    {% csrf_token %}
+    <label for="id_{{ field_name }}_tags_input">{{ field_name|capfirst }}</label>
+    {{ field_html|safe }}
+    <div class="errors" role="alert">{% for field, messages in errors.items %}{% for message in messages %}<p>{{ message }}</p>{% endfor %}{% endfor %}</div>
+    <button type="submit">Save selection</button>
+  </form>
+  <h2>Stored order</h2>
+  <ol>{% for value in stored %}<li>{{ value }}</li>{% empty %}<li>No saved values.</li>{% endfor %}</ol>
+</main></body>
+</html>

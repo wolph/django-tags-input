@@ -46,7 +46,7 @@ napoleon_numpy_docstring = False
 autodoc_typehints = 'description'
 autodoc_member_order = 'bysource'
 
-myst_enable_extensions = ['colon_fence']
+myst_enable_extensions = ['colon_fence', 'alert']
 myst_heading_anchors = 3
 
 templates_path = ['_templates']
@@ -68,6 +68,7 @@ intersphinx_mapping = {
 
 html_theme = 'furo'
 html_static_path = ['_static']
+html_js_files = ['showcase-frame.js']
 html_title = f'{project} {release}'
 html_theme_options = {
     'source_repository': 'https://github.com/WoLpH/django-tags-input/',

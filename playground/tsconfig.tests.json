@@ -1,0 +1,11 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "rootDir": ".",
+    "noEmit": true,
+    "types": ["jquery", "node"],
+    "lib": ["ES2022", "DOM", "ESNext.Disposable"]
+  },
+  "include": ["tests/**/*.ts", "playwright.config.ts"],
+  "exclude": []
+}

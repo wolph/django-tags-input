@@ -1,0 +1,17 @@
+{
+  "name": "django-tags-input-playground",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc -p tsconfig.json && tsc -p tsconfig.worker.json",
+    "check": "tsc -p tsconfig.json --noEmit && tsc -p tsconfig.worker.json --noEmit && tsc -p tsconfig.tests.json && biome check .",
+    "test": "playwright test"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.5.12",
+    "@playwright/test": "1.63.0",
+    "@types/jquery": "4.0.1",
+    "@types/node": "26.4.1",
+    "typescript": "7.0.2"
+  }
+}

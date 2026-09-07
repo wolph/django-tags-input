@@ -1,157 +1,145 @@
-<div align="center">
-
 # Django Tags Input
 
-**Ordered, autocompleting tag inputs for Django `ManyToManyField`s, in your forms and in the admin.**
+Ordered tags with autocomplete for Django forms and the admin.
+Use an existing model for labels, allow new objects where appropriate, and
+keep the selection order through form saves and reloads.
 
-[![PyPI version](https://img.shields.io/pypi/v/django-tags-input.svg?logo=pypi&logoColor=white)](https://pypi.python.org/pypi/django-tags-input)
-[![Python versions](https://img.shields.io/pypi/pyversions/django-tags-input.svg?logo=python&logoColor=white)](https://pypi.python.org/pypi/django-tags-input)
-[![Django versions](https://img.shields.io/pypi/frameworkversions/django/django-tags-input.svg?logo=django&logoColor=white)](https://pypi.python.org/pypi/django-tags-input)
+[![PyPI](https://img.shields.io/pypi/v/django-tags-input.svg)](https://pypi.org/project/django-tags-input/)
 [![CI](https://github.com/WoLpH/django-tags-input/actions/workflows/ci.yml/badge.svg)](https://github.com/WoLpH/django-tags-input/actions/workflows/ci.yml)
-[![Coverage](https://img.shields.io/badge/coverage-100%25-brightgreen.svg)](https://github.com/WoLpH/django-tags-input/actions/workflows/ci.yml)
-[![Typed](https://img.shields.io/badge/typed-mypy%20%7C%20pyright%20%7C%20pyrefly-blue.svg)](https://github.com/WoLpH/django-tags-input)
-[![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
-[![License](https://img.shields.io/pypi/l/django-tags-input.svg)](https://github.com/WoLpH/django-tags-input/blob/develop/LICENSE)
-[![Downloads](https://img.shields.io/pypi/dm/django-tags-input.svg?logo=pypi&logoColor=white)](https://pypi.python.org/pypi/django-tags-input)
+[![Python](https://img.shields.io/pypi/pyversions/django-tags-input.svg)](https://pypi.org/project/django-tags-input/)
 
-[**Documentation**](https://django-tags-input.readthedocs.io/en/latest/) ·
-[**PyPI**](https://pypi.python.org/pypi/django-tags-input) ·
-[**Source**](https://github.com/WoLpH/django-tags-input) ·
-[**Issues**](https://github.com/WoLpH/django-tags-input/issues)
+[Try the forms](https://django-tags-input.readthedocs.io/en/latest/playground.html)
+| [Documentation](https://django-tags-input.readthedocs.io/en/latest/)
+| [Source](https://github.com/WoLpH/django-tags-input)
 
-</div>
+<img src="https://raw.githubusercontent.com/WoLpH/django-tags-input/develop/docs/_static/admin-autocomplete.png" alt="Django admin tags input with selected tags and autocomplete suggestions" width="900">
 
----
+The browser example runs real Django forms and SQLite on your device.
+It supports tag creation, existing choices and composite contact labels.
+Saved tags persist across reloads. No public Django server receives them.
 
-Django Tags Input replaces the stock multiple-select for `ManyToManyField`s
-with a tag box: type a few letters, pick a match from the autocomplete list,
-and the related object is linked. Point it at a model, tell it which field
-holds the label, and the form field, the widget, the autocomplete view and the
-admin integration are all wired for you.
-
-<img src="https://raw.githubusercontent.com/WoLpH/django-tags-input/develop/docs/_static/admin-autocomplete.png" alt="The Django admin change form with a tags input showing two selected tags and an open autocomplete list" width="900">
-
-## Highlights
-
-- **Keeps your order.** Enter `B, A, C` and you get `B, A, C` back, both in
-  the widget and from `utils.get_tags()`. Django's own `ManyToManyField` API
-  gives you database order, which is usually insertion order until it isn't.
-- **Autocomplete out of the box.** One URL include serves JSON suggestions
-  for every mapped model, filtered with `istartswith` on the label fields.
-- **Create missing objects on the fly.** Set `create_missing` and an unknown
-  tag becomes a new row, validated through the model's `clean()` first.
-- **Admin ready.** Swap `admin.ModelAdmin` for `TagsInputAdmin` and every
-  `ManyToManyField` on the model becomes a tag input. Tabular and stacked
-  inlines are included.
-- **Plain forms too.** `TagsInputField` is a `ModelMultipleChoiceField`, so it
-  drops into any `forms.Form` or `ModelForm`.
-- **Composite labels.** Build the tag text from several fields with a
-  separator of your choice, and the input splits them back on save.
-- **Fully typed and tested.** Ships `py.typed`, passes mypy, basedpyright and
-  pyrefly in strict mode, and runs at 100% branch coverage across Django 5.2,
-  6.0 and 6.1 on Python 3.10 to 3.14.
-
-## Installation
+## Install
 
 ```bash
-pip install django-tags-input
-# or
 uv add django-tags-input
 ```
 
-Python 3.10+ and Django 5.2+ are required. The widget bundles jQuery 3.2,
-jQuery UI 1.12 and the tagsinput-revisited plugin, so no front-end build step
-is needed.
+Python 3.10+ and Django 5.2+ are required. Django 6.x requires Python 3.12+.
+The package includes the widget's JavaScript and CSS, so using it does not
+require Node.js or a frontend build.
 
-## Quickstart
+## Add tags to the admin
 
-Three settings changes and one admin class get you the screenshot above.
-
-**1. Add the app** to `INSTALLED_APPS`:
+In an existing Django app named `blog`, give posts a relation to tag objects:
 
 ```python
-INSTALLED_APPS = [
-    # ...
-    'tags_input',
-]
+from __future__ import annotations
+
+from django.db import models
+
+
+class Tag(models.Model):
+    name: models.CharField[str, str] = models.CharField(max_length=100)
+
+    def __str__(self) -> str:
+        return self.name
+
+
+class Post(models.Model):
+    title: models.CharField[str, str] = models.CharField(max_length=200)
+    tags: models.ManyToManyField[Tag, Tag] = models.ManyToManyField(
+        Tag, blank=True,
+    )
 ```
 
-**2. Map the models you want to tag** in `TAGS_INPUT_MAPPINGS`. The key is
-`app_label.ModelName`, the value says which field holds the tag text:
+Each tag is an ordinary model row. The post stores the relationship through
+Django's automatically created join table.
+
+Add the widget app and its mapping to your settings:
 
 ```python
-TAGS_INPUT_MAPPINGS = {
-    'blog.Tag': {
-        'field': 'name',
-        'create_missing': True,
-    },
-    'blog.Author': {
-        'fields': ('first_name', 'last_name'),
-        'separator': ' ',
-        'ordering': ['last_name', 'first_name'],
-        'filters': {'is_active': True},
-    },
+INSTALLED_APPS += ['tags_input']
+
+TAGS_INPUT_MAPPINGS: dict[str, dict[str, object]] = {
+    'blog.Tag': {'field': 'name', 'create_missing': True},
 }
 ```
 
-**3. Include the autocomplete URLs** in your root `urls.py`. The namespace
-must be `tags_input`:
+The key identifies the model. `field` supplies the visible label, and
+`create_missing` permits a new tag when no existing label matches.
+Keep it disabled when users must choose existing objects.
+
+Include the autocomplete route in the project's `urls.py`:
 
 ```python
 from django.urls import include, path
 
-urlpatterns = [
-    # ...
-    path('tags_input/', include('tags_input.urls', namespace='tags_input')),
+urlpatterns += [
+    path('tags-input/', include('tags_input.urls', namespace='tags_input')),
 ]
 ```
 
-**4. Use it in the admin:**
+The namespace must be `tags_input`. One route serves the mapped models.
+
+Register the post with the package's admin class:
 
 ```python
+from typing import ClassVar
+
 from django.contrib import admin
+from tags_input.admin import TagsInputAdmin
 
-from tags_input import admin as tags_input_admin
-
-from . import models
+from .models import Post
 
 
-@admin.register(models.Post)
-class PostAdmin(tags_input_admin.TagsInputAdmin):
-    # Optional: restrict the tag widget to some ManyToMany fields. Without it
-    # every ManyToManyField on the model becomes a tags input.
-    tag_fields = ['tags', 'authors']
+@admin.register(Post)
+class PostAdmin(TagsInputAdmin):
+    tag_fields: ClassVar[list[str]] = ['tags']
 ```
 
-Open a `Post` in the admin and the `tags` and `authors` selects are now tag
-boxes with autocomplete. Missing tags are created on save because the mapping
-sets `create_missing`, while unknown authors are rejected with a validation
-error.
+Create the tables and open a post in the admin:
 
-## Outside the admin
+```bash
+uv run python manage.py makemigrations blog
+uv run python manage.py migrate
+uv run python manage.py runserver
+```
 
-`TagsInputField` works in any form. Pass it the queryset the tags come from
-and render the form's media so the JavaScript and CSS load:
+The `tags` field now offers autocomplete. Saving a new label creates a tag
+object after calling its `clean()` method. Existing labels become relations
+in the order entered.
+
+> [!NOTE]
+> The autocomplete endpoint does not check permissions. For private labels,
+> restrict access in your own view or middleware and pass the permitted
+> queryset to the form field. Suggestion filters alone do not restrict saves.
+
+## Use a form outside the admin
+
+Use both the field and the form mixin when the order must survive saves:
 
 ```python
+from __future__ import annotations
+
+from typing import ClassVar
+
 from django import forms
+from tags_input.admin import TagsInputFormMixin
+from tags_input.fields import TagsInputField
 
-from tags_input import fields
-
-from . import models
+from .models import Post, Tag
 
 
-class PostForm(forms.ModelForm):
-    tags = fields.TagsInputField(
-        models.Tag.objects.all(),
-        create_missing=True,
-        required=False,
-    )
+class PostForm(TagsInputFormMixin, forms.ModelForm):
+    tags: TagsInputField = TagsInputField(Tag.objects.all(), required=False)
 
     class Meta:
-        model = models.Post
-        fields = ['title', 'tags']
+        model: type[Post] = Post
+        fields: ClassVar[list[str]] = ['title', 'tags']
 ```
+
+`TagsInputField` validates labels against its queryset. The mixin saves the
+related objects in that order. Render the form media alongside the form:
 
 ```django
 {{ form.media }}
@@ -162,118 +150,23 @@ class PostForm(forms.ModelForm):
 </form>
 ```
 
-<img src="https://raw.githubusercontent.com/WoLpH/django-tags-input/develop/docs/_static/form-demo.png" alt="A plain Django form rendering a tags input with autocomplete suggestions" width="700">
+The media loads the bundled jQuery, jQuery UI and tagsinput plugin. If your
+page already loads compatible jQuery and jQuery UI, set
+`TAGS_INPUT_INCLUDE_JQUERY = False`.
 
-The widget ships its own jQuery and jQuery UI. If your page already loads
-them, set `TAGS_INPUT_INCLUDE_JQUERY = False` to leave them out of the form
-media.
+<img src="https://raw.githubusercontent.com/WoLpH/django-tags-input/develop/docs/_static/form-demo.png" alt="A Django form with autocomplete and selected tags" width="800">
 
-## Tag order
+Read the saved order with `tags_input.utils.get_tags(post, 'tags')`.
+`post.tags.all()` uses the model or database ordering instead.
 
-The admin form mixin re-links the related objects in the order you typed
-them, so the auto-created through table records that order. Read it back with
-`utils.get_tags()`, which returns a queryset ordered the same way:
+## Guides and development
 
-```python
-from tags_input import utils
+- [Configuration](https://django-tags-input.readthedocs.io/en/latest/configuration.html): mappings, callbacks and matching rules.
+- [Admin and inlines](https://django-tags-input.readthedocs.io/en/latest/admin.html): choosing fields and handling relationship signals.
+- [Order](https://django-tags-input.readthedocs.io/en/latest/ordering.html): how the join table records selections and where that approach applies.
+- [Local examples](https://django-tags-input.readthedocs.io/en/latest/example-project.html): run the same forms and inspect the admin.
+- [Contributing](https://github.com/WoLpH/django-tags-input/blob/develop/CONTRIBUTING.md): uv, strict typing, linting, documentation and coverage checks.
 
-post = models.Post.objects.get(pk=1)
-tags = utils.get_tags(post, 'tags')
-[tag.name for tag in tags]
-# ['B', 'A', 'C']
-```
-
-Plain `post.tags.all()` still returns whatever order the database picks. Use
-`get_tags()` wherever the order matters.
-
-## Mapping reference
-
-Each entry in `TAGS_INPUT_MAPPINGS` accepts these keys:
-
-| Key | Default | Meaning |
-| --- | --- | --- |
-| `field` | required (or `fields`) | The model field whose value is the tag text. |
-| `fields` | required (or `field`) | Several fields joined into one label. |
-| `separator` | `' - '` | Joins `fields` into a label and splits typed tags back into field values. |
-| `create_missing` | `False` | Create objects for unknown tags instead of raising a validation error. |
-| `queryset` | `Model.objects.all()` | A queryset, or a callable taking the mapping and returning one. Limits both autocomplete and validation. |
-| `filters` | `{}` | Extra `filter()` kwargs applied to autocomplete suggestions. |
-| `excludes` | `{}` | Extra `exclude()` kwargs applied to autocomplete suggestions. |
-| `ordering` | the label fields | `order_by()` arguments for the suggestion list. |
-| `autocomplete_queryset_filter` | `istartswith` match | Callable `(queryset, field, term)` returning the filtered queryset, for custom matching. |
-| `join_func` | `utils.join_func` | Callable `(fields, separator, row)` returning `(pk, label)`. |
-| `split_func` | `utils.split_func` | Callable `(fields, separator, label)` returning field values for a new object. |
-| `filter_func` | `utils.filter_func` | Callable `(fields, separator, labels)` returning the lookup kwargs used to find typed tags. |
-
-Tag lookups are case-insensitive, so `django` and `Django` resolve to the same
-object.
-
-The autocomplete endpoint lives at
-`<prefix>/autocomplete/<app>/<model>/<field-names>/` and takes two query
-parameters: `term` (the typed prefix) and `max_results` (default 10). It
-answers with a JSON list of labels.
-
-## Settings
-
-| Setting | Default | Purpose |
-| --- | --- | --- |
-| `TAGS_INPUT_MAPPINGS` | `{}` | The mapping table described above. |
-| `TAGS_INPUT_INCLUDE_JQUERY` | `True` | Include the bundled jQuery and jQuery UI in `TagsInputWidget.Media`. |
-| `TAGS_INPUT_ADMIN_CSS` | bundled CSS | Override the CSS the admin widget loads. |
-| `TAGS_INPUT_ADMIN_JS` | bundled JS | Override the JavaScript the admin widget loads. |
-
-## JavaScript hooks
-
-`TagsInputWidget` and `AdminTagsInputWidget` accept `on_add_tag`,
-`on_remove_tag` and `on_change_tag`. Each is a JavaScript expression that is
-inserted verbatim as the plugin callback:
-
-```python
-widget = widgets.TagsInputWidget(on_add_tag='function (tag) { console.log(tag); }')
-```
-
-## Running the example project
-
-The repository ships a demo project with fixtures, which is also what the test
-suite runs against:
-
-```bash
-git clone https://github.com/WoLpH/django-tags-input.git
-cd django-tags-input
-uv sync
-uv run python example/manage.py migrate
-uv run python example/manage.py migrate --database=other
-uv run python example/manage.py loaddata example/fixtures.json
-uv run python example/manage.py runserver
-```
-
-Open <http://localhost:8000/> for the plain form demo and
-<http://localhost:8000/admin/> for the admin, and log in with `admin` /
-`admin`. Some models in the example raise validation errors on purpose to show
-how the widget behaves when saving fails.
-
-## Documentation
-
-Guides and the full API reference live at
-**<https://django-tags-input.readthedocs.io/en/latest/>**.
-
-## Links
-
-- Documentation: <https://django-tags-input.readthedocs.io/en/latest/>
-- Source: <https://github.com/WoLpH/django-tags-input>
-- PyPI: <https://pypi.python.org/pypi/django-tags-input>
-- Issues: <https://github.com/WoLpH/django-tags-input/issues>
-- Changelog: <https://github.com/WoLpH/django-tags-input/blob/develop/CHANGELOG.md>
-- Author's blog: <https://wol.ph/>
-
-## Contributing
-
-Contributions are welcome. The project keeps a 100% coverage bar and runs
-Ruff, three type checkers and the full Django matrix in CI. See
-[CONTRIBUTING.md](https://github.com/WoLpH/django-tags-input/blob/develop/CONTRIBUTING.md)
-to get set up.
-
-## Licence
-
-BSD-3-Clause. See
-[LICENSE](https://github.com/WoLpH/django-tags-input/blob/develop/LICENSE).
+The test matrix covers Python 3.10-3.14 with compatible Django 5.2, 6.0 and
+6.1 releases. The project requires 100% statement and branch coverage and
+checks types with mypy, basedpyright and pyrefly.

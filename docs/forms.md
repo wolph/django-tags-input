@@ -1,5 +1,7 @@
 # Forms outside the admin
 
+Try creation, strict selection and composite labels in the {doc}`playground`.
+
 {class}`~tags_input.fields.TagsInputField` is a
 `ModelMultipleChoiceField` with a different widget and a smarter `clean()`.
 It works in any form:
@@ -28,8 +30,10 @@ The first argument is the queryset the tags come from. Its model must have an
 entry in `TAGS_INPUT_MAPPINGS`, otherwise the field raises
 {class}`~tags_input.exceptions.MappingUndefined` when it is constructed.
 
-`create_missing` on the field overrides the mapping's value, so a mapping can
-default to strict matching while one form allows creation.
+`create_missing=True` on the field enables creation even when the mapping
+defaults to strict matching. Setting it to `False` does not disable creation
+when the mapping enables it. Keep creation disabled in the mapping if only
+some forms should allow it.
 
 ## Rendering
 
@@ -105,3 +109,12 @@ text the user typed but did not confirm, and the widget appends that to the
 submitted tags so a half-typed label is not silently dropped. Both are
 handled by `value_from_datadict()`, so your view only ever sees the cleaned
 list of labels.
+
+## Try a saved selection
+
+Add a tag and save it here. The same browser database is available on the
+[dedicated example page](playground.md).
+
+```{raw} html
+<iframe src="_static/playground/index.html" title="Try saving ordered Django tags" style="width:100%;height:950px;border:0;border-radius:12px" loading="lazy"></iframe>
+```

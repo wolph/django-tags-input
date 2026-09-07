@@ -19,6 +19,7 @@ admin integration are all wired for you.
    :caption: Guides
 
    getting-started
+   playground
    configuration
    admin
    forms

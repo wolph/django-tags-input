@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Any, ClassVar
+from typing import Any
 
 from django.core import exceptions
 from django.db import models
@@ -20,14 +20,12 @@ class ReprModel(models.Model):
 
 
 class SimpleName(ReprModel):
-    objects: ClassVar[models.Manager[SimpleName]] = models.Manager()
     name: models.CharField[str, str] = models.CharField(
         max_length=50, help_text='Help text of the name'
     )
 
 
 class DoubleName(ReprModel):
-    objects: ClassVar[models.Manager[DoubleName]] = models.Manager()
     name_a: models.CharField[str, str] = models.CharField(max_length=50)
     name_b: models.CharField[str, str] = models.CharField(max_length=50)
 
@@ -41,7 +39,6 @@ class DoubleName(ReprModel):
 
 
 class ErrorName(ReprModel):
-    objects: ClassVar[models.Manager[ErrorName]] = models.Manager()
     name: models.CharField[str, str] = models.CharField(
         max_length=50, help_text='Impossible to save name'
     )
@@ -52,9 +49,6 @@ class ErrorName(ReprModel):
 
 
 class ForeignKeyToSimpleName(ReprModel):
-    objects: ClassVar[models.Manager[ForeignKeyToSimpleName]] = (
-        models.Manager()
-    )
     name: models.CharField[str, str] = models.CharField(max_length=50)
     simple_name: models.ForeignKey[SimpleName, SimpleName] = models.ForeignKey(
         SimpleName, on_delete=models.CASCADE
@@ -62,9 +56,6 @@ class ForeignKeyToSimpleName(ReprModel):
 
 
 class ManyToManyToSimpleName(ReprModel):
-    objects: ClassVar[models.Manager[ManyToManyToSimpleName]] = (
-        models.Manager()
-    )
     name: models.CharField[str, str] = models.CharField(max_length=50)
     simple_names = models.ManyToManyField(
         SimpleName,
@@ -74,9 +65,6 @@ class ManyToManyToSimpleName(ReprModel):
 
 
 class ManyToManyToDoubleName(ReprModel):
-    objects: ClassVar[models.Manager[ManyToManyToDoubleName]] = (
-        models.Manager()
-    )
     name: models.CharField[str, str] = models.CharField(max_length=50)
     double_names = models.ManyToManyField(
         DoubleName,
@@ -86,7 +74,6 @@ class ManyToManyToDoubleName(ReprModel):
 
 
 class ManyToManyToError(ReprModel):
-    objects: ClassVar[models.Manager[ManyToManyToError]] = models.Manager()
     name: models.CharField[str, str] = models.CharField(max_length=50)
     simple_names = models.ManyToManyField(
         SimpleName,
@@ -102,7 +89,6 @@ class ManyToManyToError(ReprModel):
 
 
 class ThroughModel(ReprModel):
-    objects: ClassVar[models.Manager[ThroughModel]] = models.Manager()
     name: models.CharField[str, str] = models.CharField(max_length=50)
     simple_name: models.ForeignKey[SimpleName, SimpleName] = models.ForeignKey(
         SimpleName, on_delete=models.CASCADE
@@ -113,13 +99,11 @@ class ThroughModel(ReprModel):
 
 
 class ManyToManyThrough(ReprModel):
-    objects: ClassVar[models.Manager[ManyToManyThrough]] = models.Manager()
     name: models.CharField[str, str] = models.CharField(max_length=50)
     simple_names = models.ManyToManyField(SimpleName, through=ThroughModel)
 
 
 class InlineModel(ReprModel):
-    objects: ClassVar[models.Manager[InlineModel]] = models.Manager()
     name: models.CharField[str, str] = models.CharField(max_length=50)
     simple_name: models.ForeignKey[SimpleName, SimpleName] = models.ForeignKey(
         SimpleName, on_delete=models.CASCADE

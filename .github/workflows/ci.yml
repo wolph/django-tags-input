@@ -50,7 +50,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        checker: [mypy, pyright, pyrefly]
+        checker: [mypy, pyright, pyrefly, typing310]
     steps:
       - uses: actions/checkout@v7
       - uses: astral-sh/setup-uv@v8.2.0
@@ -71,10 +71,28 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '24'
       - uses: astral-sh/setup-uv@v8.2.0
         with:
           cache-suffix: docs
       - run: uvx --with tox-uv tox -e docs
+      - run: npm run check
+        working-directory: playground
+      - run: npx playwright install --with-deps chromium firefox webkit
+        working-directory: playground
+      - run: npm test
+        working-directory: playground
+
+  distribution:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: astral-sh/setup-uv@v8.2.0
+      - run: uv run python tools/check_distribution.py
+      - run: uv build
+      - run: uvx twine check dist/*
 
   coverage:
     needs: test

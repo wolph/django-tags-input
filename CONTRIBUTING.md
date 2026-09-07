@@ -42,9 +42,11 @@ The quick loop during development:
 ```bash
 uv run pytest                 # tests with the 100% coverage gate
 uv run ruff check . && uv run ruff format --check .
-uv run mypy && uv run basedpyright && uv run pyrefly check
+uv run python tools/check_types.py mypy
+uv run python tools/check_types.py pyright
+uv run python tools/check_types.py pyrefly
 uv run codespell
-uv run sphinx-build -W -b html docs docs/_build/html
+uv run python tools/build_docs.py
 ```
 
 The full matrix is what CI runs. tox drives it and provisions any missing
@@ -56,6 +58,24 @@ uv run --group tox tox -m check  # static checks only
 uv run --group tox tox -m test   # the Django x Python matrix only
 uv run --group tox tox -e py312-django61,lint
 ```
+
+The documentation build requires Python 3.11+ and Node.js 24. It compiles the strict
+TypeScript browser example and stages checksum-verified Python wheels.
+The documentation and its browser package come from the same checkout.
+
+Run the browser checks after building the documentation:
+
+```bash
+cd playground
+npm ci
+npm run check
+npm exec playwright install chromium firefox webkit
+npm test
+```
+
+These tests run actual Django in Pyodide, including storage and reset checks.
+The `typing310` tox environment checks the oldest supported Python with
+compatible Django stubs. Default type-check environments use newer stubs.
 
 ### The example project
 
@@ -69,3 +89,20 @@ uv run python example/manage.py runserver
 ```
 
 Log in to <http://localhost:8000/admin/> with `admin` / `admin`.
+
+### Capturing the documentation examples
+
+Build the docs and serve the output on port 8779, then run the capture script
+in another terminal:
+
+```bash
+uv run python tools/build_docs.py
+uv run python -m http.server 8779 --bind 127.0.0.1 --directory docs/_build/html
+# In another terminal:
+node tools/capture_docs.mts
+```
+
+The script starts a fresh browser, uses the real form and saves screenshots
+and a WebM recording under `docs/_static/`. Responsive review captures go to
+`docs/_build/visual/`. The native admin screenshots use the seeded showcase
+on localhost. The inline screenshot uses the regression project's fixtures.

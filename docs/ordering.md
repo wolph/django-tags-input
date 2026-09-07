@@ -1,5 +1,8 @@
 # Tag order
 
+Add tags, save and reload the real form in the {doc}`playground` to test the
+round trip yourself.
+
 Most tagging widgets treat a relation as a set. This one treats it as a list.
 Enter `B, A, C` and the widget shows `B, A, C` the next time the form loads,
 and {func}`~tags_input.utils.get_tags` returns the objects in that order.
@@ -44,3 +47,12 @@ form mixin and the admin, the same way Django's admin skips them.
 Re-saving the relation on every form save also means the through rows get new
 primary keys each time. If something else stores those through ids, it will
 break. In practice nothing should.
+
+## Try a saved selection
+
+Add a tag and save it here. The same browser database is available on the
+[dedicated example page](playground.md).
+
+```{raw} html
+<iframe src="_static/playground/index.html" title="Try saving ordered Django tags" style="width:100%;height:950px;border:0;border-radius:12px" loading="lazy"></iframe>
+```

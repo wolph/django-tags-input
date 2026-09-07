@@ -14,14 +14,14 @@ accepts these keys:
 | `fields` | required (or `field`) | Several fields joined into one label. |
 | `separator` | `' - '` | Joins `fields` into a label and splits typed tags back into field values. |
 | `create_missing` | `False` | Create objects for unknown tags instead of raising a validation error. |
-| `queryset` | `Model.objects.all()` | A queryset, or a callable taking the mapping and returning one. Limits both autocomplete and validation. |
+| `queryset` | `Model.objects.all()` | A queryset, or a callable taking the mapping and returning one. Sets the autocomplete queryset. The form field uses its own queryset for validation. |
 | `filters` | `{}` | Extra `filter()` kwargs applied to autocomplete suggestions. |
 | `excludes` | `{}` | Extra `exclude()` kwargs applied to autocomplete suggestions. |
 | `ordering` | the label fields | `order_by()` arguments for the suggestion list. |
 | `autocomplete_queryset_filter` | `istartswith` match | Callable `(queryset, field, term)` returning the filtered queryset. |
-| `join_func` | {func}`~tags_input.utils.join_func` | Callable `(fields, separator, row)` returning `(pk, label)`. |
-| `split_func` | {func}`~tags_input.utils.split_func` | Callable `(fields, separator, label)` returning the field values for a new object. |
-| `filter_func` | {func}`~tags_input.utils.filter_func` | Callable `(fields, separator, labels)` returning the lookup kwargs used to find typed tags. |
+| `join_func` | {func}`~tags_input.utils.join_func` | Callable `(row)` returning `(pk, label)`. |
+| `split_func` | {func}`~tags_input.utils.split_func` | Callable `(label)` returning the field values for a new object. |
+| `filter_func` | {func}`~tags_input.utils.filter_func` | Callable `(labels)` returning the lookup kwargs used to find typed tags. |
 
 A mapping without `field` or `fields` raises
 {class}`~tags_input.exceptions.ConfigurationError` the first time it is used.
@@ -30,14 +30,21 @@ Asking for a model that has no mapping raises
 
 ### Single field labels
 
-The simplest mapping names one field. Tags are matched case-insensitively, so
-`django` and `Django` resolve to the same object:
+The simplest mapping names one field:
 
 ```python
 TAGS_INPUT_MAPPINGS = {
     'blog.Tag': {'field': 'name', 'create_missing': True},
 }
 ```
+
+The validation lookup uses the database's `__in` comparison before matching
+returned labels in lowercase. Whether `django` finds `Django` therefore
+depends on the database collation. Autocomplete uses `istartswith`.
+
+The built-in callback helpers receive fields and separator through partial
+application. Custom mapping callbacks receive only the row, label or labels
+shown in the table.
 
 ### Composite labels
 
@@ -57,13 +64,13 @@ TAGS_INPUT_MAPPINGS = {
 
 Typing `Ada Lovelace` creates `Contact(first_name='Ada', last_name='Lovelace')`
 when no such contact exists. The split uses `str.split(separator, len(fields))`,
-so a label with more separators than fields keeps the remainder in the last
-field.
+then pairs the pieces with the field names. Extra pieces are discarded.
+For example, `Ada Augusta Lovelace` stores `Ada` and `Augusta` with this
+mapping. Use a custom one-argument `split_func` when names need another rule.
 
 ### Restricting the choices
 
-`queryset`, `filters` and `excludes` narrow what the widget offers and
-accepts. `queryset` may be a callable, which is handy when the queryset
+`queryset`, `filters` and `excludes` narrow the autocomplete suggestions. `queryset` may be a callable, which is handy when the queryset
 depends on something that is not available at import time:
 
 ```python
@@ -84,7 +91,8 @@ TAGS_INPUT_MAPPINGS = {
 ```
 
 `filters`, `excludes` and `ordering` only shape the autocomplete suggestions.
-`queryset` also limits which objects validate on save.
+Pass the permitted queryset to `TagsInputField` to restrict validation.
+Suggestion filters are not permission checks.
 
 ### Custom matching
 
@@ -120,6 +128,9 @@ number of suggestions (default 10), and answers with a JSON list of labels:
 GET /tags_input/autocomplete/blog/Tag/name/?term=dj&max_results=5
 ["django", "django-admin", "djangocon"]
 ```
+
+An empty result uses an empty response body, rather than `[]`. Responses
+use the `application/javascript` content type.
 
 The view respects the mapping's `queryset`, `filters`, `excludes` and
 `ordering`. It does not check permissions, so if the labels are sensitive,

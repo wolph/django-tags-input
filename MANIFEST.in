@@ -1,7 +1,0 @@
-include tags_input
-recursive-include tags_input *.py
-recursive-include tags_input/templates *.html
-include tags_input/static *.min.js
-include tags_input/static *.min.css
-include tags_input/static *.png
-

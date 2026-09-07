@@ -1,0 +1,184 @@
+[build-system]
+requires = ['uv_build>=0.11,<0.13']
+build-backend = 'uv_build'
+
+[tool.uv.build-backend]
+# Flat layout: the package dir sits at the repo root.
+module-root = ''
+module-name = 'tags_input'
+# Keep the example project (it hosts the test suite) and the tox config in the
+# sdist so downstream packagers can build and test from the source
+# distribution.
+source-include = [
+    'tags_input/static/**',
+    'tags_input/templates/**',
+    'example/**',
+    'tox.ini',
+]
+source-exclude = ['example/*.sqlite3', '**/__pycache__']
+# The wheel ships only the minified assets the widgets reference. The vendored
+# upstream source trees stay in the repository for rebuilding those assets.
+wheel-exclude = [
+    'tags_input/static/jquery-ui-1.12.1/**',
+    'tags_input/static/jquery-tagsinput-revisited-2.0/**',
+]
+
+[project]
+name = 'django-tags-input'
+version = "6.0.0" # static; the single source of truth. Bump via `uv version`.
+description = 'Django form field, widget and admin mixin that turn ManyToMany relations into ordered, autocompleting tag inputs with optional on-the-fly creation.'
+readme = 'README.md'
+requires-python = '>=3.10'
+license = 'BSD-3-Clause'
+license-files = ['LICENSE']
+authors = [{ name = 'Rick van Hattem', email = 'wolph@wol.ph' }]
+keywords = [
+    'django',
+    'tags',
+    'tagging',
+    'autocomplete',
+    'widget',
+    'admin',
+    'manytomany',
+]
+classifiers = [
+    'Development Status :: 5 - Production/Stable',
+    'Environment :: Web Environment',
+    'Framework :: Django',
+    'Framework :: Django :: 5.2',
+    'Framework :: Django :: 6.0',
+    'Framework :: Django :: 6.1',
+    'Intended Audience :: Developers',
+    'Operating System :: OS Independent',
+    'Programming Language :: Python :: 3',
+    'Programming Language :: Python :: 3.10',
+    'Programming Language :: Python :: 3.11',
+    'Programming Language :: Python :: 3.12',
+    'Programming Language :: Python :: 3.13',
+    'Programming Language :: Python :: 3.14',
+    'Programming Language :: Python :: 3 :: Only',
+    'Programming Language :: Python :: Implementation :: CPython',
+    'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
+    'Topic :: Software Development :: Libraries :: Python Modules',
+    'Typing :: Typed',
+]
+dependencies = ['django>=5.2']
+
+[project.urls]
+Homepage = 'https://github.com/WoLpH/django-tags-input'
+Documentation = 'https://django-tags-input.readthedocs.io/'
+Repository = 'https://github.com/WoLpH/django-tags-input'
+Changelog = 'https://github.com/WoLpH/django-tags-input/blob/develop/CHANGELOG.md'
+
+[project.optional-dependencies]
+docs = ['sphinx', 'furo', 'myst-parser']
+tests = ['pytest', 'pytest-cov', 'pytest-django', 'django-utils2>=3.0.0']
+
+[dependency-groups]
+docs = ['sphinx', 'furo', 'myst-parser']
+test = ['pytest', 'pytest-cov', 'pytest-django', 'django-utils2>=3.0.0']
+dev = [
+    'ruff',
+    'mypy',
+    'django-stubs',
+    'basedpyright',
+    'pyrefly',
+    'codespell',
+    'lefthook',
+    { include-group = 'test' },
+    { include-group = 'docs' },
+]
+tox = ['tox>=4', 'tox-uv>=1', 'tox-gh-actions']
+
+# --- Type checking (mypy + basedpyright + pyrefly, all strict) --------------
+
+[tool.mypy]
+python_version = '3.10'
+strict = true
+check_untyped_defs = true
+plugins = ['mypy_django_plugin.main']
+files = ['tags_input', 'example']
+
+[tool.django-stubs]
+django_settings_module = 'example.settings'
+
+[[tool.mypy.overrides]]
+module = 'example.*.migrations.*'
+ignore_errors = true
+
+[[tool.mypy.overrides]]
+module = 'example.tests'
+disallow_untyped_defs = false
+
+[tool.pyright]
+# basedpyright reads the [tool.pyright] table (it is a pyright superset).
+typeCheckingMode = 'strict'
+pythonVersion = '3.10'
+include = ['tags_input', 'example']
+exclude = ['**/__pycache__', '.tox', '.venv', 'build', 'dist', 'docs']
+reportMissingTypeStubs = false
+
+[tool.pyrefly]
+project-includes = ['tags_input', 'example']
+project-excludes = ['**/__pycache__', 'example/**/migrations/**']
+python-version = '3.10'
+
+# --- Tests & coverage -------------------------------------------------------
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = 'example.settings'
+# The example project hosts the test suite. tox installs the package as a
+# wheel, so the repo root has to be put on sys.path explicitly for
+# `example.settings` to import.
+pythonpath = ['.']
+testpaths = ['example']
+python_files = ['tests.py', 'test_*.py', '*_tests.py']
+addopts = [
+    '--strict-config',
+    '--strict-markers',
+    '-ra',
+    '--cov=tags_input',
+    '--cov-report=term-missing',
+]
+xfail_strict = true
+filterwarnings = [
+    'error',
+    'ignore::DeprecationWarning',
+    'ignore::PendingDeprecationWarning',
+    'ignore::ResourceWarning',
+]
+
+[tool.coverage.run]
+branch = true
+parallel = true         # unique data file per run so matrix cells can be combined
+source = ['tags_input']
+
+[tool.coverage.paths]
+# Map per-cell data files back onto the source tree when combining.
+source = ['tags_input', '*/tags_input']
+
+[tool.coverage.report]
+fail_under = 100
+show_missing = true
+exclude_also = [
+    'pragma: no cover',
+    'if typing.TYPE_CHECKING:',
+    'if types.TYPE_CHECKING:',
+    'if TYPE_CHECKING:',
+    'if __name__ == .__main__.:',
+    'if 0:',
+    'raise AssertionError',
+    'raise NotImplementedError',
+    '@(abc\.)?abstractmethod',
+    '@(typing\.|types\.)?overload',
+]
+
+[tool.coverage.html]
+directory = 'htmlcov'
+
+[tool.codespell]
+skip = '*.lock,*.svg,*.png,*.egg-info,./.git,./.tox,./.venv,./.ruff_cache,./.mypy_cache,./.pytest_cache,./build,./dist,./htmlcov,./docs/_build,*/__pycache__,*.min.js,*.min.css,./tags_input/static,./.zshhistory'
+check-hidden = true
+
+[tool.uv]
+exclude-newer = "14 days"

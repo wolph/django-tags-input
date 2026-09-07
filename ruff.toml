@@ -1,0 +1,108 @@
+target-version = 'py310'
+
+exclude = [
+    '.venv',
+    '.tox',
+    'build',
+    'dist',
+    '*.min.js',
+    '*.min.css',
+]
+
+line-length = 79
+extend-exclude = ['*.md']
+
+[lint]
+ignore = [
+    'A001', # Variable is shadowing a Python builtin
+    'A002', # Argument is shadowing a Python builtin
+    'A003', # Class attribute is shadowing a Python builtin
+    'B023', # function-uses-loop-variable
+    'B024', # abstract base class without abstract methods
+    'D205', # blank-line-after-summary
+    'D212', # multi-line-summary-first-line
+    'RET505', # Unnecessary else after return
+    'TRY003', # Avoid specifying long messages outside exception class
+    'RET507', # Unnecessary elif after continue
+    'C405', # Unnecessary literal (rewrite as set literal)
+    'C406', # Unnecessary literal (rewrite as dict literal)
+    'C408', # Unnecessary call (rewrite as literal)
+    'SIM114', # Combine if branches using logical or
+    'RET506', # Unnecessary else after raise
+    'Q001', # Remove bad quotes
+    'Q002', # Remove bad quotes
+    'FA100', # Missing from __future__ import annotations
+    'COM812', # Missing trailing comma in a list
+    'ISC001', # String concatenation with implicit str conversion
+    'SIM108', # Ternary operators are not always more readable
+    'RUF100', # Unused noqa directives
+]
+
+select = [
+    'A', # flake8-builtins
+    'ASYNC', # flake8 async checker
+    'B', # flake8-bugbear
+    'C4', # flake8-comprehensions
+    'C90', # mccabe
+    'COM', # flake8-commas
+    'D', # pydocstyle
+    'E', # pycodestyle error
+    'F', # pyflakes
+    'FA', # flake8-future-annotations
+    'I', # isort
+    'ICN', # flake8-import-conventions
+    'INP', # flake8-no-pep420
+    'ISC', # flake8-implicit-str-concat
+    'N', # pep8-naming
+    'NPY', # NumPy-specific rules
+    'PERF', # perflint
+    'PIE', # flake8-pie
+    'Q', # flake8-quotes
+    'RET', # flake8-return
+    'RUF', # Ruff-specific rules
+    'SIM', # flake8-simplify
+    'T20', # flake8-print
+    'TD', # flake8-todos
+    'TRY', # tryceratops
+    'UP', # pyupgrade
+]
+
+[lint.per-file-ignores]
+'*tests*' = ['INP001', 'T201', 'T203', 'ASYNC109', 'B007', 'D']
+'example/*' = ['INP001', 'D']
+'example/*/migrations/*' = ['E501', 'INP001', 'D', 'RUF012']
+'docs/conf.py' = ['E501', 'INP001', 'D']
+'docs/_theme/*' = ['RUF012', 'INP001', 'D']
+
+[lint.pydocstyle]
+convention = 'google'
+ignore-decorators = [
+    'typing.overload',
+    'typing.override',
+]
+
+[lint.isort]
+case-sensitive = true
+combine-as-imports = true
+force-wrap-aliases = true
+
+[lint.flake8-quotes]
+docstring-quotes = 'single'
+inline-quotes = 'single'
+multiline-quotes = 'single'
+
+[format]
+line-ending = 'lf'
+indent-style = 'space'
+quote-style = 'single'
+docstring-code-format = true
+skip-magic-trailing-comma = false
+exclude = [
+    '__init__.py',
+]
+
+[lint.pycodestyle]
+max-line-length = 79
+
+[lint.flake8-pytest-style]
+mark-parentheses = true

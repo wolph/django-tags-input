@@ -1,6 +1,41 @@
-build
-dist
-*.egg-info
-*.egg
-docs/_build
-cover
+# Byte-compiled / caches
+__pycache__/
+*.py[cod]
+
+# Packaging / build
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Virtualenvs & tool caches
+.venv/
+.tox/
+.ruff_cache/
+.mypy_cache/
+.pytest_cache/
+.dmypy.json
+
+# Local Python version pin (per-developer; not enforced on the matrix)
+.python-version
+
+# Coverage
+.coverage
+.coverage.*
+htmlcov/
+cover/
+
+# Docs
+docs/_build/
+
+# Editors / OS
+.idea/
+.vscode/
+.DS_Store
+
+# Databases
+*.sqlite3
+other_database.sqlite3
+
+# uv lockfile - not committed for libraries
+uv.lock

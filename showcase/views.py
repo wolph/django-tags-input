@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import logging
 from typing import Any
 
 from django.http import HttpRequest, HttpResponse, HttpResponseBadRequest
@@ -12,6 +13,8 @@ from tags_input.widgets import TagsInputWidgetBase
 
 from .forms import FORMS
 from .runtime import dispatch_json
+
+logger: logging.Logger = logging.getLogger(__name__)
 
 
 def index(request: HttpRequest) -> HttpResponse:
@@ -30,6 +33,9 @@ def index(request: HttpRequest) -> HttpResponse:
     try:
         state: dict[str, Any] = json.loads(dispatch_json(json.dumps(payload)))
     except ValueError as exc:
-        return HttpResponseBadRequest(str(exc))
+        # Log the reason server-side. The response stays generic so exception
+        # text never reaches the client.
+        logger.warning('Rejected showcase request: %s', exc)
+        return HttpResponseBadRequest('Invalid showcase request.')
     state['media'] = FORMS[mode]().media
     return render(request, 'showcase/index.html', state)

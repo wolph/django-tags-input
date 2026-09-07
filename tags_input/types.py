@@ -66,19 +66,19 @@ class RelatedTagManager(Protocol):
 
     def none(self) -> TagQuerySet:
         """Return an empty queryset for the related model."""
-        ...
+        raise NotImplementedError
 
     def filter(self, **kwargs: object) -> TagQuerySet:
         """Return related models matching the lookup arguments."""
-        ...
+        raise NotImplementedError
 
     def clear(self) -> None:
         """Remove all relationships from the owning instance."""
-        ...
+        raise NotImplementedError
 
     def add(self, *objs: models.Model) -> None:
         """Add relationships to the supplied model instances."""
-        ...
+        raise NotImplementedError
 
 
 class ModelWithObjects(Protocol):

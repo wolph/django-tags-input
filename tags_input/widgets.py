@@ -7,7 +7,6 @@ from typing import TYPE_CHECKING, Any, ClassVar, cast
 
 from django import forms, urls
 from django.conf import settings
-from django.contrib.admin import widgets
 from django.template.loader import render_to_string
 from django.utils.safestring import SafeString, mark_safe
 
@@ -36,9 +35,8 @@ class TagsInputWidgetBase(forms.SelectMultiple):
     ) -> None:
         """Initialise the widget with optional JS callback hooks.
 
-        The callbacks are keyword-only so that cooperative ``super()`` calls
-        from other widget bases (the admin's ``FilteredSelectMultiple`` passes
-        ``attrs`` and ``choices`` positionally) can never land in them.
+        The callbacks are keyword-only so that ``attrs`` and ``choices``,
+        which Django passes positionally, can never land in them.
         """
         self.on_add_tag = on_add_tag
         self.on_remove_tag = on_remove_tag
@@ -156,13 +154,19 @@ class TagsInputWidget(TagsInputWidgetBase):
             js = ('jquery-3.2.1.min.js', 'jquery-ui-1.12.1.min.js', *js)
 
 
-class AdminTagsInputWidget(
-    widgets.FilteredSelectMultiple, TagsInputWidgetBase
-):
-    """Admin widget integrating tags input with Django admin styling."""
+class AdminTagsInputWidget(TagsInputWidgetBase):
+    """Admin widget integrating tags input with Django admin styling.
 
-    # This class inherits FilteredSelectMultiple because the Django admin
-    # handles the FilteredSelectMultiple differently from regular widgets
+    The constructor mirrors the admin's ``FilteredSelectMultiple`` so the
+    widget can stand in for it, and ``use_fieldset`` matches it so the admin
+    renders the label as a ``<legend>`` the same way. Inheriting from it would
+    add nothing: the admin only constructs that widget for ``filter_vertical``
+    and ``filter_horizontal`` fields and never checks for it.
+    """
+
+    use_fieldset: bool = True
+    verbose_name: StrOrPromise
+    is_stacked: bool
 
     def __init__(
         self,
@@ -175,23 +179,23 @@ class AdminTagsInputWidget(
         on_remove_tag: str | None = None,
         on_change_tag: str | None = None,
     ) -> None:
-        """Initialise the admin widget and its optional JS callback hooks.
-
-        ``FilteredSelectMultiple.__init__`` hands ``attrs`` and ``choices`` on
-        to ``TagsInputWidgetBase.__init__`` through ``super()``, so the
-        callbacks are set afterwards.
-        """
-        super().__init__(verbose_name, is_stacked, attrs, choices)
-        self.on_add_tag = on_add_tag
-        self.on_remove_tag = on_remove_tag
-        self.on_change_tag = on_change_tag
+        """Initialise the admin widget and its optional JS callback hooks."""
+        self.verbose_name = verbose_name
+        self.is_stacked = is_stacked
+        super().__init__(
+            attrs,
+            choices,
+            on_add_tag=on_add_tag,
+            on_remove_tag=on_remove_tag,
+            on_change_tag=on_change_tag,
+        )
 
     @property
     def media(self) -> forms.Media:
         """Return combined media assets for admin tags input widget."""
         return forms.Media(js=self.Media.js, css=self.Media.css)
 
-    class Media(widgets.FilteredSelectMultiple.Media):
+    class Media:
         """Static media assets for admin tags input widget."""
 
         css: ClassVar[dict[str, Sequence[str]]] = getattr(
@@ -204,8 +208,7 @@ class AdminTagsInputWidget(
                 ),
             },
         )
-        # Django declares this inherited media attribute as an instance list.
-        js: list[str] = list(  # noqa: RUF012
+        js: ClassVar[list[str]] = list(
             getattr(
                 settings,
                 'TAGS_INPUT_ADMIN_JS',

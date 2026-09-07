@@ -259,9 +259,9 @@ class BaseTestCase(test.TestCase):
         self.assertIn('onRemoveTag: removeTag', html)
         self.assertIn('onChangeTag: changeTag', html)
 
-        # The admin widget goes through FilteredSelectMultiple.__init__, which
-        # passes attrs and choices on positionally. They must not end up in
-        # the callback slots.
+        # The admin widget takes verbose_name and is_stacked positionally like
+        # Django's FilteredSelectMultiple. attrs and choices must not end up
+        # in the callback slots.
         admin_widget = widgets.AdminTagsInputWidget(
             'Simple names',
             False,

@@ -1,5 +1,16 @@
 # Changelog
 
+## Unreleased
+
+### Changed
+
+- `AdminTagsInputWidget` no longer inherits from Django's
+  `FilteredSelectMultiple`. It keeps the same constructor, `verbose_name`,
+  `is_stacked` and `use_fieldset`, so the admin renders it unchanged, but the
+  initialisation chain is now a single explicit `super()` call.
+- The showcase view logs rejected requests and answers with a generic 400
+  message instead of echoing the exception text.
+
 ## 7.0.0 - 2026-09-07
 
 ### Breaking changes

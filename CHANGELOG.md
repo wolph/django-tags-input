@@ -1,9 +1,11 @@
 # Changelog
 
-## Unreleased
+## 7.0.1 - 2026-09-07
 
 ### Changed
 
+- CI publishes the combined matrix coverage to Coveralls and the README
+  badges point at it.
 - `AdminTagsInputWidget` no longer inherits from Django's
   `FilteredSelectMultiple`. It keeps the same constructor, `verbose_name`,
   `is_stacked` and `use_fieldset`, so the admin renders it unchanged, but the

@@ -29,7 +29,7 @@ wheel-exclude = [
 
 [project]
 name = 'django-tags-input'
-version = "7.0.0" # static; the single source of truth. Bump via `uv version`.
+version = "7.0.1" # static; the single source of truth. Bump via `uv version`.
 description = 'Django form field, widget and admin mixin that turn ManyToMany relations into ordered, autocompleting tag inputs with optional on-the-fly creation.'
 readme = 'README.md'
 requires-python = '>=3.10'

@@ -183,3 +183,12 @@ Read the saved order with `tags_input.utils.get_tags(post, 'tags')`.
 The test matrix covers Python 3.10-3.14 with compatible Django 5.2, 6.0 and
 6.1 releases. The project requires 100% statement and branch coverage and
 checks types with mypy, basedpyright and pyrefly.
+
+## Support
+
+django-tags-input is maintained by [Rick van Hattem](https://github.com/wolph) in his own time.
+
+If it saved you an afternoon, a tip covers an hour of issue triage:
+[Ko-fi](https://ko-fi.com/wolph_gh) or [GitHub Sponsors](https://github.com/sponsors/wolph).
+
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/wolph_gh)

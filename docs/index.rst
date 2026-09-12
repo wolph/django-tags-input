@@ -34,6 +34,12 @@ admin integration are all wired for you.
    changelog
    contributing
 
+.. toctree::
+   :maxdepth: 1
+   :caption: Project
+
+   sponsor
+
 Indices and tables
 ------------------
 

@@ -10,10 +10,10 @@ preserve the selection order through form saves and reloads.
 [![Monthly downloads](https://static.pepy.tech/badge/django-tags-input/month)](https://pepy.tech/project/django-tags-input)
 [![BSD licence](https://img.shields.io/pypi/l/django-tags-input)](https://github.com/wolph/django-tags-input/blob/develop/LICENSE)
 
-[![CI on develop](https://img.shields.io/github/actions/workflow/status/wolph/django-tags-input/ci.yml?branch=develop&label=CI)](https://github.com/wolph/django-tags-input/actions/workflows/ci.yml?query=branch%3Adevelop)
-[![Coverage on develop](https://img.shields.io/coverallsCoverage/github/wolph/django-tags-input?branch=develop)](https://coveralls.io/github/wolph/django-tags-input?branch=develop)
+[![CI on master](https://github.com/wolph/django-tags-input/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/wolph/django-tags-input/actions/workflows/ci.yml?query=branch%3Amaster)
+[![Coverage on master](https://coveralls.io/repos/github/wolph/django-tags-input/badge.svg?branch=master)](https://coveralls.io/github/wolph/django-tags-input?branch=master)
 [![Documentation build](https://img.shields.io/readthedocs/django-tags-input/latest)](https://django-tags-input.readthedocs.io/en/latest/)
-[![CodeQL on develop](https://img.shields.io/github/actions/workflow/status/wolph/django-tags-input/codeql.yml?branch=develop&label=CodeQL)](https://github.com/wolph/django-tags-input/actions/workflows/codeql.yml?query=branch%3Adevelop)
+[![CodeQL on master](https://img.shields.io/github/actions/workflow/status/wolph/django-tags-input/codeql.yml?branch=master&label=CodeQL)](https://github.com/wolph/django-tags-input/actions/workflows/codeql.yml?query=branch%3Amaster)
 [![Type checking: mypy, basedpyright and pyrefly](https://img.shields.io/badge/type_checking-mypy_%7C_basedpyright_%7C_pyrefly-blue)](https://github.com/wolph/django-tags-input/blob/develop/pyproject.toml)
 [![Linting and formatting: Ruff](https://img.shields.io/badge/linting_and_formatting-Ruff-blue)](https://github.com/wolph/django-tags-input/blob/develop/CONTRIBUTING.md#running-the-checks)
 [![Package manager: uv](https://img.shields.io/badge/package_manager-uv-blue)](https://github.com/wolph/django-tags-input/blob/develop/CONTRIBUTING.md#development-environment)

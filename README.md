@@ -4,16 +4,16 @@ Ordered tags with autocomplete for Django forms and the admin.
 Use existing Django models for labels, optionally create new objects, and
 preserve the selection order through form saves and reloads.
 
-[![PyPI version](https://img.shields.io/pypi/v/django-tags-input?style=plastic)](https://pypi.org/project/django-tags-input/)
-[![Python versions](https://img.shields.io/pypi/pyversions/django-tags-input?style=plastic)](https://pypi.org/project/django-tags-input/)
-[![Django versions](https://img.shields.io/pypi/frameworkversions/django/django-tags-input?style=plastic)](https://pypi.org/project/django-tags-input/)
-[![Monthly downloads](https://static.pepy.tech/badge/django-tags-input/month)](https://pepy.tech/projects/django-tags-input)
-[![BSD licence](https://img.shields.io/pypi/l/django-tags-input?style=plastic)](https://github.com/wolph/django-tags-input/blob/develop/LICENSE)
+[![PyPI version](https://img.shields.io/pypi/v/django-tags-input?style=flat-square&labelColor=555&color=007ec6)](https://pypi.org/project/django-tags-input/)
+[![Python versions](https://img.shields.io/pypi/pyversions/django-tags-input?style=flat-square&labelColor=555&color=007ec6)](https://pypi.org/project/django-tags-input/)
+[![Django versions](https://img.shields.io/pypi/frameworkversions/django/django-tags-input?style=flat-square&labelColor=555&color=007ec6)](https://pypi.org/project/django-tags-input/)
+[![Monthly downloads](https://img.shields.io/badge/dynamic/xml?url=https%3A%2F%2Fapi.pepy.tech%2Fbadge%2Fdjango-tags-input%2Fmonth&query=%28%2F%2F%2A%5Blocal-name%28%29%3D%22text%22%5D%29%5Blast%28%29%5D&label=downloads%2Fmonth&style=flat-square&labelColor=555&color=007ec6)](https://pepy.tech/projects/django-tags-input)
+[![BSD licence](https://img.shields.io/pypi/l/django-tags-input?style=flat-square&labelColor=555&color=007ec6)](https://github.com/wolph/django-tags-input/blob/develop/LICENSE)
 
-[![CI on master](https://github.com/wolph/django-tags-input/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/wolph/django-tags-input/actions/workflows/ci.yml?query=branch%3Amaster)
-[![Coverage on master](https://coveralls.io/repos/github/wolph/django-tags-input/badge.svg?branch=master)](https://coveralls.io/github/wolph/django-tags-input?branch=master)
-[![Documentation build](https://img.shields.io/readthedocs/django-tags-input/latest?style=plastic)](https://django-tags-input.readthedocs.io/en/latest/)
-[![CodeQL on master](https://img.shields.io/github/actions/workflow/status/wolph/django-tags-input/codeql.yml?branch=master&label=CodeQL&style=plastic)](https://github.com/wolph/django-tags-input/actions/workflows/codeql.yml?query=branch%3Amaster)
+[![CI on master](https://img.shields.io/github/actions/workflow/status/wolph/django-tags-input/ci.yml?branch=master&label=CI&style=flat-square&labelColor=555)](https://github.com/wolph/django-tags-input/actions/workflows/ci.yml?query=branch%3Amaster)
+[![Coverage on master](https://img.shields.io/coverallsCoverage/github/wolph/django-tags-input?branch=master&style=flat-square&labelColor=555)](https://coveralls.io/github/wolph/django-tags-input?branch=master)
+[![Documentation build](https://img.shields.io/readthedocs/django-tags-input/latest?style=flat-square&labelColor=555)](https://django-tags-input.readthedocs.io/en/latest/)
+[![CodeQL on master](https://img.shields.io/github/actions/workflow/status/wolph/django-tags-input/codeql.yml?branch=master&label=CodeQL&style=flat-square&labelColor=555)](https://github.com/wolph/django-tags-input/actions/workflows/codeql.yml?query=branch%3Amaster)
 [Type checking: mypy, basedpyright and pyrefly](https://github.com/wolph/django-tags-input/blob/develop/pyproject.toml)
 [Linting and formatting: Ruff](https://github.com/wolph/django-tags-input/blob/develop/CONTRIBUTING.md#running-the-checks)
 [Package manager: uv](https://github.com/wolph/django-tags-input/blob/develop/CONTRIBUTING.md#development-environment)

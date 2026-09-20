@@ -106,3 +106,16 @@ The script starts a fresh browser, uses the real form and saves screenshots
 and a WebM recording under `docs/_static/`. Responsive review captures go to
 `docs/_build/visual/`. The native admin screenshots use the seeded showcase
 on localhost. The inline screenshot uses the regression project's fixtures.
+
+## Automatic formatting
+
+Pull requests apply Ruff fixes before the lint check. With the autofix.ci
+app installed for this repository, those fixes are committed to the pull
+request branch, including forks. Findings Ruff cannot fix still fail CI.
+Push builds check the committed files without applying fixes.
+
+Apply the same fixes locally with:
+
+```console
+uvx --with tox-uv tox -e ruff-fix
+```

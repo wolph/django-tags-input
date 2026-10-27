@@ -1,5 +1,18 @@
 # Changelog
 
+## 7.0.2 - 2026-10-28
+
+### Changed
+
+- The build backend requirement allows every `uv_build` release below 1.0
+  instead of stopping at 0.13, so distributions that ship a newer uv, such as
+  Fedora, can build the package from the sdist. Reported by @jeremycline in
+  wolph/portalocker#155.
+- The `ModelWithObjects` protocol declares `objects` as a class attribute and
+  the two call sites cast to the model class, which is what the manager
+  descriptor in django-stubs 6.1.2 expects. Type checks only, no runtime
+  change.
+
 ## 7.0.1 - 2026-09-07
 
 ### Changed

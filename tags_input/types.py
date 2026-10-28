@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from collections.abc import Callable, Mapping, Sequence
-from typing import TYPE_CHECKING, Protocol, TypedDict
+from typing import TYPE_CHECKING, ClassVar, Protocol, TypedDict
 
 from django.db import models
 
@@ -84,4 +84,4 @@ class RelatedTagManager(Protocol):
 class ModelWithObjects(Protocol):
     """Django models exposing the conventional objects manager."""
 
-    objects: models.Manager[models.Model]
+    objects: ClassVar[models.Manager[models.Model]]

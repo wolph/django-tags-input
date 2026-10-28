@@ -49,7 +49,9 @@ def get_mapping(
     elif isinstance(model_or_queryset, type) and issubclass(
         model_or_queryset, models.Model
     ):
-        queryset = cast(ModelWithObjects, model_or_queryset).objects.all()
+        queryset = cast(
+            'type[ModelWithObjects]', model_or_queryset
+        ).objects.all()
         model = model_or_queryset
     else:
         raise TypeError(
@@ -161,7 +163,7 @@ def get_tags(
     source_field: str = manager.source_field_name
     target_field: str = manager.target_field_name
     ordered_pks: list[object] = list(
-        cast(ModelWithObjects, through)
+        cast('type[ModelWithObjects]', through)
         .objects.filter(**{source_field: instance})
         .order_by('pk')
         .values_list(target_field, flat=True)

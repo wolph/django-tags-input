@@ -74,6 +74,7 @@ Documentation = 'https://django-tags-input.readthedocs.io/'
 Repository = 'https://github.com/WoLpH/django-tags-input'
 Changelog = 'https://github.com/WoLpH/django-tags-input/blob/develop/CHANGELOG.md'
 Funding = 'https://github.com/sponsors/wolph'
+Issues = 'https://github.com/wolph/django-tags-input/issues'
 
 [project.optional-dependencies]
 docs = ['sphinx', 'furo', 'myst-parser>=5.1; python_version >= "3.11"', 'uv']

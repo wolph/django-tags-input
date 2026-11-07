@@ -20,7 +20,7 @@ jobs:
           ['3.10', '3.11', '3.12', '3.13', '3.14']
     steps:
       - uses: actions/checkout@v7
-      - uses: astral-sh/setup-uv@v8.2.0
+      - uses: astral-sh/setup-uv@v10.3.2
         with:
           python-version: ${{ matrix.python-version }}
           enable-cache: true
@@ -40,7 +40,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
-      - uses: astral-sh/setup-uv@v8.2.0
+      - uses: astral-sh/setup-uv@v10.3.2
         with:
           cache-suffix: lint
       - name: Apply Ruff fixes to pull requests
@@ -59,7 +59,7 @@ jobs:
         checker: [mypy, pyright, pyrefly, typing310]
     steps:
       - uses: actions/checkout@v7
-      - uses: astral-sh/setup-uv@v8.2.0
+      - uses: astral-sh/setup-uv@v10.3.2
         with:
           cache-suffix: type-check-${{ matrix.checker }}
       - run: uvx --with tox-uv tox -e ${{ matrix.checker }}
@@ -68,7 +68,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
-      - uses: astral-sh/setup-uv@v8.2.0
+      - uses: astral-sh/setup-uv@v10.3.2
         with:
           cache-suffix: codespell
       - run: uvx --with tox-uv tox -e codespell
@@ -80,7 +80,7 @@ jobs:
       - uses: actions/setup-node@v7
         with:
           node-version: '24'
-      - uses: astral-sh/setup-uv@v8.2.0
+      - uses: astral-sh/setup-uv@v10.3.2
         with:
           cache-suffix: docs
       - run: uvx --with tox-uv tox -e docs
@@ -95,7 +95,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
-      - uses: astral-sh/setup-uv@v8.2.0
+      - uses: astral-sh/setup-uv@v10.3.2
       - run: uv run python tools/check_distribution.py
       - run: uv build
       - run: uvx twine check dist/*
@@ -105,7 +105,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
-      - uses: astral-sh/setup-uv@v8.2.0
+      - uses: astral-sh/setup-uv@v10.3.2
         with:
           cache-suffix: coverage
       - uses: actions/download-artifact@v8
